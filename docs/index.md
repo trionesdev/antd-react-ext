@@ -1,12 +1,10 @@
 ---
 hero:
-  title: library
-  description: A react library developed with dumi
+  title: Antd Ext
+  description: 基于Antd组件库的扩展
   actions:
-    - text: Hello
-      link: /
-    - text: World
-      link: /
+    - text: guide
+      link: /guide
 features:
   - title: Hello
     emoji: 💎
@@ -19,4 +17,4 @@ features:
     description: Put ! description here
 ---
 
-antd-react-ext
+antd组件扩展库
