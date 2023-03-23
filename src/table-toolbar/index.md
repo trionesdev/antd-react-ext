@@ -2,7 +2,9 @@
 > Table的工具栏
 
 ```jsx
-import { Foo } from 'antd-react-ext';
+import { TableToolbar } from 'antd-react-ext';
 
-export default () => <Foo title="Hello dumi!" />
+export default () => <TableToolbar title="Hello dumi!" />
 ```
+
+<API id="TableToolbar"></API>
