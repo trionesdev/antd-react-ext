@@ -1,29 +1,27 @@
 {
-  "name": "antd-react-ext",
+  "name": "@moensun/antd-react-ext",
   "version": "0.0.1",
   "description": "A react library developed with dumi",
+  "license": "MIT",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "start": "npm run dev",
-    "dev": "dumi dev",
     "build": "father build",
     "build:watch": "father dev",
+    "dev": "dumi dev",
     "docs:build": "dumi build",
-    "prepare": "husky install && dumi setup",
     "doctor": "father doctor",
     "lint": "npm run lint:es && npm run lint:css",
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
-    "prepublishOnly": "father doctor && npm run build"
+    "prepare": "husky install && dumi setup",
+    "prepublishOnly": "father doctor && npm run build",
+    "publish": "npm publish --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
+    "start": "npm run dev"
   },
-  "authors": [
-    "fengxiaotx@163.com"
-  ],
-  "license": "MIT",
-  "files": [
-    "dist"
-  ],
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -46,13 +44,7 @@
       "prettier --parser=typescript --write"
     ]
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@ant-design/cssinjs": "^1.6.1",
     "@ant-design/icons": "^5.0.1",
@@ -76,5 +68,14 @@
     "react-dom": "^18.0.0",
     "stylelint": "^14.9.1"
   },
-  "dependencies": {}
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "fengxiaotx@163.com"
+  ]
 }
