@@ -8,6 +8,7 @@ const { useToken } = theme;
 
 interface VPanelProps {
   children?: React.ReactNode;
+  className?: string | undefined,
   header?: React.ReactNode;
   footer?: React.ReactNode;
 }
@@ -30,7 +31,7 @@ const genVPanelStyle = (
   };
 };
 
-const VPanel: FC<VPanelProps> = ({ children, header, footer }) => {
+const VPanel: FC<VPanelProps> = ({ children,className, header, footer }) => {
   const prefixCls = 'ant-vertical-panel';
   const { theme, token, hashId } = useToken();
   const wrapSSR = useStyleRegister(
@@ -38,7 +39,7 @@ const VPanel: FC<VPanelProps> = ({ children, header, footer }) => {
     () => [genVPanelStyle(prefixCls, token)],
   );
   return wrapSSR(
-    <div className={classNames(prefixCls, hashId)}>
+    <div className={classNames(prefixCls, hashId,className)}>
       {header && (
         <div className={classNames(`${prefixCls}-header`, hashId)}>
           {header}

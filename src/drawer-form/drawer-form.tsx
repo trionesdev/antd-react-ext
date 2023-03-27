@@ -9,6 +9,7 @@ interface DrawerFormProps {
    * @default []
    */
   children?: React.ReactElement | React.ReactNode;
+  className?: string | undefined,
   /**
    * @description 触发标签
    * @default
@@ -63,6 +64,7 @@ interface DrawerFormProps {
 
 const DrawerForm: FC<DrawerFormProps> = ({
   children,
+  className,
   trigger,
   title,
   open,

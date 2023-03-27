@@ -1,13 +1,14 @@
-import type { CSSInterpolation } from '@ant-design/cssinjs';
-import { useStyleRegister } from '@ant-design/cssinjs';
-import { GlobalToken, theme } from 'antd';
+import type {CSSInterpolation} from '@ant-design/cssinjs';
+import {useStyleRegister} from '@ant-design/cssinjs';
+import {GlobalToken, theme} from 'antd';
 import classNames from 'classnames';
-import React, { FC } from 'react';
+import React, {FC} from 'react';
 
-const { useToken } = theme;
+const {useToken} = theme;
 
 interface HPanelProps {
   children?: React.ReactNode;
+  className?: string | undefined,
   left?: React.ReactNode;
   right?: React.ReactNode;
 }
@@ -29,15 +30,15 @@ const genHPanelStyle = (
   };
 };
 
-const HPanel: FC<HPanelProps> = ({ children, left, right }) => {
+const HPanel: FC<HPanelProps> = ({children, className, left, right}) => {
   const prefixCls = 'ant-horizontal-panel';
-  const { theme, token, hashId } = useToken();
+  const {theme, token, hashId} = useToken();
   const wrapSSR = useStyleRegister(
-    { theme, token, hashId, path: [prefixCls] },
+    {theme, token, hashId, path: [prefixCls]},
     () => [genHPanelStyle(prefixCls, token)],
   );
   return wrapSSR(
-    <div className={classNames(prefixCls, hashId)}>
+    <div className={classNames(prefixCls, hashId, className)}>
       {left && (
         <div className={classNames(`${prefixCls}-left`, hashId)}>{left}</div>
       )}
