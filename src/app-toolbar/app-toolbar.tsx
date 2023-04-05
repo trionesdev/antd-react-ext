@@ -73,6 +73,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
   title,
   extra,
   navItems,
+  
 }) => {
   const prefixCls = 'ant-app-toolbar';
   const { theme, token, hashId } = useToken();
