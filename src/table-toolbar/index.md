@@ -1,10 +1,7 @@
 # TableToolbar
-> Table的工具栏
 
-```jsx
-import { TableToolbar } from 'antd-react-ext';
+> Table 的工具栏
 
-export default () => <TableToolbar title="Hello dumi!" />
-```
+<code src="./demo/base.tsx"></code>
 
 <API id="TableToolbar"></API>
