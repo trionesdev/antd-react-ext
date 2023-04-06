@@ -20,7 +20,8 @@
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
     "publish": "npm publish --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "deploy": "gh-pages -d dist"
   },
   "commitlint": {
     "extends": [
