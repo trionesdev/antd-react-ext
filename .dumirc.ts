@@ -1,6 +1,8 @@
 import {defineConfig} from 'dumi';
 
 export default defineConfig({
+  base:'/antd-react-ext/',
+  publicPath:'/antd-react-ext/',
   outputPath: 'docs-dist',
   apiParser: {},
   resolve: {
