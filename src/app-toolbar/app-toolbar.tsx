@@ -55,7 +55,7 @@ interface AppToolbarProps {
    */
   title?: React.ReactNode;
   /**
-   * @description 其他
+   * @description 其他组件，在右侧展示
    * @default []
    */
   extra?: React.ReactNode;
