@@ -14,7 +14,7 @@ interface DrawerFormProps {
    * @description 触发标签
    * @default
    */
-  trigger: React.ReactElement;
+  trigger?: React.ReactElement;
   /**
    * @description 标题
    * @default null
