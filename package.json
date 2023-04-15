@@ -11,6 +11,8 @@
   "scripts": {
     "build": "father build",
     "build:watch": "father dev",
+    "codingPublish": "npm publish --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
+    "deploy": "gh-pages -d dist",
     "dev": "dumi dev",
     "docs:build": "dumi build",
     "doctor": "father doctor",
@@ -19,9 +21,7 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
-    "publish": "npm publish --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
-    "start": "npm run dev",
-    "deploy": "gh-pages -d dist"
+    "start": "npm run dev"
   },
   "commitlint": {
     "extends": [
