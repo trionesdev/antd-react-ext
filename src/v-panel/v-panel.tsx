@@ -25,6 +25,7 @@ const genVPanelStyle = (
       [`&-header`]: {},
       [`&-content`]: {
         flex: 'auto 1',
+        height:0,
       },
       [`&-footer`]: {},
     },
