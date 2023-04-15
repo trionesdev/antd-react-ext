@@ -9,7 +9,7 @@ interface DrawerFormProps {
    * @default []
    */
   children?: React.ReactElement | React.ReactNode;
-  className?: string | undefined,
+  className?: string | undefined;
   /**
    * @description 触发标签
    * @default
@@ -46,6 +46,11 @@ interface DrawerFormProps {
    */
   onSubmit?: (values: any) => Promise<void>;
   /**
+   * @description 关闭回调
+   * @default
+   */
+  onClose?: () => void;
+  /**
    * @description 表单布局
    * @default
    */
@@ -72,6 +77,7 @@ const DrawerForm: FC<DrawerFormProps> = ({
   cancelText = '取消',
   okText = '确定',
   onSubmit,
+  onClose,
   formLayout = 'vertical',
   initialValues,
   formValues,
@@ -93,6 +99,13 @@ const DrawerForm: FC<DrawerFormProps> = ({
       .catch((ex: any) => {
         console.log(ex);
       });
+  };
+
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    }
+    setScopeOpen(false);
   };
 
   useEffect(() => {
@@ -124,7 +137,7 @@ const DrawerForm: FC<DrawerFormProps> = ({
   const footer = (
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <Space>
-        <Button>{cancelText}</Button>
+        <Button onClick={handleClose}>{cancelText}</Button>
         <Button type={`primary`} onClick={handleSubmit}>
           {okText}
         </Button>
@@ -137,7 +150,7 @@ const DrawerForm: FC<DrawerFormProps> = ({
       <Drawer
         closable={true}
         open={scopeOpen}
-        onClose={() => setScopeOpen(false)}
+        onClose={handleClose}
         afterOpenChange={onOpenChange}
         title={title}
         footer={footer}
