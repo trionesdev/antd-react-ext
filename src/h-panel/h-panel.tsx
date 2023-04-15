@@ -24,6 +24,7 @@ const genHPanelStyle = (
       [`&-left`]: {},
       [`&-content`]: {
         flex: 'auto 1',
+        width:0,
       },
       [`&-right`]: {},
     },
