@@ -64,6 +64,7 @@ interface AppToolbarProps {
    * @default null
    */
   navItems?: MenuProps['items'];
+  selectedKeys?: string[];
 }
 
 const AppToolbar: FC<AppToolbarProps> = ({
@@ -73,6 +74,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
   title,
   extra,
   navItems,
+  selectedKeys,
 }) => {
   const prefixCls = 'ant-app-toolbar';
   const { theme, token, hashId } = useToken();
@@ -97,7 +99,13 @@ const AppToolbar: FC<AppToolbarProps> = ({
           >
             {title}
           </div>
-          {!_.isEmpty(navItems) && <Menu mode="horizontal" items={navItems} />}
+          {!_.isEmpty(navItems) && (
+            <Menu
+              mode="horizontal"
+              items={navItems}
+              selectedKeys={selectedKeys}
+            />
+          )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Space>{extra}</Space>
