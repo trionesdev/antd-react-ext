@@ -1,2 +1,22 @@
-# Antd Ext 
-是基于antd的一个扩展组件库
+# Antd Ext
+
+是基于 antd 的一个扩展组件库
+
+## 配置
+
+添加.npmrc 文件
+内容
+
+```
+registry=https://moensun-npm.pkg.coding.net/npm/moensun/
+```
+
+## 安装
+
+```
+npm install @moensun/antd-react-ext@latest
+```
+
+```
+yarn add @moensun/antd-react-ext@latest
+```
