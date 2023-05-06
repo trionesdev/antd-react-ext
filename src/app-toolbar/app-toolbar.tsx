@@ -1,11 +1,11 @@
-import type { CSSInterpolation } from '@ant-design/cssinjs';
-import { useStyleRegister } from '@ant-design/cssinjs';
-import { Avatar, GlobalToken, Menu, MenuProps, Space, theme } from 'antd';
+import type {CSSInterpolation} from '@ant-design/cssinjs';
+import {useStyleRegister} from '@ant-design/cssinjs';
+import {Avatar, GlobalToken, Menu, MenuProps, Space, theme} from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
-import React, { FC } from 'react';
+import React, {FC} from 'react';
 
-const { useToken } = theme;
+const {useToken} = theme;
 const genAppToolbarStyle = (
   prefixCls: string,
   token: GlobalToken,
@@ -39,6 +39,7 @@ const genAppToolbarStyle = (
 
 interface AppToolbarProps {
   className?: string;
+  style?: React.CSSProperties;
   /**
    * @description icon
    * @default null
@@ -68,34 +69,35 @@ interface AppToolbarProps {
 }
 
 const AppToolbar: FC<AppToolbarProps> = ({
-  className,
-  icon,
-  iconSrc,
-  title,
-  extra,
-  navItems,
-  selectedKeys,
-}) => {
+                                           className,
+                                           style,
+                                           icon,
+                                           iconSrc,
+                                           title,
+                                           extra,
+                                           navItems,
+                                           selectedKeys,
+                                         }) => {
   const prefixCls = 'ant-app-toolbar';
-  const { theme, token, hashId } = useToken();
+  const {theme, token, hashId} = useToken();
   const wrapSSR = useStyleRegister(
-    { theme, token, hashId, path: [prefixCls] },
+    {theme, token, hashId, path: [prefixCls]},
     () => [genAppToolbarStyle(prefixCls, token)],
   );
 
   return wrapSSR(
-    <div className={classNames(prefixCls, hashId)}>
+    <div style={style} className={classNames(prefixCls, hashId)}>
       <div className={classNames(`${prefixCls}-inner`, hashId, className)}>
-        <div style={{ display: 'flex', alignItems: 'center', flex: '1 auto' }}>
+        <div style={{display: 'flex', alignItems: 'center', flex: '1 auto'}}>
           <Avatar
             size={40}
             shape={`square`}
             icon={icon}
             src={iconSrc}
-            style={{ marginRight: '12px' }}
+            style={{marginRight: '12px'}}
           />
           <div
-            style={{ marginRight: '12px', fontSize: '20px', fontWeight: 600 }}
+            style={{marginRight: '12px', fontSize: '20px', fontWeight: 600}}
           >
             {title}
           </div>
@@ -107,7 +109,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
             />
           )}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{display: 'flex', alignItems: 'center'}}>
           <Space>{extra}</Space>
         </div>
       </div>

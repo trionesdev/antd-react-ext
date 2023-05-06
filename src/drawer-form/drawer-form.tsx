@@ -1,15 +1,16 @@
-import { Button, Drawer, Form, Space } from 'antd';
-import { FormLayout } from 'antd/es/form/Form';
+import {Button, Drawer, Form, FormProps, Space} from 'antd';
 import _ from 'lodash';
-import React, { FC, useEffect, useState } from 'react';
+import React, {FC, useEffect, useState} from 'react';
+import {SizeType} from "antd/es/config-provider/SizeContext";
 
-interface DrawerFormProps {
+type DrawerFormProps = {
   /**
    * @description 表单项
    * @default []
    */
   children?: React.ReactElement | React.ReactNode;
   className?: string | undefined;
+  style?: React.CSSProperties;
   /**
    * @description 触发标签
    * @default
@@ -19,7 +20,7 @@ interface DrawerFormProps {
    * @description 标题
    * @default null
    */
-  title?: React.ReactNode;
+  title?: string | undefined | React.ReactNode;
   /**
    * @description 是否打开
    * @default false
@@ -44,44 +45,40 @@ interface DrawerFormProps {
    * @description 提交回调
    * @default
    */
-  onSubmit?: (values: any) => Promise<void>;
+  onSubmit?: (values: any) => (Promise<any> | void);
   /**
    * @description 关闭回调
    * @default
    */
   onClose?: () => void;
   /**
-   * @description 表单布局
-   * @default
-   */
-  formLayout?: FormLayout;
-  /**
-   * @description 初始化值
-   * @default
-   */
-  initialValues?: any;
-  /**
    * @description 表单值
    * @default
    */
   formValues?: any;
-}
+  /**
+   * @description form size
+   * @default
+   */
+  formSize?: SizeType
+} & Omit<FormProps, 'size'>
 
 const DrawerForm: FC<DrawerFormProps> = ({
-  children,
-  className,
-  trigger,
-  title,
-  open,
-  onOpenChange,
-  cancelText = '取消',
-  okText = '确定',
-  onSubmit,
-  onClose,
-  formLayout = 'vertical',
-  initialValues,
-  formValues,
-}) => {
+                                           children,
+                                           className,
+                                           style,
+                                           trigger,
+                                           title,
+                                           open,
+                                           onOpenChange,
+                                           cancelText = '取消',
+                                           okText = '确定',
+                                           onSubmit,
+                                           onClose,
+                                           formValues,
+                                           formSize,
+                                           ...rest
+                                         }) => {
   const [form] = Form.useForm();
   const [scopeOpen, setScopeOpen] = useState(false);
   const [scopeTrigger, setScopeTrigger] = useState(trigger);
@@ -91,7 +88,7 @@ const DrawerForm: FC<DrawerFormProps> = ({
       .validateFields()
       .then((values) => {
         if (onSubmit) {
-          return onSubmit(values);
+          return onSubmit(values)
         } else {
           return Promise.resolve();
         }
@@ -135,7 +132,7 @@ const DrawerForm: FC<DrawerFormProps> = ({
   }, [open]);
 
   const footer = (
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+    <div style={{display: 'flex', justifyContent: 'flex-end'}}>
       <Space>
         <Button onClick={handleClose}>{cancelText}</Button>
         <Button type={`primary`} onClick={handleSubmit}>
@@ -148,6 +145,7 @@ const DrawerForm: FC<DrawerFormProps> = ({
     <>
       {scopeTrigger}
       <Drawer
+        style={style}
         closable={true}
         open={scopeOpen}
         onClose={handleClose}
@@ -155,7 +153,7 @@ const DrawerForm: FC<DrawerFormProps> = ({
         title={title}
         footer={footer}
       >
-        <Form form={form} layout={formLayout} initialValues={initialValues}>
+        <Form form={form} size={formSize} {...rest}>
           {children}
         </Form>
       </Drawer>
