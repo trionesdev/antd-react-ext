@@ -1,11 +1,11 @@
-import { CSSInterpolation, useStyleRegister } from '@ant-design/cssinjs';
-import { RedoOutlined } from '@ant-design/icons';
-import { Button, GlobalToken, Space, theme, Tooltip } from 'antd';
+import {CSSInterpolation, useStyleRegister} from '@ant-design/cssinjs';
+import {RedoOutlined} from '@ant-design/icons';
+import {Button, GlobalToken, Space, theme, Tooltip} from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
-import React, { FC } from 'react';
+import React, {FC} from 'react';
 
-const { useToken } = theme;
+const {useToken} = theme;
 const genTableToolbarStyle = (
   prefixCls: string,
   token: GlobalToken,
@@ -14,7 +14,7 @@ const genTableToolbarStyle = (
     [`.${prefixCls}`]: {
       display: 'flex',
       justifyContent: 'space-between',
-      paddingBlock: '16px',
+      padding: '8px',
       [`&-title`]: {
         display: 'flex',
         justifyContent: 'flex-start',
@@ -30,6 +30,7 @@ const genTableToolbarStyle = (
 
 interface TableToolbarProps {
   className?: string;
+  style?: React.CSSProperties;
   /**
    * @description 标题
    * @default null
@@ -40,28 +41,23 @@ interface TableToolbarProps {
    * @default []
    */
   tools?: React.ReactNode[] | React.ReactElement[];
-  /**
-   * @description 刷新回调
-   * @default ()=>void
-   */
-  onRefresh?: () => void;
 }
 
 const TableToolbar: FC<TableToolbarProps> = ({
-  className,
-  title,
-  tools = [],
-  onRefresh,
-}) => {
+                                               className,
+                                               style,
+                                               title,
+                                               tools = [],
+                                             }) => {
   const prefixCls = 'ant-table-toolbar';
-  const { theme, token, hashId } = useToken();
+  const {theme, token, hashId} = useToken();
   const wrapSSR = useStyleRegister(
-    { theme, token, hashId, path: [prefixCls] },
+    {theme, token, hashId, path: [prefixCls]},
     () => [genTableToolbarStyle(prefixCls, token)],
   );
 
   return wrapSSR(
-    <div className={classNames(prefixCls, hashId, className)}>
+    <div style={style} className={classNames(prefixCls, hashId, className)}>
       <div className={classNames(`${prefixCls}-title`, hashId)}>{title}</div>
       <div className={classNames(`${prefixCls}-tools`, hashId)}>
         <Space>
@@ -69,9 +65,6 @@ const TableToolbar: FC<TableToolbarProps> = ({
             tools!.map((tool) => {
               return tool;
             })}
-          <Tooltip title={`刷新`}>
-            <Button type={`text`} icon={<RedoOutlined />} onClick={onRefresh} />
-          </Tooltip>
         </Space>
       </div>
     </div>,
