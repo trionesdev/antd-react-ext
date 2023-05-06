@@ -9,6 +9,7 @@ const {useToken} = theme;
 interface HPanelProps {
   children?: React.ReactNode;
   className?: string | undefined,
+  style?: React.CSSProperties;
   left?: React.ReactNode;
   right?: React.ReactNode;
 }
@@ -24,14 +25,14 @@ const genHPanelStyle = (
       [`&-left`]: {},
       [`&-content`]: {
         flex: 'auto 1',
-        width:0,
+        width: 0,
       },
       [`&-right`]: {},
     },
   };
 };
 
-const HPanel: FC<HPanelProps> = ({children, className, left, right}) => {
+const HPanel: FC<HPanelProps> = ({children, className, style, left, right}) => {
   const prefixCls = 'ant-horizontal-panel';
   const {theme, token, hashId} = useToken();
   const wrapSSR = useStyleRegister(
@@ -39,7 +40,7 @@ const HPanel: FC<HPanelProps> = ({children, className, left, right}) => {
     () => [genHPanelStyle(prefixCls, token)],
   );
   return wrapSSR(
-    <div className={classNames(prefixCls, hashId, className)}>
+    <div style={style} className={classNames(prefixCls, hashId, className)}>
       {left && (
         <div className={classNames(`${prefixCls}-left`, hashId)}>{left}</div>
       )}
