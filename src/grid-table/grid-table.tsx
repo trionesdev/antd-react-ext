@@ -43,7 +43,10 @@ interface GridTableProps extends TableProps<any> {
   toolbar?: React.ReactNode;
 }
 
-const GridTable: FC<GridTableProps> = ({ toolbar, ...props }, context) => {
+const GridTable: FC<GridTableProps> = (
+  { toolbar, style, ...props },
+  context,
+) => {
   const prefixCls = 'ant-grid-table';
   const { theme, token, hashId } = useToken();
   const wrapSSR = useStyleRegister(
@@ -52,7 +55,10 @@ const GridTable: FC<GridTableProps> = ({ toolbar, ...props }, context) => {
   );
 
   return wrapSSR(
-    <div className={classNames(prefixCls, hashId, 'ant-table-fill')}>
+    <div
+      style={style}
+      className={classNames(prefixCls, hashId, 'ant-table-fill')}
+    >
       <>
         {toolbar}
         <Table {...props} />
