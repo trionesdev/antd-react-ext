@@ -1,7 +1,8 @@
-import { Form, FormProps, Modal } from 'antd';
-import { SizeType } from 'antd/es/config-provider/SizeContext';
+import {FormProps, Modal} from 'antd';
+import {SizeType} from 'antd/es/config-provider/SizeContext';
 import _ from 'lodash';
-import React, { FC, useEffect, useState } from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
+import ModalInnerForm, {ModalInnerFormHandle} from "@moensun/antd-react-ext/modal-form/modal-inner-form";
 
 type ModalFormProps = {
   /**
@@ -61,37 +62,27 @@ type ModalFormProps = {
 } & Omit<FormProps, 'size'>;
 
 const ModalForm: FC<ModalFormProps> = ({
-  children,
-  className,
-  style,
-  trigger,
-  title,
-  open,
-  onOpenChange,
-  cancelText = '取消',
-  okText = '确定',
-  onSubmit,
-  onClose,
-  formValues,
-  formSize,
-  ...rest
-}) => {
-  const [form] = Form.useForm();
+                                         children,
+                                         className,
+                                         style,
+                                         trigger,
+                                         title,
+                                         open,
+                                         onOpenChange,
+                                         cancelText = '取消',
+                                         okText = '确定',
+                                         onSubmit,
+                                         onClose,
+                                         formValues,
+                                         formSize,
+                                         ...rest
+                                       }) => {
+  const formRef = useRef({} as ModalInnerFormHandle);
   const [scopeOpen, setScopeOpen] = useState(false);
   const [scopeTrigger, setScopeTrigger] = useState(trigger);
 
   const handleSubmit = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        if (onSubmit) {
-          return onSubmit(values);
-        }
-        return Promise.resolve();
-      })
-      .catch((ex: any) => {
-        console.log(ex);
-      });
+    formRef.current.submit()
   };
 
   const handleClose = () => {
@@ -102,18 +93,9 @@ const ModalForm: FC<ModalFormProps> = ({
   };
 
   const handleAfterClose = () => {
-    form?.resetFields();
+    formRef.current?.resetFields();
   };
 
-  useEffect(() => {
-    if (form) {
-      if (formValues) {
-        form?.setFieldsValue(formValues);
-      } else {
-        form.resetFields();
-      }
-    }
-  }, [form, formValues]);
 
   useEffect(() => {
     if (trigger) {
@@ -147,9 +129,7 @@ const ModalForm: FC<ModalFormProps> = ({
         onOk={handleSubmit}
         afterClose={handleAfterClose}
       >
-        <Form form={form} size={formSize} {...rest}>
-          {children}
-        </Form>
+        <ModalInnerForm ref={formRef} formValues={formValues} size={formSize} {...rest}/>
       </Modal>
     </>
   );
