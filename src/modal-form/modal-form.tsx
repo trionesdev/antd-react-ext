@@ -1,7 +1,7 @@
-import React, {FC, useEffect, useState} from "react";
-import {Form, FormProps, Modal} from "antd";
-import _ from "lodash";
-import {SizeType} from "antd/es/config-provider/SizeContext";
+import { Form, FormProps, Modal } from 'antd';
+import { SizeType } from 'antd/es/config-provider/SizeContext';
+import _ from 'lodash';
+import React, { FC, useEffect, useState } from 'react';
 
 type ModalFormProps = {
   /**
@@ -45,7 +45,7 @@ type ModalFormProps = {
    * @description 提交回调
    * @default
    */
-  onSubmit?: (values: any) => (Promise<any> | void);
+  onSubmit?: (values: any) => Promise<any> | void;
   /**
    * @description 关闭回调
    * @default
@@ -57,25 +57,25 @@ type ModalFormProps = {
    */
   formValues?: any;
 
-  formSize?: SizeType
-} & Omit<FormProps, 'size'>
+  formSize?: SizeType;
+} & Omit<FormProps, 'size'>;
 
 const ModalForm: FC<ModalFormProps> = ({
-                                         children,
-                                         className,
+  children,
+  className,
   style,
-                                         trigger,
-                                         title,
-                                         open,
-                                         onOpenChange,
-                                         cancelText = '取消',
-                                         okText = '确定',
-                                         onSubmit,
-                                         onClose,
-                                         formValues,
+  trigger,
+  title,
+  open,
+  onOpenChange,
+  cancelText = '取消',
+  okText = '确定',
+  onSubmit,
+  onClose,
+  formValues,
   formSize,
-                                         ...rest
-                                       }) => {
+  ...rest
+}) => {
   const [form] = Form.useForm();
   const [scopeOpen, setScopeOpen] = useState(false);
   const [scopeTrigger, setScopeTrigger] = useState(trigger);
@@ -102,14 +102,14 @@ const ModalForm: FC<ModalFormProps> = ({
   };
 
   const handleAfterClose = () => {
-    form?.resetFields()
-  }
+    form?.resetFields();
+  };
 
   useEffect(() => {
     if (scopeOpen && formValues) {
       form?.setFieldsValue(formValues);
     }
-  }, [formValues]);
+  }, [form, formValues]);
 
   useEffect(() => {
     if (trigger) {
@@ -131,21 +131,23 @@ const ModalForm: FC<ModalFormProps> = ({
     }
   }, [open]);
 
-
   return (
     <>
       {scopeTrigger}
-      <Modal style={style}  closable={true} open={scopeOpen}
-             title={title}
-             onCancel={handleClose}
-             onOk={handleSubmit}
-             afterClose={handleAfterClose}
+      <Modal
+        style={style}
+        closable={true}
+        open={scopeOpen}
+        title={title}
+        onCancel={handleClose}
+        onOk={handleSubmit}
+        afterClose={handleAfterClose}
       >
         <Form form={form} size={formSize} {...rest}>
           {children}
         </Form>
       </Modal>
     </>
-  )
-}
-export default ModalForm
+  );
+};
+export default ModalForm;
