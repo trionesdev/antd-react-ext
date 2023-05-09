@@ -106,8 +106,12 @@ const ModalForm: FC<ModalFormProps> = ({
   };
 
   useEffect(() => {
-    if (scopeOpen && formValues) {
-      form?.setFieldsValue(formValues);
+    if (form) {
+      if (formValues) {
+        form?.setFieldsValue(formValues);
+      } else {
+        form.resetFields();
+      }
     }
   }, [form, formValues]);
 

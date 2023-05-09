@@ -108,8 +108,12 @@ const DrawerForm: FC<DrawerFormProps> = ({
   };
 
   useEffect(() => {
-    if (scopeOpen && formValues) {
-      form?.setFieldsValue(formValues);
+    if (form) {
+      if (formValues) {
+        form?.setFieldsValue(formValues);
+      } else {
+        form.resetFields();
+      }
     }
   }, [form, formValues]);
 
