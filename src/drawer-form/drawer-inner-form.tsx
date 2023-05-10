@@ -1,21 +1,19 @@
-import {Form, FormProps} from "antd";
-import React, {forwardRef, useEffect, useImperativeHandle} from "react";
+import { Form, FormProps } from 'antd';
+import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
 
 export interface DrawerInnerFormHandle {
-  submit: () => void
+  submit: () => void;
 }
 
 type DrawerInnerFormProps = {
   children?: React.ReactElement | React.ReactNode;
   formValues?: any;
   onSubmit?: (values: any) => Promise<any> | void;
-} & FormProps
-export const DrawerInnerForm = forwardRef<DrawerInnerFormHandle, DrawerInnerFormProps>(({
-                                                                                          children,
-                                                                                          formValues,
-                                                                                          onSubmit,
-                                                                                          ...rest
-                                                                                        }, componentRef) => {
+} & FormProps;
+export const DrawerInnerForm = forwardRef<
+  DrawerInnerFormHandle,
+  DrawerInnerFormProps
+>(({ children, formValues, onSubmit, ...rest }, componentRef) => {
   const [form] = Form.useForm();
   useImperativeHandle(componentRef, () => {
     return {
@@ -32,18 +30,22 @@ export const DrawerInnerForm = forwardRef<DrawerInnerFormHandle, DrawerInnerForm
           .catch((ex: any) => {
             console.log(ex);
           });
-      }
-    }
-  }, [])
+      },
+    };
+  });
 
   useEffect(() => {
     if (formValues) {
-      form.setFieldsValue(formValues)
+      form.setFieldsValue(formValues);
     } else {
-      form.resetFields()
+      form.resetFields();
     }
-  }, [formValues])
+  }, [formValues]);
 
-  return <Form form={form} {...rest}>{children}</Form>
-})
-export default DrawerInnerForm
+  return (
+    <Form form={form} {...rest}>
+      {children}
+    </Form>
+  );
+});
+export default DrawerInnerForm;

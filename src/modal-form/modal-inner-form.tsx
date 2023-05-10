@@ -1,23 +1,21 @@
-import {Form, FormProps} from "antd";
-import React, {forwardRef, useEffect, useImperativeHandle} from "react";
-import {NamePath} from "rc-field-form/es/interface";
+import { Form, FormProps } from 'antd';
+import { NamePath } from 'rc-field-form/es/interface';
+import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
 
 export interface ModalInnerFormHandle {
-  submit: () => void
-  resetFields: (fields?: NamePath[]) => void
+  submit: () => void;
+  resetFields: (fields?: NamePath[]) => void;
 }
 
 type ModalInnerFormProps = {
   children?: React.ReactElement | React.ReactNode;
   formValues?: any;
   onSubmit?: (values: any) => Promise<any> | void;
-} & FormProps
-export const ModalInnerForm = forwardRef<ModalInnerFormHandle, ModalInnerFormProps>(({
-                                                                                       children,
-                                                                                       formValues,
-                                                                                       onSubmit,
-                                                                                       ...rest
-                                                                                     }, componentRef) => {
+} & FormProps;
+export const ModalInnerForm = forwardRef<
+  ModalInnerFormHandle,
+  ModalInnerFormProps
+>(({ children, formValues, onSubmit, ...rest }, componentRef) => {
   const [form] = Form.useForm();
   useImperativeHandle(componentRef, () => {
     return {
@@ -36,19 +34,23 @@ export const ModalInnerForm = forwardRef<ModalInnerFormHandle, ModalInnerFormPro
           });
       },
       resetFields: (fields?: NamePath[]) => {
-        form.resetFields(fields)
-      }
-    }
-  }, [])
+        form.resetFields(fields);
+      },
+    };
+  });
 
   useEffect(() => {
     if (formValues) {
-      form.setFieldsValue(formValues)
+      form.setFieldsValue(formValues);
     } else {
-      form.resetFields()
+      form.resetFields();
     }
-  }, [formValues])
+  }, [formValues]);
 
-  return <Form form={form} {...rest}>{children}</Form>
-})
-export default ModalInnerForm
+  return (
+    <Form form={form} {...rest}>
+      {children}
+    </Form>
+  );
+});
+export default ModalInnerForm;

@@ -1,10 +1,8 @@
-import ModalInnerForm, {
-  ModalInnerFormHandle,
-} from '@moensun/antd-react-ext/modal-form/modal-inner-form';
 import { FormProps, Modal } from 'antd';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
 import _ from 'lodash';
 import React, { FC, useEffect, useRef, useState } from 'react';
+import ModalInnerForm, { ModalInnerFormHandle } from './modal-inner-form';
 
 type ModalFormProps = {
   /**
