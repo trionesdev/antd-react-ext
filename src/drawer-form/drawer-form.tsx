@@ -19,6 +19,7 @@ type DrawerFormProps = {
    */
   title?: string | undefined | React.ReactNode;
   size?: 'default' | 'large';
+  destroyOnClose?: boolean;
   /**
    * @description 是否打开
    * @default false
@@ -68,6 +69,7 @@ const DrawerForm: FC<DrawerFormProps> = ({
   title,
   size,
   open,
+  destroyOnClose,
   onOpenChange,
   cancelText = '取消',
   okText = '确定',
@@ -128,6 +130,7 @@ const DrawerForm: FC<DrawerFormProps> = ({
       <Drawer
         style={style}
         closable={true}
+        destroyOnClose={destroyOnClose}
         open={scopeOpen}
         onClose={handleClose}
         afterOpenChange={onOpenChange}

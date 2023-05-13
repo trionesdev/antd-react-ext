@@ -22,6 +22,7 @@ type ModalFormProps = {
    * @default null
    */
   title?: React.ReactNode;
+  destroyOnClose?: boolean;
   /**
    * @description 是否打开
    * @default false
@@ -67,6 +68,7 @@ const ModalForm: FC<ModalFormProps> = ({
   style,
   trigger,
   title,
+  destroyOnClose,
   open,
   onOpenChange,
   cancelText = '取消',
@@ -122,6 +124,7 @@ const ModalForm: FC<ModalFormProps> = ({
       <Modal
         style={style}
         closable={true}
+        destroyOnClose={destroyOnClose}
         open={scopeOpen}
         title={title}
         onCancel={handleClose}
