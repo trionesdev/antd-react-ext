@@ -1,6 +1,5 @@
 import {CSSInterpolation, useStyleRegister} from '@ant-design/cssinjs';
-import {RedoOutlined} from '@ant-design/icons';
-import {Button, GlobalToken, Space, theme, Tooltip} from 'antd';
+import {GlobalToken, Space, theme} from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
 import React, {FC} from 'react';
