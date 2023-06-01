@@ -19,7 +19,7 @@ const genTableToolbarStyle = (
         justifyContent: 'flex-start',
         alignItems: 'center',
       },
-      [`&-tools`]: {
+      [`&-extra`]: {
         display: 'flex',
         justifyContent: 'flex-end',
       },
@@ -36,17 +36,17 @@ interface TableToolbarProps {
    */
   title?: React.ReactNode;
   /**
-   * @description 工具
+   * @description 操作区，位于 title 行的行尾
    * @default []
    */
-  tools?: React.ReactNode[] | React.ReactElement[];
+  extra?: React.ReactNode;
 }
 
 const TableToolbar: FC<TableToolbarProps> = ({
                                                className,
                                                style,
                                                title,
-                                               tools = [],
+                                               extra,
                                              }) => {
   const prefixCls = 'ant-table-toolbar';
   const {theme, token, hashId} = useToken();
@@ -60,8 +60,8 @@ const TableToolbar: FC<TableToolbarProps> = ({
       <Space className={classNames(`${prefixCls}-title`, hashId)}>
         <span>{title}</span>
       </Space>
-      <Space className={classNames(`${prefixCls}-tools`, hashId)}>
-        {tools}
+      <Space className={classNames(`${prefixCls}-extra`, hashId)}>
+        {extra}
       </Space>
     </div>,
   );
