@@ -1,7 +1,6 @@
 import {CSSInterpolation, useStyleRegister} from '@ant-design/cssinjs';
 import {GlobalToken, Space, theme} from 'antd';
 import classNames from 'classnames';
-import _ from 'lodash';
 import React, {FC} from 'react';
 
 const {useToken} = theme;
@@ -14,6 +13,7 @@ const genTableToolbarStyle = (
       display: 'flex',
       justifyContent: 'space-between',
       padding: '8px',
+      boxSizing: 'border-box',
       [`&-title`]: {
         display: 'flex',
         justifyContent: 'flex-start',
@@ -57,15 +57,12 @@ const TableToolbar: FC<TableToolbarProps> = ({
 
   return wrapSSR(
     <div style={style} className={classNames(prefixCls, hashId, className)}>
-      <div className={classNames(`${prefixCls}-title`, hashId)}>{title}</div>
-      <div className={classNames(`${prefixCls}-tools`, hashId)}>
-        <Space>
-          {!_.isEmpty(tools) &&
-            tools!.map((tool) => {
-              return tool;
-            })}
-        </Space>
-      </div>
+      <Space className={classNames(`${prefixCls}-title`, hashId)}>
+        <span>{title}</span>
+      </Space>
+      <Space className={classNames(`${prefixCls}-tools`, hashId)}>
+        {tools}
+      </Space>
     </div>,
   );
 };
