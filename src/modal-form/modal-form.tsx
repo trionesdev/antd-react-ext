@@ -63,7 +63,6 @@ type ModalFormProps = {
 } & Omit<FormProps, 'size'>;
 
 const ModalForm: FC<ModalFormProps> = ({
-  children,
   className,
   style,
   trigger,
