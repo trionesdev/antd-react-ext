@@ -66,4 +66,7 @@ const GridTable: FC<GridTableProps> = (
     </div>,
   );
 };
-export default GridTable;
+export default Object.assign(GridTable, {
+  Column: Table.Column,
+  ColumnGroup: Table.ColumnGroup,
+});
