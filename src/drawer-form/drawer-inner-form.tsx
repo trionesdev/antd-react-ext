@@ -15,10 +15,12 @@ export const DrawerInnerForm = forwardRef<
   DrawerInnerFormProps
 >(({ children, formValues, onSubmit, ...rest }, componentRef) => {
   const [form] = Form.useForm();
+  /**支持自己传入form，外部传入form的话使用外部传入的form */
+  const trueFrom = rest.form ? rest.form : form;
   useImperativeHandle(componentRef, () => {
     return {
       submit: () => {
-        form
+        trueFrom
           .validateFields()
           .then((values: any) => {
             if (onSubmit) {
@@ -36,14 +38,14 @@ export const DrawerInnerForm = forwardRef<
 
   useEffect(() => {
     if (formValues) {
-      form.setFieldsValue(formValues);
+      trueFrom.setFieldsValue(formValues);
     } else {
-      form.resetFields();
+      trueFrom.resetFields();
     }
   }, [formValues]);
 
   return (
-    <Form form={form} {...rest}>
+    <Form form={trueFrom} {...rest}>
       {children}
     </Form>
   );
