@@ -12,7 +12,6 @@ import {
   theme,
 } from 'antd';
 import classNames from 'classnames';
-import { useNavigate } from 'dumi';
 import React, { FC } from 'react';
 
 const { useToken } = theme;
@@ -107,7 +106,6 @@ const PageHeader: FC<PageHeaderProps> = ({
 }) => {
   const prefixCls = 'ant-page-header';
   const { theme, token, hashId } = useToken();
-  const navigate = useNavigate();
   const wrapSSR = useStyleRegister(
     { theme, token, hashId, path: [prefixCls] },
     () => [genPageHeaderStyle(prefixCls, token)],
@@ -129,13 +127,7 @@ const PageHeader: FC<PageHeaderProps> = ({
             <Button
               type={`text`}
               icon={<ArrowLeftOutlined />}
-              onClick={() => {
-                if (onBack) {
-                  onBack();
-                  return;
-                }
-                navigate(-1);
-              }}
+              onClick={onBack}
             />
           )}
           {title && (
