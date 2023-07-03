@@ -1,12 +1,21 @@
-import {Avatar, AvatarProps, Breadcrumb, BreadcrumbProps, Button, GlobalToken, Space, theme} from "antd";
-import React, {FC} from "react";
+import type { CSSInterpolation } from '@ant-design/cssinjs';
+import { useStyleRegister } from '@ant-design/cssinjs';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import {
+  Avatar,
+  AvatarProps,
+  Breadcrumb,
+  BreadcrumbProps,
+  Button,
+  GlobalToken,
+  Space,
+  theme,
+} from 'antd';
 import classNames from 'classnames';
-import {ArrowLeftOutlined} from "@ant-design/icons";
-import type {CSSInterpolation} from '@ant-design/cssinjs';
-import {useStyleRegister} from '@ant-design/cssinjs';
+import { useNavigate } from 'dumi';
+import React, { FC } from 'react';
 
-
-const {useToken} = theme;
+const { useToken } = theme;
 const genPageHeaderStyle = (
   prefixCls: string,
   token: GlobalToken,
@@ -26,7 +35,7 @@ const genPageHeaderStyle = (
           lineHeight: '32px',
           overflow: 'hidden',
           whiteSpace: 'nowrap',
-          textOverflow: 'ellipsis'
+          textOverflow: 'ellipsis',
         },
         [`&-sub-title`]: {
           color: '#00000073',
@@ -34,95 +43,119 @@ const genPageHeaderStyle = (
           lineHeight: 1.5715,
           overflow: 'hidden',
           whiteSpace: 'nowrap',
-          textOverflow: 'ellipsis'
-        }
+          textOverflow: 'ellipsis',
+        },
       },
     },
   };
 };
 
-
 type PageHeaderProps = {
   className?: string;
   style?: React.CSSProperties;
-  children?: React.ReactNode,
+  children?: React.ReactNode;
   /**
    * @description 是否展示返回icon
    * @default true
    */
-  backIcon?: boolean
-  avatar?: AvatarProps
+  backIcon?: boolean;
+  avatar?: AvatarProps;
   /**
    * @description 标题
    * @default null
    */
-  title?: React.ReactNode,
+  title?: React.ReactNode;
   /**
    * @description 副标题
    * @default null
    */
-  subTitle?: React.ReactNode
+  subTitle?: React.ReactNode;
   /**
    * @description 面包屑
    * @default null
    */
-  breadcrumb?: BreadcrumbProps
+  breadcrumb?: BreadcrumbProps;
   /**
    * @description 额外元素，标题最右侧
    * @default null
    */
-  extra?: React.ReactNode
+  extra?: React.ReactNode;
   /**
    * @description 点击返回回调
    * @default null
    */
-  onBack?: () => void
+  onBack?: () => void;
   /**
    * @description 底部
    * @default null
    */
-  footer?: React.ReactNode
-}
+  footer?: React.ReactNode;
+};
 
 const PageHeader: FC<PageHeaderProps> = ({
-                                           className,
-                                           style,
-                                           children,
-                                           backIcon = true,
-                                           avatar,
-                                           title,
-                                           subTitle,
-                                           breadcrumb,
-                                           extra,
-                                           onBack,
-                                           footer
-                                         }) => {
-
+  className,
+  style,
+  children,
+  backIcon = true,
+  avatar,
+  title,
+  subTitle,
+  breadcrumb,
+  extra,
+  onBack,
+  footer,
+}) => {
   const prefixCls = 'ant-page-header';
-  const {theme, token, hashId} = useToken();
+  const { theme, token, hashId } = useToken();
+  const navigate = useNavigate();
   const wrapSSR = useStyleRegister(
-    {theme, token, hashId, path: [prefixCls]},
+    { theme, token, hashId, path: [prefixCls] },
     () => [genPageHeaderStyle(prefixCls, token)],
   );
 
-
   return wrapSSR(
     <div className={classNames(prefixCls, className, hashId)}>
-      {breadcrumb &&
+      {breadcrumb && (
         <div className={classNames(`${prefixCls}-breadcrumb`, hashId)}>
-          <Space><Breadcrumb {...breadcrumb}/></Space>
-        </div>}
-      <div className={classNames(`${prefixCls}-heading`, hashId)}><Space>
-        {avatar && <Avatar {...avatar}/>}
-        {backIcon && <Button type={`text`} icon={<ArrowLeftOutlined/>} onClick={onBack}/>}
-        {title && <span className={classNames(`${prefixCls}-heading-title`, hashId)}>{title}</span>}
-        {subTitle && <span className={classNames(`${prefixCls}-heading-sub-title`, hashId)}>{subTitle}</span>}
-      </Space>
+          <Space>
+            <Breadcrumb {...breadcrumb} />
+          </Space>
+        </div>
+      )}
+      <div className={classNames(`${prefixCls}-heading`, hashId)}>
+        <Space>
+          {avatar && <Avatar {...avatar} />}
+          {backIcon && (
+            <Button
+              type={`text`}
+              icon={<ArrowLeftOutlined />}
+              onClick={() => {
+                if (onBack) {
+                  onBack();
+                  return;
+                }
+                navigate(-1);
+              }}
+            />
+          )}
+          {title && (
+            <span className={classNames(`${prefixCls}-heading-title`, hashId)}>
+              {title}
+            </span>
+          )}
+          {subTitle && (
+            <span
+              className={classNames(`${prefixCls}-heading-sub-title`, hashId)}
+            >
+              {subTitle}
+            </span>
+          )}
+        </Space>
         <Space>{extra}</Space>
       </div>
       {children && <div>{children}</div>}
       {footer && <div>{footer}</div>}
-    </div>
-  )
-}
-export default PageHeader
+    </div>,
+  );
+};
+export default PageHeader;
