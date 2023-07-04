@@ -1,4 +1,4 @@
-import { Form, FormProps } from 'antd';
+import { Form, FormInstance, FormProps } from 'antd';
 import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
 
 export interface DrawerInnerFormHandle {
@@ -8,7 +8,7 @@ export interface DrawerInnerFormHandle {
 type DrawerInnerFormProps = {
   children?: React.ReactElement | React.ReactNode;
   formValues?: any;
-  onSubmit?: (values: any) => Promise<any> | void;
+  onSubmit?: (values: any, form?: FormInstance<any>) => Promise<any> | void;
 } & FormProps;
 export const DrawerInnerForm = forwardRef<
   DrawerInnerFormHandle,
@@ -24,7 +24,7 @@ export const DrawerInnerForm = forwardRef<
           .validateFields()
           .then((values: any) => {
             if (onSubmit) {
-              return onSubmit(values);
+              return onSubmit(values, trueFrom);
             } else {
               return Promise.resolve();
             }

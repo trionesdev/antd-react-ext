@@ -1,4 +1,4 @@
-import { Button, Drawer, FormProps, Space } from 'antd';
+import { Button, Drawer, FormInstance, FormProps, Space } from 'antd';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
 import _ from 'lodash';
 import React, { FC, useEffect, useRef, useState } from 'react';
@@ -44,7 +44,7 @@ type DrawerFormProps = {
    * @description 提交回调
    * @default
    */
-  onSubmit?: (values: any) => Promise<any> | void;
+  onSubmit?: (values: any, form?: FormInstance<any>) => Promise<any> | void;
   /**
    * @description 关闭回调
    * @default
