@@ -1,71 +1,89 @@
-import { CSSInterpolation, useStyleRegister } from '@ant-design/cssinjs';
-import { GlobalToken, Table, TableProps, theme } from 'antd';
-import classNames from 'classnames';
-import React, { FC } from 'react';
+import { CSSInterpolation, useStyleRegister } from '@ant-design/cssinjs'
+import { GlobalToken, Table, TableProps, theme } from 'antd'
+import classNames from 'classnames'
+import React, { FC } from 'react'
 
-const { useToken } = theme;
+const { useToken } = theme
 const genGridTableStyle = (
   prefixCls: string,
-  token: GlobalToken,
+  token: GlobalToken
 ): CSSInterpolation => {
   return {
     [`.${prefixCls}`]: {
       width: '100%',
       display: `flex`,
       flexDirection: 'column',
-      '& .ant-table-fill': {},
-      '.ant-table-wrapper': {
-        flex: '1 auto',
-        overflow: 'hidden',
-        '.ant-spin-nested-loading': {
-          height: '100%',
-          '.ant-spin-container': {
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            flex: '1 auto',
-          },
-        },
-        '.ant-table': {
+      '&.ant-table-fill': {
+        height: '100%',
+        '.ant-table-wrapper': {
+          flex: '1 auto',
           overflow: 'hidden',
-          '.ant-table-container': {
+          '.ant-spin-nested-loading': {
             height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
+            '.ant-spin-container': {
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              flex: '1 auto',
+              '.ant-table-header': {
+                overflow: 'inherit',
+              },
+            },
+          },
+          '.ant-table': {
+            overflow: 'hidden',
+            '.ant-table-container': {
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            },
           },
         },
       },
     },
-  };
-};
+  }
+}
 
 interface GridTableProps extends TableProps<any> {
-  toolbar?: React.ReactNode;
+  /**
+   * @description 是否撑满外部容器
+   * @default
+   */
+  fit?: boolean
+  /**
+   * @description 是否展示返回icon
+   * @default
+   */
+  toolbar?: React.ReactNode
 }
 
 const GridTable: FC<GridTableProps> = (
-  { toolbar, style, ...props },
-  context,
+  { fit, toolbar, style, ...props },
+  context
 ) => {
-  const prefixCls = 'ant-grid-table';
-  const { theme, token, hashId } = useToken();
+  const prefixCls = 'ant-grid-table'
+  const { theme, token, hashId } = useToken()
   const wrapSSR = useStyleRegister(
     { theme, token, hashId, path: [prefixCls] },
-    () => [genGridTableStyle(prefixCls, token)],
-  );
+    () => [genGridTableStyle(prefixCls, token)]
+  )
 
   return wrapSSR(
     <div
       style={style}
-      className={classNames(prefixCls, hashId, 'ant-table-fill')}
+      className={classNames(
+        prefixCls,
+        hashId,
+        fit ? 'ant-table-fill' : null
+      )}
     >
       <>
         {toolbar}
         <Table {...props} />
       </>
-    </div>,
-  );
-};
+    </div>
+  )
+}
 export default Object.assign(GridTable, {
   Column: Table.Column,
   ColumnGroup: Table.ColumnGroup,
