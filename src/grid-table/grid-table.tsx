@@ -1,9 +1,10 @@
-import { CSSInterpolation, useStyleRegister } from '@ant-design/cssinjs'
-import { GlobalToken, Table, TableProps, theme } from 'antd'
+import {CSSInterpolation, useStyleRegister} from '@ant-design/cssinjs'
+import {GlobalToken, Table, TableProps, theme} from 'antd'
 import classNames from 'classnames'
-import React, { FC } from 'react'
+import React, {FC} from 'react'
+import _, {rest} from "lodash"
 
-const { useToken } = theme
+const {useToken} = theme
 const genGridTableStyle = (
   prefixCls: string,
   token: GlobalToken
@@ -26,7 +27,7 @@ const genGridTableStyle = (
               flexDirection: 'column',
               flex: '1 auto',
               '.ant-table-header': {
-                overflow: 'inherit',
+                overflow: 'inherit!important',
               },
             },
           },
@@ -58,13 +59,14 @@ interface GridTableProps extends TableProps<any> {
 }
 
 const GridTable: FC<GridTableProps> = (
-  { fit, toolbar, style, ...props },
+  {fit, toolbar, style, ...props},
   context
 ) => {
+
   const prefixCls = 'ant-grid-table'
-  const { theme, token, hashId } = useToken()
+  const {theme, token, hashId} = useToken()
   const wrapSSR = useStyleRegister(
-    { theme, token, hashId, path: [prefixCls] },
+    {theme, token, hashId, path: [prefixCls]},
     () => [genGridTableStyle(prefixCls, token)]
   )
 
@@ -79,7 +81,7 @@ const GridTable: FC<GridTableProps> = (
     >
       <>
         {toolbar}
-        <Table {...props} />
+        <Table {...props} scroll={fit ? _.assign({}, props.scroll, {y: 'max-content'}) : props.scroll}/>
       </>
     </div>
   )
