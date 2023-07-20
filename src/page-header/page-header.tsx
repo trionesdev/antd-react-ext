@@ -1,6 +1,6 @@
-import type { CSSInterpolation } from '@ant-design/cssinjs';
-import { useStyleRegister } from '@ant-design/cssinjs';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import type {CSSInterpolation} from '@ant-design/cssinjs';
+import {useStyleRegister} from '@ant-design/cssinjs';
+import {ArrowLeftOutlined} from '@ant-design/icons';
 import {
   Avatar,
   AvatarProps,
@@ -12,9 +12,9 @@ import {
   theme,
 } from 'antd';
 import classNames from 'classnames';
-import React, { FC } from 'react';
+import React, {FC} from 'react';
 
-const { useToken } = theme;
+const {useToken} = theme;
 const genPageHeaderStyle = (
   prefixCls: string,
   token: GlobalToken,
@@ -92,27 +92,27 @@ type PageHeaderProps = {
 };
 
 const PageHeader: FC<PageHeaderProps> = ({
-  className,
-  style,
-  children,
-  backIcon = true,
-  avatar,
-  title,
-  subTitle,
-  breadcrumb,
-  extra,
-  onBack,
-  footer,
-}) => {
+                                           className,
+                                           style,
+                                           children,
+                                           backIcon = true,
+                                           avatar,
+                                           title,
+                                           subTitle,
+                                           breadcrumb,
+                                           extra,
+                                           onBack,
+                                           footer,
+                                         }) => {
   const prefixCls = 'ant-page-header';
-  const { theme, token, hashId } = useToken();
+  const {theme, token, hashId} = useToken();
   const wrapSSR = useStyleRegister(
-    { theme, token, hashId, path: [prefixCls] },
+    {theme, token, hashId, path: [prefixCls]},
     () => [genPageHeaderStyle(prefixCls, token)],
   );
 
   return wrapSSR(
-    <div className={classNames(prefixCls, className, hashId)}>
+    <div style={style} className={classNames(prefixCls, className, hashId)}>
       {breadcrumb && (
         <div className={classNames(`${prefixCls}-breadcrumb`, hashId)}>
           <Space>
@@ -126,7 +126,7 @@ const PageHeader: FC<PageHeaderProps> = ({
           {backIcon && (
             <Button
               type={`text`}
-              icon={<ArrowLeftOutlined />}
+              icon={<ArrowLeftOutlined/>}
               onClick={onBack}
             />
           )}
