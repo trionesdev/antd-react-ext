@@ -1,8 +1,8 @@
-import { FormProps, Modal } from 'antd';
-import { SizeType } from 'antd/es/config-provider/SizeContext';
+import {FormProps, Modal} from 'antd';
+import {SizeType} from 'antd/es/config-provider/SizeContext';
 import _ from 'lodash';
-import React, { FC, useEffect, useRef, useState } from 'react';
-import ModalInnerForm, { ModalInnerFormHandle } from './modal-inner-form';
+import React, {FC, useEffect, useRef, useState} from 'react';
+import ModalInnerForm, {ModalInnerFormHandle} from './modal-inner-form';
 
 type ModalFormProps = {
   /**
@@ -32,7 +32,7 @@ type ModalFormProps = {
    * @description 状态变更后触发
    * @default
    */
-  onOpenChange?: (open: boolean) => void;
+  afterOpenChange?: (open: boolean) => void;
   /**
    * @description 取消按钮文本
    * @default 取消
@@ -63,21 +63,21 @@ type ModalFormProps = {
 } & Omit<FormProps, 'size'>;
 
 const ModalForm: FC<ModalFormProps> = ({
-  className,
-  style,
-  trigger,
-  title,
-  destroyOnClose,
-  open,
-  onOpenChange,
-  cancelText = '取消',
-  okText = '确定',
-  onSubmit,
-  onClose,
-  formValues,
-  formSize,
-  ...rest
-}) => {
+                                         className,
+                                         style,
+                                         trigger,
+                                         title,
+                                         destroyOnClose,
+                                         open,
+                                         afterOpenChange,
+                                         cancelText = '取消',
+                                         okText = '确定',
+                                         onSubmit,
+                                         onClose,
+                                         formValues,
+                                         formSize,
+                                         ...rest
+                                       }) => {
   const formRef = useRef({} as ModalInnerFormHandle);
   const [scopeOpen, setScopeOpen] = useState(false);
   const [scopeTrigger, setScopeTrigger] = useState(trigger);
@@ -129,6 +129,7 @@ const ModalForm: FC<ModalFormProps> = ({
         onCancel={handleClose}
         onOk={handleSubmit}
         afterClose={handleAfterClose}
+        afterOpenChange={afterOpenChange}
       >
         <ModalInnerForm
           ref={formRef}

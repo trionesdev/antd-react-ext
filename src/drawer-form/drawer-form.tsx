@@ -1,8 +1,8 @@
-import { Button, Drawer, FormInstance, FormProps, Space } from 'antd';
-import { SizeType } from 'antd/es/config-provider/SizeContext';
+import {Button, Drawer, FormInstance, FormProps, Space} from 'antd';
+import {SizeType} from 'antd/es/config-provider/SizeContext';
 import _ from 'lodash';
-import React, { FC, useEffect, useRef, useState } from 'react';
-import DrawerInnerForm, { DrawerInnerFormHandle } from './drawer-inner-form';
+import React, {FC, useEffect, useRef, useState} from 'react';
+import DrawerInnerForm, {DrawerInnerFormHandle} from './drawer-inner-form';
 
 type DrawerFormProps = {
   children?: React.ReactElement | React.ReactNode;
@@ -29,7 +29,7 @@ type DrawerFormProps = {
    * @description 状态变更后触发
    * @default
    */
-  onOpenChange?: (open: boolean) => void;
+  afterOpenChange?: (open: boolean) => void;
   /**
    * @description 取消按钮文本
    * @default 取消
@@ -63,22 +63,22 @@ type DrawerFormProps = {
 } & Omit<FormProps, 'size'>;
 
 const DrawerForm: FC<DrawerFormProps> = ({
-  className,
-  style,
-  trigger,
-  title,
-  size,
-  open,
-  destroyOnClose,
-  onOpenChange,
-  cancelText = '取消',
-  okText = '确定',
-  onSubmit,
-  onClose,
-  formValues,
-  formSize,
-  ...rest
-}) => {
+                                           className,
+                                           style,
+                                           trigger,
+                                           title,
+                                           size,
+                                           open,
+                                           destroyOnClose,
+                                           afterOpenChange,
+                                           cancelText = '取消',
+                                           okText = '确定',
+                                           onSubmit,
+                                           onClose,
+                                           formValues,
+                                           formSize,
+                                           ...rest
+                                         }) => {
   const formRef = useRef({} as DrawerInnerFormHandle);
   const [scopeOpen, setScopeOpen] = useState(false);
   const [scopeTrigger, setScopeTrigger] = useState(trigger);
@@ -115,7 +115,7 @@ const DrawerForm: FC<DrawerFormProps> = ({
   }, [open]);
 
   const footer = (
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+    <div style={{display: 'flex', justifyContent: 'flex-end'}}>
       <Space>
         <Button onClick={handleClose}>{cancelText}</Button>
         <Button type={`primary`} onClick={handleSubmit}>
@@ -133,7 +133,7 @@ const DrawerForm: FC<DrawerFormProps> = ({
         destroyOnClose={destroyOnClose}
         open={scopeOpen}
         onClose={handleClose}
-        afterOpenChange={onOpenChange}
+        afterOpenChange={afterOpenChange}
         title={title}
         size={size}
         footer={footer}
