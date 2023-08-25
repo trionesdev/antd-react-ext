@@ -26,7 +26,7 @@ const Sider: FC<SiderProps> = ({
                                  collapsedWidth = 80,
                                  collapsed = false,
                                  collapsible = false,
-                                 width = 300,
+                                 width = 200,
                                  trigger,
                                  onCollapse,
                                }) => {
