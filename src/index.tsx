@@ -6,3 +6,4 @@ export {default as HPanel} from './h-panel';
 export {default as TableToolbar} from './table-toolbar';
 export {default as VPanel} from './v-panel';
 export {default as PageHeader} from "./page-header"
+export {default as Layout} from "./layout"

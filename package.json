@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@ant-design/cssinjs": "^1.6.1",
-    "@ant-design/icons": "^5.0.1",
+    "@ant-design/icons": "^5.2.5",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@types/lodash": "^4.14.191",
@@ -60,7 +60,7 @@
     "antd": "^5.7.0",
     "dumi": "^2.0.2",
     "eslint": "^8.23.0",
-    "father": "^4.1.0",
+    "father": "^4.3.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "lodash": "^4.17.21",
