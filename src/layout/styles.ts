@@ -8,6 +8,7 @@ export const genLayoutStyle = (
   return {
     [`.${prefixCls}`]: {
       height: '100%',
+      width: '100%',
       display: 'flex',
       [`&-vertical`]: {
         flexDirection: 'column'
