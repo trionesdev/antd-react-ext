@@ -4,6 +4,7 @@ import {genFieldsMappingStyle} from "./styles";
 import {Space, theme} from "antd";
 import classNames from "classnames";
 import _ from "lodash";
+import {ImageRemove} from "./images";
 
 const {useToken} = theme;
 
@@ -101,7 +102,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
 
   const handleMouseDown = (e: any) => {
     const sourceKey = e.target['closest'](`.${prefixCls}-table-row`)?.getAttribute(dataKey)
-    if (_.find(mappingData, (item: MappingItem) => {
+    if (_.find(scopeMappingData, (item: MappingItem) => {
       return item.sourceKey === sourceKey
     }) && !config?.source?.mutiple) {
       return
@@ -131,8 +132,8 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
 
     // @ts-ignore
     const targetKey = e.target['closest'](`.${prefixCls}-table-row`)?.getAttribute(dataKey) // 找到上层最近的row
-    if (!targetKey || _.find(mappingData, (item: MappingItem) => {
-      return item.sourceKey === targetKey
+    if (!targetKey || _.find(scopeMappingData, (item: MappingItem) => {
+      return item.targetKey === targetKey
     }) && !config?.target?.mutiple) {
       return
     }
@@ -142,6 +143,12 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
 
   }
 
+  const handleCloseLine = (line: Line) => {
+    const newMappingData = scopeMappingData?.filter(lineItem => {
+      return !_.eq(lineItem.sourceKey, line.source.key) && !_.eq(lineItem.targetKey, line.target.key)
+    })
+    setScopeMappingData(newMappingData)
+  }
 
   useEffect(() => {
     const newLines: Line[] = []
@@ -233,10 +240,14 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
           <path className={classNames(`${prefixCls}-line`, hashId)}
                 d={`M${lineFrom?.x}, ${lineFrom?.y} L${lineTo?.x}, ${lineTo?.y}`}/>
         </g>}
-        {lines.map((line, index) => <g key={`line-${index}`}>
+        {lines.map((line, index) => <g key={`line-${index}`} className={classNames(`${prefixCls}-g`, hashId)}>
           <path className={classNames(`${prefixCls}-line`, hashId)}
                 d={`M${line.source.x}, ${line.source.y} L${line.target.x}, ${line.target.y}`}/>
-          <image width={16} height={16} x={500} y={54} xlinkHref={'data:image/png;base64,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'} onClick={()=>{ console.log("sss") }}/>
+          <image className={classNames(`${prefixCls}-line-remove`, hashId)} width={12} height={12}
+                 x={(line.source.x + (line.target.x - line.source.x) / 2 - 12 / 2)}
+                 y={(line.source.y + (line.target.y - line.source.y) / 2 - 12 / 2)}
+                 xlinkHref={ImageRemove}
+                 onClick={() => handleCloseLine(line)}/>
 
         </g>)}
       </svg>

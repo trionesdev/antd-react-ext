@@ -13,8 +13,8 @@ export const genFieldsMappingStyle = (
       display: 'flex',
       justifyContent: 'space-between',
       boxSizing: 'border-box',
-      [`&.drawing`]:{
-        userSelect:'none'
+      [`&.drawing`]: {
+        userSelect: 'none'
       },
       [`&-table`]: {
         color: '#666',
@@ -101,9 +101,21 @@ export const genFieldsMappingStyle = (
         height: '100%',
         boxSizing: 'border-box',
         [`svg`]: {
+          [`.${prefixCls}-g`]: {
+            [`&:hover`]: {
+              [`.${prefixCls}-line-remove`]: {
+                opacity: 1
+              }
+            }
+          },
           [`.${prefixCls}-line`]: {
             stroke: token.colorPrimary,
-            fill: 'none'
+            fill: 'none',
+            strokeWidth:'2px'
+          },
+          [`.${prefixCls}-line-remove`]: {
+            cursor: 'pointer',
+            opacity: 0
           }
         }
       }
