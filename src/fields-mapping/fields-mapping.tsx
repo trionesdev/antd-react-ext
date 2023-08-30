@@ -1,7 +1,7 @@
-import React, {FC, MouseEventHandler, useEffect, useReducer, useRef, useState} from "react"
+import React, {FC, useEffect, useRef, useState} from "react"
 import {useStyleRegister} from "@ant-design/cssinjs";
 import {genFieldsMappingStyle} from "./styles";
-import {Space, theme} from "antd";
+import {theme} from "antd";
 import classNames from "classnames";
 import _ from "lodash";
 import {ImageRemove} from "./images";
