@@ -11,6 +11,7 @@ const {useToken} = theme;
 type Config = {
   source?: { mutiple?: boolean }
   target?: { mutiple?: boolean }
+  removeIconSize?: number
 }
 
 export type Column = {
@@ -39,20 +40,43 @@ type Line = {
 }
 
 type FieldsMappingProps = {
+  /**
+   * @description 来源列
+   * @default
+   */
   sourceColumns?: Column[],
+  /**
+   * @description 目标列
+   * @default
+   */
   targetColumns?: Column[],
+  /**
+   * @description 来源数据
+   * @default
+   */
   sourceData?: any[],
+  /**
+   * @description 目标数据
+   * @default
+   */
   targetData?: any[],
+  /**
+   * @description 映射数据
+   * @default
+   */
   mappingData?: MappingItem[],
+  /**
+   * @description 映射数据变化
+   * @default
+   */
   onMappingChange?: (values: MappingItem[]) => void
+  /**
+   * @description 配置
+   * @default
+   */
   config?: Config
 }
 
-enum MouseState {
-  NORMAL,
-  DOWN,
-  UP
-}
 
 export const FieldsMapping: FC<FieldsMappingProps> = ({
                                                         sourceColumns,
@@ -69,13 +93,13 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
   const sourceRef = useRef<any>()
   const targetRef = useRef<any>()
   const [tmpSourceKey, setTmpSourceKey] = useState()
-  const [tmpTargetKey, setTmpTargetKey] = useState()
   const [drawing, setDrawing] = useState(false)
   const [lineFrom, setLineForm] = useState<{ x?: number, y?: number } | undefined>()
   const [lineTo, setLineTo] = useState<{ x?: number, y?: number } | undefined>({})
   const [scopeMappingData, setScopeMappingData] = useState(mappingData)
   const [lines, setLiens] = useState<Line[]>([])
 
+  const removeIconSize = config?.removeIconSize || 24
 
   const sourcePrimaryKey = sourceColumns?.find(row => {
     return row.primaryKey === true
@@ -130,7 +154,6 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
     setLineForm(undefined)
     setLineTo(undefined)
 
-    // @ts-ignore
     const targetKey = e.target['closest'](`.${prefixCls}-table-row`)?.getAttribute(dataKey) // 找到上层最近的row
     if (!targetKey || _.find(scopeMappingData, (item: MappingItem) => {
       return item.targetKey === targetKey
@@ -243,9 +266,10 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
         {lines.map((line, index) => <g key={`line-${index}`} className={classNames(`${prefixCls}-g`, hashId)}>
           <path className={classNames(`${prefixCls}-line`, hashId)}
                 d={`M${line.source.x}, ${line.source.y} L${line.target.x}, ${line.target.y}`}/>
-          <image className={classNames(`${prefixCls}-line-remove`, hashId)} width={12} height={12}
-                 x={(line.source.x + (line.target.x - line.source.x) / 2 - 12 / 2)}
-                 y={(line.source.y + (line.target.y - line.source.y) / 2 - 12 / 2)}
+          <image className={classNames(`${prefixCls}-line-remove`, hashId)} width={removeIconSize}
+                 height={removeIconSize}
+                 x={(line.source.x + (line.target.x - line.source.x) / 2 - removeIconSize / 2)}
+                 y={(line.source.y + (line.target.y - line.source.y) / 2 - removeIconSize / 2)}
                  xlinkHref={ImageRemove}
                  onClick={() => handleCloseLine(line)}/>
 

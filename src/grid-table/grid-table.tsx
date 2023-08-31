@@ -2,7 +2,7 @@ import {CSSInterpolation, useStyleRegister} from '@ant-design/cssinjs'
 import {GlobalToken, Table, TableProps, theme} from 'antd'
 import classNames from 'classnames'
 import React, {FC} from 'react'
-import _, {rest} from "lodash"
+import _ from "lodash"
 
 const {useToken} = theme
 const genGridTableStyle = (
