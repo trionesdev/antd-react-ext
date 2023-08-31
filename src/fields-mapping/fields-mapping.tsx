@@ -6,6 +6,7 @@ import classNames from "classnames";
 import _ from "lodash";
 import {ImageRemove} from "./images";
 
+
 const {useToken} = theme;
 
 type Config = {
@@ -172,7 +173,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
     setScopeMappingData(newMappingData)
   }
 
-  useEffect(() => {
+  const handleDrawLines = () => {
     const newLines: Line[] = []
     _.forEach(scopeMappingData, (item) => {
       const sourcePort = sourceRef.current.querySelector(`[${dataKey}=${item.sourceKey}]`)?.querySelector(`.${prefixCls}-table-row-port`)
@@ -187,6 +188,15 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
       }
     })
     setLiens(newLines)
+
+  }
+
+  const handleResize = () => {
+    handleDrawLines()
+  }
+
+  useEffect(() => {
+    handleDrawLines()
     onMappingChange?.(scopeMappingData || [])
   }, [scopeMappingData]);
 
@@ -197,11 +207,17 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
   }, [mappingData]);
 
   useEffect(() => {
+
+    let observer = new ResizeObserver(() => _.debounce(handleResize, 200)());
+    observer.observe(rootRef.current)
+
     if (drawing) {
       document.addEventListener('mouseup', handleMouseUp);
     }
 
     return () => {
+      observer.unobserve(rootRef.current)
+      observer.disconnect()
       document.removeEventListener('mouseup', handleMouseUp)
     }
   }, [drawing]);
@@ -213,7 +229,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
     () => [genFieldsMappingStyle(prefixCls, token)],
   );
   return wrapSSR(<div ref={rootRef} className={classNames(prefixCls, {'drawing': drawing}, hashId)}
-                      onMouseMove={handleMouseMove}>
+                      onMouseMove={handleMouseMove} onResize={handleResize}>
     <div ref={sourceRef} className={classNames(`${prefixCls}-table`, `${prefixCls}-source`, hashId)}>
       <div className={classNames(`${prefixCls}-table-head`, hashId)}>
         <div className={classNames(`${prefixCls}-table-row`, hashId)}>
