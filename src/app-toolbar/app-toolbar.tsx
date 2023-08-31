@@ -1,6 +1,6 @@
 import type {CSSInterpolation} from '@ant-design/cssinjs';
 import {useStyleRegister} from '@ant-design/cssinjs';
-import {Avatar, GlobalToken, Menu, MenuProps, Space, theme} from 'antd';
+import {Avatar, AvatarProps, GlobalToken, Menu, MenuProps, Space, theme} from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
 import React, {FC} from 'react';
@@ -17,12 +17,26 @@ const genAppToolbarStyle = (
       alignItems: 'center',
       justifyContent: 'center',
       borderBottom: `1px solid ${token.colorBorder}`,
-      padding: '0px 24px',
-      [`&-inner`]: {
+      padding: '0px 8px',
+      boxSizing: 'border-box',
+      [`&-heading`]: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
+
+        [`&-left`]: {
+          [`&-title`]: {
+            color: '#000000d9',
+            fontWeight: 600,
+            fontSize: '20px',
+            lineHeight: '32px',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis'
+          },
+        },
+        [`&-right`]: {},
         [`.ant-menu-horizontal`]: {
           flex: '1 auto',
           height: '60px',
@@ -40,16 +54,7 @@ const genAppToolbarStyle = (
 interface AppToolbarProps {
   className?: string;
   style?: React.CSSProperties;
-  /**
-   * @description icon
-   * @default null
-   */
-  icon?: string;
-  /**
-   * @description icon地址
-   * @default null
-   */
-  iconSrc?: string;
+  avatar?: AvatarProps
   /**
    * @description 标题
    * @default null
@@ -71,8 +76,7 @@ interface AppToolbarProps {
 const AppToolbar: FC<AppToolbarProps> = ({
                                            className,
                                            style,
-                                           icon,
-                                           iconSrc,
+                                           avatar ,
                                            title,
                                            extra,
                                            navItems,
@@ -87,18 +91,12 @@ const AppToolbar: FC<AppToolbarProps> = ({
 
   return wrapSSR(
     <div style={style} className={classNames(prefixCls, hashId)}>
-      <div className={classNames(`${prefixCls}-inner`, hashId, className)}>
-        <div style={{display: 'flex', alignItems: 'center', flex: '1 auto'}}>
-          <Avatar
-            size={40}
-            shape={`square`}
-            icon={icon}
-            src={iconSrc}
-            style={{marginRight: '12px'}}
-          />
-          <div
-            style={{marginRight: '12px', fontSize: '20px', fontWeight: 600}}
-          >
+      <div className={classNames(`${prefixCls}-heading`, hashId, className)}>
+        <Space className={classNames(`${prefixCls}-heading-left`, hashId)}>
+          {avatar && <Avatar
+            {...Object.assign({size: 40, shape: 'square'}, avatar)}
+          />}
+          <div className={classNames(`${prefixCls}-heading-left-title`, hashId)}>
             {title}
           </div>
           {!_.isEmpty(navItems) && (
@@ -108,10 +106,8 @@ const AppToolbar: FC<AppToolbarProps> = ({
               selectedKeys={selectedKeys}
             />
           )}
-        </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-          <Space>{extra}</Space>
-        </div>
+        </Space>
+        <Space className={classNames(`${prefixCls}-heading-right`, hashId)}>{extra}</Space>
       </div>
     </div>,
   );

@@ -1,10 +1,14 @@
-import {Button, Drawer, FormInstance, FormProps, Space} from 'antd';
+import {FormProps, Modal} from 'antd';
 import {SizeType} from 'antd/es/config-provider/SizeContext';
 import _ from 'lodash';
 import React, {FC, useEffect, useRef, useState} from 'react';
-import DrawerInnerForm, {DrawerInnerFormHandle} from './drawer-inner-form';
+import ModalInnerForm, {ModalInnerFormHandle} from './modal-inner-form';
 
-type DrawerFormProps = {
+type ModalFormProps = {
+  /**
+   * @description 表单项
+   * @default []
+   */
   children?: React.ReactElement | React.ReactNode;
   className?: string | undefined;
   style?: React.CSSProperties;
@@ -17,8 +21,7 @@ type DrawerFormProps = {
    * @description 标题
    * @default null
    */
-  title?: string | undefined | React.ReactNode;
-  size?: 'default' | 'large';
+  title?: React.ReactNode;
   destroyOnClose?: boolean;
   /**
    * @description 是否打开
@@ -44,7 +47,7 @@ type DrawerFormProps = {
    * @description 提交回调
    * @default
    */
-  onSubmit?: (values: any, form?: FormInstance<any>) => Promise<any> | void;
+  onSubmit?: (values: any) => Promise<any> | void;
   /**
    * @description 关闭回调
    * @default
@@ -55,31 +58,27 @@ type DrawerFormProps = {
    * @default
    */
   formValues?: any;
-  /**
-   * @description form size
-   * @default
-   */
+
   formSize?: SizeType;
 } & Omit<FormProps, 'size'>;
 
-const DrawerForm: FC<DrawerFormProps> = ({
-                                           className,
-                                           style,
-                                           trigger,
-                                           title,
-                                           size,
-                                           open,
-                                           destroyOnClose,
-                                           afterOpenChange,
-                                           cancelText = '取消',
-                                           okText = '确定',
-                                           onSubmit,
-                                           onClose,
-                                           formValues,
-                                           formSize,
-                                           ...rest
-                                         }) => {
-  const formRef = useRef({} as DrawerInnerFormHandle);
+const ModalForm: FC<ModalFormProps> = ({
+                                         className,
+                                         style,
+                                         trigger,
+                                         title,
+                                         destroyOnClose,
+                                         open,
+                                         afterOpenChange,
+                                         cancelText = '取消',
+                                         okText = '确定',
+                                         onSubmit,
+                                         onClose,
+                                         formValues,
+                                         formSize,
+                                         ...rest
+                                       }) => {
+  const formRef = useRef({} as ModalInnerFormHandle);
   const [scopeOpen, setScopeOpen] = useState(false);
   const [scopeTrigger, setScopeTrigger] = useState(trigger);
 
@@ -92,6 +91,10 @@ const DrawerForm: FC<DrawerFormProps> = ({
       onClose();
     }
     setScopeOpen(false);
+  };
+
+  const handleAfterClose = () => {
+    formRef.current?.resetFields();
   };
 
   useEffect(() => {
@@ -114,39 +117,29 @@ const DrawerForm: FC<DrawerFormProps> = ({
     }
   }, [open]);
 
-  const footer = (
-    <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-      <Space>
-        <Button onClick={handleClose}>{cancelText}</Button>
-        <Button type={`primary`} onClick={handleSubmit}>
-          {okText}
-        </Button>
-      </Space>
-    </div>
-  );
   return (
     <>
       {scopeTrigger}
-      <Drawer
+      <Modal
         style={style}
         closable={true}
         destroyOnClose={destroyOnClose}
         open={scopeOpen}
-        onClose={handleClose}
-        afterOpenChange={afterOpenChange}
         title={title}
-        size={size}
-        footer={footer}
+        onCancel={handleClose}
+        onOk={handleSubmit}
+        afterClose={handleAfterClose}
+        afterOpenChange={afterOpenChange}
       >
-        <DrawerInnerForm
+        <ModalInnerForm
           ref={formRef}
           onSubmit={onSubmit}
           formValues={formValues}
           size={formSize}
           {...rest}
         />
-      </Drawer>
+      </Modal>
     </>
   );
 };
-export default DrawerForm;
+export default ModalForm;
