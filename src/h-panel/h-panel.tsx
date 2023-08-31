@@ -22,6 +22,7 @@ const genHPanelStyle = (
     [`.${prefixCls}`]: {
       height: '100%',
       display: 'flex',
+      boxSizing:'border-box',
       [`&-left`]: {},
       [`&-content`]: {
         flex: 'auto 1',

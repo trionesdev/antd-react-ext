@@ -10,10 +10,16 @@ export default defineConfig({
     entryFile: './src/index.tsx',
   },
   themeConfig: {
+    editLink: true,
     name: 'antd-ext',
+    logo:'/antd-react-ext/logo.png',
     nav: [
       {title: '指南', link: '/guide'},
       {title: '组件', link: '/components'}
     ],
+    socialLinks:{
+      github:'https://github.com/triones-dev/antd-react-ext',
+      zhihu:'https://www.ithere.net/'
+    }
   },
 });

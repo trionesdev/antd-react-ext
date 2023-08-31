@@ -23,6 +23,7 @@ const genVPanelStyle = (
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
+      boxSizing:'border-box',
       [`&-header`]: {},
       [`&-content`]: {
         flex: 'auto 1',
