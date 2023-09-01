@@ -13,6 +13,7 @@ type Config = {
   source?: { mutiple?: boolean }
   target?: { mutiple?: boolean }
   removeIconSize?: number
+  defaultColumnWidth?: number
 }
 
 export type Column = {
@@ -101,6 +102,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
   const [lines, setLiens] = useState<Line[]>([])
 
   const removeIconSize = config?.removeIconSize || 24
+  const defaultColumnWidth = config?.defaultColumnWidth || 80
 
   const sourcePrimaryKey = sourceColumns?.find(row => {
     return row.primaryKey === true
@@ -174,10 +176,13 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
   }
 
   const handleDrawLines = () => {
+    if(_.isEmpty(sourceData) || _.isEmpty(targetData)){
+      return
+    }
     const newLines: Line[] = []
     _.forEach(scopeMappingData, (item) => {
-      const sourcePort = sourceRef.current.querySelector(`[${dataKey}=${item.sourceKey}]`)?.querySelector(`.${prefixCls}-table-row-port`)
-      const targetPort = targetRef.current.querySelector(`[${dataKey}=${item.targetKey}]`)?.querySelector(`.${prefixCls}-table-row-port`)
+      const sourcePort = sourceRef.current?.querySelector(`[${dataKey}=${item.sourceKey}]`)?.querySelector(`.${prefixCls}-table-row-port`)
+      const targetPort = targetRef.current?.querySelector(`[${dataKey}=${item.targetKey}]`)?.querySelector(`.${prefixCls}-table-row-port`)
       if (sourcePort && targetPort) {
         const sourcePoint = handleGetPortReactivePosition(sourcePort)
         const targetPoint = handleGetPortReactivePosition(targetPort)
@@ -216,7 +221,9 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
     }
 
     return () => {
-      observer.unobserve(rootRef.current)
+      if (rootRef.current) {
+        observer.unobserve(rootRef.current)
+      }
       observer.disconnect()
       document.removeEventListener('mouseup', handleMouseUp)
     }
@@ -235,7 +242,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
         <div className={classNames(`${prefixCls}-table-row`, hashId)}>
           {sourceColumns?.map((column) => <span key={column.key}
                                                 className={classNames(`${prefixCls}-table-cell`, hashId)}
-                                                style={{width: column.width}}>{column.title}</span>)}
+                                                style={{width: column.width || defaultColumnWidth}}>{column.title}</span>)}
         </div>
       </div>
       <div className={classNames(`${prefixCls}-table-body`, hashId)}>
@@ -245,7 +252,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
                       className={classNames(`${prefixCls}-table-row`, hashId)}>{
             sourceColumns?.map(((column, index) => <span key={`${column.key}-${index}`}
                                                          className={classNames(`${prefixCls}-table-cell`, hashId)}
-                                                         style={{width: column.width}}>{row[column.key!]}</span>))
+                                                         style={{width: column.width || defaultColumnWidth}}>{row[column.key!]}</span>))
           }
             <div className={classNames(`${prefixCls}-table-row-port`, hashId)}
                  onMouseDown={handleMouseDown}/>
@@ -258,7 +265,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
         <div className={classNames(`${prefixCls}-table-row`, hashId)}>
           {targetColumns?.map((column) => <span key={column.key}
                                                 className={classNames(`${prefixCls}-table-cell`, hashId)}
-                                                style={{width: column.width}}>{column.title}</span>)}
+                                                style={{width: column.width || defaultColumnWidth}}>{column.title}</span>)}
         </div>
       </div>
       <div className={classNames(`${prefixCls}-table-body`, hashId)}>
@@ -268,7 +275,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
                       className={classNames(`${prefixCls}-table-row`, hashId)}>{
             targetColumns?.map(((column, index) => <span key={`${column.key}-${index}`}
                                                          className={classNames(`${prefixCls}-table-cell`, hashId)}
-                                                         style={{width: column.width}}>{row[column.key!]}</span>))
+                                                         style={{width: column.width || defaultColumnWidth}}>{row[column.key!]}</span>))
           }
             <div className={classNames(`${prefixCls}-table-row-port`, hashId)}/>
           </div>

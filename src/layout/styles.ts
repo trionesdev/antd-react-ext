@@ -11,10 +11,14 @@ export const genLayoutStyle = (
       width: '100%',
       display: 'flex',
       [`&-vertical`]: {
-        flexDirection: 'column'
+        flexDirection: 'column',
+        // width:0,
+        // flex:'1 1 auto'
       },
       [`&-horizontal`]: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        // height:0,
+        // flex:'1 1 auto'
       },
     }
   }
