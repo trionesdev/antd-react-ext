@@ -6,12 +6,14 @@ import classNames from "classnames";
 import _ from "lodash";
 import {ImageRemove} from "./images";
 
+
 const {useToken} = theme;
 
 type Config = {
   source?: { mutiple?: boolean }
   target?: { mutiple?: boolean }
   removeIconSize?: number
+  defaultColumnWidth?: number
 }
 
 export type Column = {
@@ -95,11 +97,12 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
   const [tmpSourceKey, setTmpSourceKey] = useState()
   const [drawing, setDrawing] = useState(false)
   const [lineFrom, setLineForm] = useState<{ x?: number, y?: number } | undefined>()
-  const [lineTo, setLineTo] = useState<{ x?: number, y?: number } | undefined>({})
-  const [scopeMappingData, setScopeMappingData] = useState(mappingData)
+  const [lineTo, setLineTo] = useState<{ x?: number, y?: number } | undefined>()
+  const [scopeMappingData, setScopeMappingData] = useState(mappingData || [])
   const [lines, setLiens] = useState<Line[]>([])
 
   const removeIconSize = config?.removeIconSize || 24
+  const defaultColumnWidth = config?.defaultColumnWidth || 80
 
   const sourcePrimaryKey = sourceColumns?.find(row => {
     return row.primaryKey === true
@@ -143,9 +146,8 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
     if (!drawing) {
       return
     }
-    console.log(e)
-    const rootDiv = rootRef.current
-    const targetPoint = {x: e.pageX - rootDiv.offsetLeft, y: e.pageY - rootDiv.offsetTop}
+    const rootClient = rootRef.current!.getBoundingClientRect();
+    const targetPoint = {x: e.pageX - rootClient.left, y: e.pageY - rootClient.top}
     setLineTo(targetPoint)
   }
 
@@ -173,11 +175,14 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
     setScopeMappingData(newMappingData)
   }
 
-  useEffect(() => {
+  const handleDrawLines = () => {
+    if(_.isEmpty(sourceData) || _.isEmpty(targetData)){
+      return
+    }
     const newLines: Line[] = []
     _.forEach(scopeMappingData, (item) => {
-      const sourcePort = sourceRef.current.querySelector(`[${dataKey}=${item.sourceKey}]`)?.querySelector(`.${prefixCls}-table-row-port`)
-      const targetPort = targetRef.current.querySelector(`[${dataKey}=${item.targetKey}]`)?.querySelector(`.${prefixCls}-table-row-port`)
+      const sourcePort = sourceRef.current?.querySelector(`[${dataKey}=${item.sourceKey}]`)?.querySelector(`.${prefixCls}-table-row-port`)
+      const targetPort = targetRef.current?.querySelector(`[${dataKey}=${item.targetKey}]`)?.querySelector(`.${prefixCls}-table-row-port`)
       if (sourcePort && targetPort) {
         const sourcePoint = handleGetPortReactivePosition(sourcePort)
         const targetPoint = handleGetPortReactivePosition(targetPort)
@@ -188,21 +193,38 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
       }
     })
     setLiens(newLines)
+
+  }
+
+  const handleResize = () => {
+    handleDrawLines()
+  }
+
+  useEffect(() => {
+    handleDrawLines()
     onMappingChange?.(scopeMappingData || [])
   }, [scopeMappingData]);
 
   useEffect(() => {
-    if (!_.isEqual(mappingData, scopeMappingData)) {
-      setScopeMappingData(mappingData)
+    if (!_.isEqual((mappingData || []), (scopeMappingData || []))) {
+      setScopeMappingData(mappingData || [])
     }
   }, [mappingData]);
 
   useEffect(() => {
+
+    let observer = new ResizeObserver(() => _.debounce(handleResize, 200)());
+    observer.observe(rootRef.current)
+
     if (drawing) {
       document.addEventListener('mouseup', handleMouseUp);
     }
 
     return () => {
+      if (rootRef.current) {
+        observer.unobserve(rootRef.current)
+      }
+      observer.disconnect()
       document.removeEventListener('mouseup', handleMouseUp)
     }
   }, [drawing]);
@@ -214,24 +236,26 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
     () => [genFieldsMappingStyle(prefixCls, token)],
   );
   return wrapSSR(<div ref={rootRef} className={classNames(prefixCls, {'drawing': drawing}, hashId)}
-                      onMouseMove={handleMouseMove}>
+                      onMouseMove={handleMouseMove} onResize={handleResize}>
     <div ref={sourceRef} className={classNames(`${prefixCls}-table`, `${prefixCls}-source`, hashId)}>
       <div className={classNames(`${prefixCls}-table-head`, hashId)}>
         <div className={classNames(`${prefixCls}-table-row`, hashId)}>
           {sourceColumns?.map((column) => <span key={column.key}
                                                 className={classNames(`${prefixCls}-table-cell`, hashId)}
-                                                style={{width: column.width}}>{column.title}</span>)}
+                                                style={{width: column.width || defaultColumnWidth}}>{column.title}</span>)}
         </div>
       </div>
       <div className={classNames(`${prefixCls}-table-body`, hashId)}>
         {sourceData?.map((row, index) => {
-          return <div key={`${row[sourcePrimaryKey!]}-${index}`} data-id={index} data-key={row[sourcePrimaryKey!]}
+          return <div key={`${row[sourcePrimaryKey!]}-${index}`} data-id={index}
+                      data-key={row[sourcePrimaryKey!]}
                       className={classNames(`${prefixCls}-table-row`, hashId)}>{
             sourceColumns?.map(((column, index) => <span key={`${column.key}-${index}`}
                                                          className={classNames(`${prefixCls}-table-cell`, hashId)}
-                                                         style={{width: column.width}}>{row[column.key!]}</span>))
+                                                         style={{width: column.width || defaultColumnWidth}}>{row[column.key!]}</span>))
           }
-            <div className={classNames(`${prefixCls}-table-row-port`, hashId)} onMouseDown={handleMouseDown}/>
+            <div className={classNames(`${prefixCls}-table-row-port`, hashId)}
+                 onMouseDown={handleMouseDown}/>
           </div>
         })}
       </div>
@@ -241,16 +265,17 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
         <div className={classNames(`${prefixCls}-table-row`, hashId)}>
           {targetColumns?.map((column) => <span key={column.key}
                                                 className={classNames(`${prefixCls}-table-cell`, hashId)}
-                                                style={{width: column.width}}>{column.title}</span>)}
+                                                style={{width: column.width || defaultColumnWidth}}>{column.title}</span>)}
         </div>
       </div>
       <div className={classNames(`${prefixCls}-table-body`, hashId)}>
         {targetData?.map((row, index) => {
-          return <div key={`${row[targetPrimaryKey!]}-${index}`} data-id={index} data-key={row[targetPrimaryKey!]}
+          return <div key={`${row[targetPrimaryKey!]}-${index}`} data-id={index}
+                      data-key={row[targetPrimaryKey!]}
                       className={classNames(`${prefixCls}-table-row`, hashId)}>{
             targetColumns?.map(((column, index) => <span key={`${column.key}-${index}`}
                                                          className={classNames(`${prefixCls}-table-cell`, hashId)}
-                                                         style={{width: column.width}}>{row[column.key!]}</span>))
+                                                         style={{width: column.width || defaultColumnWidth}}>{row[column.key!]}</span>))
           }
             <div className={classNames(`${prefixCls}-table-row-port`, hashId)}/>
           </div>

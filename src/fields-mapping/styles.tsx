@@ -8,8 +8,8 @@ export const genFieldsMappingStyle = (
   return {
     [`.${prefixCls}`]: {
       position: 'relative',
-      width: '100%',
-      height: '100%',
+      minWidth: '100%',
+      minHeight: '100%',
       display: 'flex',
       justifyContent: 'space-between',
       boxSizing: 'border-box',
