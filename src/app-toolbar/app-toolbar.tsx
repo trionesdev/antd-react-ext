@@ -24,6 +24,7 @@ const genAppToolbarStyle = (
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
+        gap: '8px',
 
         [`&-left`]: {
           [`&-title`]: {
@@ -76,7 +77,7 @@ interface AppToolbarProps {
 const AppToolbar: FC<AppToolbarProps> = ({
                                            className,
                                            style,
-                                           avatar ,
+                                           avatar,
                                            title,
                                            extra,
                                            navItems,
@@ -92,22 +93,26 @@ const AppToolbar: FC<AppToolbarProps> = ({
   return wrapSSR(
     <div style={style} className={classNames(prefixCls, hashId)}>
       <div className={classNames(`${prefixCls}-heading`, hashId, className)}>
-        <Space className={classNames(`${prefixCls}-heading-left`, hashId)}>
-          {avatar && <Avatar
-            {...Object.assign({size: 40, shape: 'square'}, avatar)}
-          />}
-          <div className={classNames(`${prefixCls}-heading-left-title`, hashId)}>
-            {title}
-          </div>
-          {!_.isEmpty(navItems) && (
-            <Menu
-              mode="horizontal"
-              items={navItems}
-              selectedKeys={selectedKeys}
-            />
-          )}
-        </Space>
-        <Space className={classNames(`${prefixCls}-heading-right`, hashId)}>{extra}</Space>
+        <div className={classNames(`${prefixCls}-heading-left`, hashId)}>
+          <Space>
+            {avatar && <Avatar
+              {...Object.assign({size: 40, shape: 'square'}, avatar)}
+            />}
+            <div className={classNames(`${prefixCls}-heading-left-title`, hashId)}>
+              {title}
+            </div>
+          </Space>
+        </div>
+        {!_.isEmpty(navItems) && (
+          <Menu
+            mode="horizontal"
+            items={navItems}
+            selectedKeys={selectedKeys}
+          />
+        )}
+        <div className={classNames(`${prefixCls}-heading-right`, hashId)}>
+          <Space>{extra}</Space>
+        </div>
       </div>
     </div>,
   );
