@@ -14,11 +14,17 @@ export const genLayoutStyle = (
         flexDirection: 'column',
         // width:0,
         // flex:'1 1 auto'
+        [`>.${prefixCls}-item-auto`]:{
+          height:0
+        }
       },
       [`&-horizontal`]: {
         flexDirection: 'row',
         // height:0,
         // flex:'1 1 auto'
+        [`>.${prefixCls}-item-auto`]:{
+          width:0
+        }
       },
     }
   }
