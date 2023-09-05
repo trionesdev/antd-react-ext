@@ -213,8 +213,10 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
 
   useEffect(() => {
 
+    //region 监听div resize事件
     let observer = new ResizeObserver(() => _.debounce(handleResize, 200)());
     observer.observe(rootRef.current)
+    //endregion
 
     if (drawing) {
       document.addEventListener('mouseup', handleMouseUp);
