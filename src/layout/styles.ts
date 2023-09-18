@@ -15,7 +15,7 @@ export const genLayoutStyle = (
         // width:0,
         // flex:'1 1 auto'
         [`>.${prefixCls}-item-auto`]:{
-          height:0
+          minHeight:0
         }
       },
       [`&-horizontal`]: {
@@ -23,7 +23,7 @@ export const genLayoutStyle = (
         // height:0,
         // flex:'1 1 auto'
         [`>.${prefixCls}-item-auto`]:{
-          width:0
+          minWidth:0
         }
       },
     }
