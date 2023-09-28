@@ -8,4 +8,5 @@ export {default as VPanel} from './v-panel';
 export {default as PageHeader} from "./page-header"
 export {default as Layout} from "./layout"
 export {default as FieldsMapping} from "./fields-mapping"
+export * from "./search-toolbar"
 export * from "./hooks"
