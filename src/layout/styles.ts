@@ -7,6 +7,8 @@ export const genLayoutStyle = (
 ): CSSInterpolation => {
   return {
     [`.${prefixCls}`]: {
+      minWidth:0,
+      minHeight:0,
       height: '100%',
       width: '100%',
       display: 'flex',
@@ -15,7 +17,8 @@ export const genLayoutStyle = (
         // width:0,
         // flex:'1 1 auto'
         [`>.${prefixCls}-item-auto`]:{
-          minHeight:0
+          minWidth:0,
+          minHeight:0,
         }
       },
       [`&-horizontal`]: {
@@ -23,7 +26,8 @@ export const genLayoutStyle = (
         // height:0,
         // flex:'1 1 auto'
         [`>.${prefixCls}-item-auto`]:{
-          minWidth:0
+          minWidth:0,
+          minHeight:0,
         }
       },
     }
@@ -37,7 +41,9 @@ export const genItemStyle = (
   return {
     [`.${prefixCls}`]: {
       [`&-auto`]: {
-        flex: '1 auto'
+        flex: '1 auto',
+        minWidth:0,
+        minHeight:0,
       }
     }
   }
