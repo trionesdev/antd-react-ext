@@ -1,8 +1,8 @@
-import {FormProps, Modal} from 'antd';
-import {SizeType} from 'antd/es/config-provider/SizeContext';
+import { FormProps, Modal } from 'antd';
+import { SizeType } from 'antd/es/config-provider/SizeContext';
 import _ from 'lodash';
-import React, {FC, useEffect, useRef, useState} from 'react';
-import ModalInnerForm, {ModalInnerFormHandle} from './modal-inner-form';
+import React, { FC, useEffect, useRef, useState } from 'react';
+import ModalInnerForm, { ModalInnerFormHandle } from './modal-inner-form';
 
 type ModalFormProps = {
   /**
@@ -57,27 +57,29 @@ type ModalFormProps = {
    * @description 表单值
    * @default
    */
+  footer?: React.ReactNode;
   formValues?: any;
 
   formSize?: SizeType;
 } & Omit<FormProps, 'size'>;
 
 const ModalForm: FC<ModalFormProps> = ({
-                                         className,
-                                         style,
-                                         trigger,
-                                         title,
-                                         destroyOnClose,
-                                         open,
-                                         afterOpenChange,
-                                         cancelText = '取消',
-                                         okText = '确定',
-                                         onSubmit,
-                                         onClose,
-                                         formValues,
-                                         formSize,
-                                         ...rest
-                                       }) => {
+  className,
+  style,
+  trigger,
+  title,
+  destroyOnClose,
+  open,
+  afterOpenChange,
+  cancelText = '取消',
+  okText = '确定',
+  onSubmit,
+  onClose,
+  footer,
+  formValues,
+  formSize,
+  ...rest
+}) => {
   const formRef = useRef({} as ModalInnerFormHandle);
   const [scopeOpen, setScopeOpen] = useState(false);
   const [scopeTrigger, setScopeTrigger] = useState(trigger);
@@ -121,6 +123,7 @@ const ModalForm: FC<ModalFormProps> = ({
     <>
       {scopeTrigger}
       <Modal
+        className={className}
         style={style}
         closable={true}
         destroyOnClose={destroyOnClose}
@@ -130,6 +133,7 @@ const ModalForm: FC<ModalFormProps> = ({
         onOk={handleSubmit}
         afterClose={handleAfterClose}
         afterOpenChange={afterOpenChange}
+        footer={footer}
       >
         <ModalInnerForm
           ref={formRef}

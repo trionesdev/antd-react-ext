@@ -1,11 +1,11 @@
 {
   "name": "@moensun/antd-react-ext",
-  "version": "0.0.1-beta",
+  "version": "0.0.2-beta",
   "description": "A react library developed with dumi",
-  "license": "MIT",
   "repository": {
     "url": "https://github.com/triones-dev/antd-react-ext.git"
   },
+  "license": "MIT",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
