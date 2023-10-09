@@ -1,12 +1,12 @@
-export {default as AppToolbar} from './app-toolbar';
-export {default as DrawerForm} from './drawer-form';
-export {default as ModalForm} from './modal-form';
-export {default as GridTable} from './grid-table';
+export * from './app-toolbar';
+export * from './drawer-form';
+export * from './modal-form';
+export * from './grid-table';
 export {default as HPanel} from './h-panel';
-export {default as TableToolbar} from './table-toolbar';
+export * from './table-toolbar';
 export {default as VPanel} from './v-panel';
-export {default as PageHeader} from "./page-header"
-export {default as Layout} from "./layout"
-export {default as FieldsMapping} from "./fields-mapping"
+export * from "./page-header"
+export * from "./layout"
+export * from "./fields-mapping"
 export * from "./search-toolbar"
 export * from "./hooks"

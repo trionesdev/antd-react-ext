@@ -1,58 +1,12 @@
-import type {CSSInterpolation} from '@ant-design/cssinjs';
-import {useStyleRegister} from '@ant-design/cssinjs';
-import {Avatar, AvatarProps, GlobalToken, Menu, MenuProps, Space, theme} from 'antd';
+import {Avatar, AvatarProps, Menu, MenuProps, Space, theme} from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
 import React, {FC} from 'react';
+import {useCssInJs} from "../hooks";
+import {genAppToolbarStyle} from "./styles";
 
-const {useToken} = theme;
-const genAppToolbarStyle = (
-  prefixCls: string,
-  token: GlobalToken,
-): CSSInterpolation => {
-  return {
-    [`.${prefixCls}`]: {
-      height: '60px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderBottom: `1px solid ${token.colorBorder}`,
-      padding: '0px 8px',
-      boxSizing: 'border-box',
-      [`&-heading`]: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '100%',
-        gap: '8px',
 
-        [`&-left`]: {
-          [`&-title`]: {
-            color: '#000000d9',
-            fontWeight: 600,
-            fontSize: '20px',
-            lineHeight: '32px',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis'
-          },
-        },
-        [`&-right`]: {},
-        [`.ant-menu-horizontal`]: {
-          flex: '1 auto',
-          height: '60px',
-          backgroundColor: 'inherit',
-          li: {
-            display: 'flex',
-            alignItems: 'center',
-          },
-        },
-      },
-    },
-  };
-};
-
-interface AppToolbarProps {
+export interface AppToolbarProps {
   className?: string;
   style?: React.CSSProperties;
   avatar?: AvatarProps
@@ -84,11 +38,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
                                            selectedKeys,
                                          }) => {
   const prefixCls = 'ant-app-toolbar';
-  const {theme, token, hashId} = useToken();
-  const wrapSSR = useStyleRegister(
-    {theme, token, hashId, path: [prefixCls]},
-    () => [genAppToolbarStyle(prefixCls, token)],
-  );
+  const {hashId, wrapSSR} = useCssInJs({prefix: prefixCls, styleFun: genAppToolbarStyle})
 
   return wrapSSR(
     <div style={style} className={classNames(prefixCls, hashId)}>

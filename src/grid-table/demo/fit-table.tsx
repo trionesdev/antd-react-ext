@@ -1,4 +1,4 @@
-import { GridTable } from '@moensun/antd-react-ext';
+import GridTable from "../grid-table";
 import React from 'react';
 
 export default () => {

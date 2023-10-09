@@ -4,7 +4,7 @@ import _ from 'lodash';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import ModalInnerForm, { ModalInnerFormHandle } from './modal-inner-form';
 
-type ModalFormProps = {
+export type ModalFormProps = {
   /**
    * @description 表单项
    * @default []
@@ -63,7 +63,7 @@ type ModalFormProps = {
   formSize?: SizeType;
 } & Omit<FormProps, 'size'>;
 
-const ModalForm: FC<ModalFormProps> = ({
+export const ModalForm: FC<ModalFormProps> = ({
   className,
   style,
   trigger,
@@ -146,4 +146,3 @@ const ModalForm: FC<ModalFormProps> = ({
     </>
   );
 };
-export default ModalForm;

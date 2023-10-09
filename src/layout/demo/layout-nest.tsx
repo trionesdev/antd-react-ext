@@ -1,5 +1,5 @@
 import React from "react";
-import {Layout} from "@moensun/antd-react-ext";
+import Layout from "../layout";
 
 export default () => {
   return <div style={{height: 400}}>

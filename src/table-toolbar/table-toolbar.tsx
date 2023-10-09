@@ -1,33 +1,9 @@
-import {CSSInterpolation, useStyleRegister} from '@ant-design/cssinjs';
-import {GlobalToken, Space, theme} from 'antd';
+import {Space, theme} from 'antd';
 import classNames from 'classnames';
 import React, {FC} from 'react';
-
-const {useToken} = theme;
-const genTableToolbarStyle = (
-  prefixCls: string,
-  token: GlobalToken,
-): CSSInterpolation => {
-  return {
-    [`.${prefixCls}`]: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      padding: '8px',
-      boxSizing: 'border-box',
-      [`&-title`]: {
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-      },
-      [`&-extra`]: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-      },
-    },
-  };
-};
-
-interface TableToolbarProps {
+import {useCssInJs} from "../hooks";
+import {genTableToolbarStyle} from "./styles";
+export interface TableToolbarProps {
   className?: string;
   style?: React.CSSProperties;
   /**
@@ -42,18 +18,15 @@ interface TableToolbarProps {
   extra?: React.ReactNode;
 }
 
-const TableToolbar: FC<TableToolbarProps> = ({
+export const TableToolbar: FC<TableToolbarProps> = ({
                                                className,
                                                style,
                                                title,
                                                extra,
                                              }) => {
   const prefixCls = 'ant-table-toolbar';
-  const {theme, token, hashId} = useToken();
-  const wrapSSR = useStyleRegister(
-    {theme, token, hashId, path: [prefixCls]},
-    () => [genTableToolbarStyle(prefixCls, token)],
-  );
+
+  const {hashId, wrapSSR} = useCssInJs({prefix: prefixCls, styleFun: genTableToolbarStyle})
 
   return wrapSSR(
     <div style={style} className={classNames(prefixCls, hashId, className)}>
@@ -66,4 +39,3 @@ const TableToolbar: FC<TableToolbarProps> = ({
     </div>,
   );
 };
-export default TableToolbar;

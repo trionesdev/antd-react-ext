@@ -4,7 +4,7 @@ import _ from 'lodash';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import DrawerInnerForm, { DrawerInnerFormHandle } from './drawer-inner-form';
 
-type DrawerFormProps = {
+export type DrawerFormProps = {
   children?: React.ReactElement | React.ReactNode;
   className?: string | undefined;
   style?: React.CSSProperties;

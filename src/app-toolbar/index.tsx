@@ -1,2 +1,1 @@
-import AppToolbar from './app-toolbar';
-export default AppToolbar;
+export * from "./app-toolbar"

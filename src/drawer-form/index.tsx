@@ -1,2 +1,1 @@
-import DrawerForm from './drawer-form';
-export default DrawerForm;
+export * from './drawer-form';

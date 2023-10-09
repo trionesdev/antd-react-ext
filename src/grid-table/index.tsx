@@ -1,2 +1,1 @@
-import GridTable from './grid-table';
-export default GridTable;
+export * from './grid-table';

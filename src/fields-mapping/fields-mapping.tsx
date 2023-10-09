@@ -5,6 +5,7 @@ import {theme} from "antd";
 import classNames from "classnames";
 import _ from "lodash";
 import {ImageRemove} from "./images";
+import {useCssInJs} from "../hooks";
 
 
 const {useToken} = theme;
@@ -16,7 +17,7 @@ type Config = {
   defaultColumnWidth?: number
 }
 
-export type Column = {
+type Column = {
   key?: string,
   title?: string,
   width?: string | number
@@ -41,7 +42,7 @@ type Line = {
   }
 }
 
-type FieldsMappingProps = {
+export type FieldsMappingProps = {
   /**
    * @description 来源列
    * @default
@@ -176,7 +177,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
   }
 
   const handleDrawLines = () => {
-    if(_.isEmpty(sourceData) || _.isEmpty(targetData)){
+    if (_.isEmpty(sourceData) || _.isEmpty(targetData)) {
       return
     }
     const newLines: Line[] = []
@@ -232,11 +233,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
   }, [drawing]);
 
 
-  const {theme, token, hashId} = useToken();
-  const wrapSSR = useStyleRegister(
-    {theme, token, hashId, path: [prefixCls]},
-    () => [genFieldsMappingStyle(prefixCls, token)],
-  );
+  const {hashId, wrapSSR} = useCssInJs({prefix: prefixCls, styleFun: genFieldsMappingStyle})
   return wrapSSR(<div ref={rootRef} className={classNames(prefixCls, {'drawing': drawing}, hashId)}
                       onMouseMove={handleMouseMove} onResize={handleResize}>
     <div ref={sourceRef} className={classNames(`${prefixCls}-table`, `${prefixCls}-source`, hashId)}>

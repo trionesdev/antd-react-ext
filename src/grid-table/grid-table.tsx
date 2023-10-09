@@ -2,8 +2,8 @@ import {Table, TableProps} from 'antd'
 import classNames from 'classnames'
 import React, {FC} from 'react'
 import _ from "lodash"
-import {useCssInJs} from "@moensun/antd-react-ext";
 import {genGridTableStyle} from "./styles";
+import {useCssInJs} from "../hooks";
 
 
 interface GridTableProps extends TableProps<any> {

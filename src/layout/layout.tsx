@@ -1,12 +1,10 @@
 import React, {FC} from "react"
-import {theme} from "antd";
-import {useStyleRegister} from "@ant-design/cssinjs";
 import {genLayoutStyle} from "./styles";
 import classNames from "classnames";
 import Item from "./item";
 import Sider from "./sider";
+import {useCssInJs} from "../hooks";
 
-const {useToken} = theme;
 
 type LayoutProps = {
   children?: React.ReactNode
@@ -21,11 +19,9 @@ const Layout: FC<LayoutProps> = ({
                                    direction = "horizontal"
                                  }) => {
   const prefixCls = 'ms-ant-layout';
-  const {theme, token, hashId} = useToken();
-  const wrapSSR = useStyleRegister(
-    {theme, token, hashId, path: [prefixCls]},
-    () => [genLayoutStyle(prefixCls, token)],
-  );
+
+  const {hashId, wrapSSR} = useCssInJs({prefix: prefixCls, styleFun: genLayoutStyle})
+
   return wrapSSR(
     <div className={classNames(prefixCls, `${prefixCls}-${direction}`, className, hashId)} style={style}>
       {children}

@@ -5,7 +5,7 @@ export interface DrawerInnerFormHandle {
   submit: () => void;
 }
 
-type DrawerInnerFormProps = {
+export type DrawerInnerFormProps = {
   children?: React.ReactElement | React.ReactNode;
   formValues?: any;
   onSubmit?: (values: any, form?: FormInstance<any>) => Promise<any> | void;
