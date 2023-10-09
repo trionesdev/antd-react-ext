@@ -63,7 +63,7 @@ export type ModalFormProps = {
   formSize?: SizeType;
 } & Omit<FormProps, 'size'>;
 
-export const ModalForm: FC<ModalFormProps> = ({
+const ModalForm: FC<ModalFormProps> = ({
   className,
   style,
   trigger,
@@ -146,3 +146,4 @@ export const ModalForm: FC<ModalFormProps> = ({
     </>
   );
 };
+export default ModalForm

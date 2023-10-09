@@ -48,7 +48,7 @@ export type PageHeaderProps = {
   footer?: React.ReactNode;
 };
 
-export const PageHeader: FC<PageHeaderProps> = ({
+const PageHeader: FC<PageHeaderProps> = ({
                                                   className,
                                                   style,
                                                   children,
@@ -104,3 +104,4 @@ export const PageHeader: FC<PageHeaderProps> = ({
     </div>,
   );
 };
+export default PageHeader

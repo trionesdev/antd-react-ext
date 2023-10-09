@@ -6,7 +6,7 @@ import {useCssInJs} from "../hooks";
 import {genAppToolbarStyle} from "./styles";
 
 
-export interface AppToolbarProps {
+export type AppToolbarProps = {
   className?: string;
   style?: React.CSSProperties;
   avatar?: AvatarProps
@@ -27,7 +27,6 @@ export interface AppToolbarProps {
   navItems?: MenuProps['items'];
   selectedKeys?: string[];
 }
-
 const AppToolbar: FC<AppToolbarProps> = ({
                                            className,
                                            style,
@@ -67,4 +66,4 @@ const AppToolbar: FC<AppToolbarProps> = ({
     </div>,
   );
 };
-export default AppToolbar;
+export default AppToolbar

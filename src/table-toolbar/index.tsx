@@ -1,1 +1,1 @@
-export * from "./table-toolbar";
+export {default as TableToolbar} from "./table-toolbar";

@@ -28,7 +28,7 @@ export type SearchToolbarProps = {
   xl?: number;
   xxl?: number;
 };
-export const SearchToolbar: FC<SearchToolbarProps> = ({
+const SearchToolbar: FC<SearchToolbarProps> = ({
                                                         items,
                                                         layout,
                                                         initialValues,
@@ -196,3 +196,4 @@ export const SearchToolbar: FC<SearchToolbarProps> = ({
     </div>
   );
 };
+export default SearchToolbar

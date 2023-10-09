@@ -81,7 +81,7 @@ export type FieldsMappingProps = {
 }
 
 
-export const FieldsMapping: FC<FieldsMappingProps> = ({
+const FieldsMapping: FC<FieldsMappingProps> = ({
                                                         sourceColumns,
                                                         targetColumns,
                                                         sourceData,
@@ -302,3 +302,5 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
     </div>
   </div>)
 }
+
+export default FieldsMapping

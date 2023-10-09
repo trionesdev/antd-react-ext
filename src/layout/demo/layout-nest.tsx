@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../layout";
+import {Layout} from "../../index";
 
 export default () => {
   return <div style={{height: 400}}>

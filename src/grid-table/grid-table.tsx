@@ -6,7 +6,7 @@ import {genGridTableStyle} from "./styles";
 import {useCssInJs} from "../hooks";
 
 
-interface GridTableProps extends TableProps<any> {
+export type GridTableProps = TableProps<any> & {
   /**
    * @description 是否撑满外部容器
    * @default false

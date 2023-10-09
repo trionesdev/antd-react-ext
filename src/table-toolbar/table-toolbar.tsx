@@ -18,7 +18,7 @@ export interface TableToolbarProps {
   extra?: React.ReactNode;
 }
 
-export const TableToolbar: FC<TableToolbarProps> = ({
+const TableToolbar: FC<TableToolbarProps> = ({
                                                className,
                                                style,
                                                title,
@@ -39,3 +39,4 @@ export const TableToolbar: FC<TableToolbarProps> = ({
     </div>,
   );
 };
+export default TableToolbar

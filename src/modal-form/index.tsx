@@ -1,1 +1,1 @@
-export * from "./modal-form";
+export {default as ModalForm} from "./modal-form";

@@ -1,6 +1,6 @@
 import React from "react";
 import {Input} from "antd";
-import {SearchToolbar, SearchToolbarItem} from "../search-toolbar";
+import SearchToolbar, {SearchToolbarItem} from "../search-toolbar";
 
 export default () => {
   const items: SearchToolbarItem[] = [

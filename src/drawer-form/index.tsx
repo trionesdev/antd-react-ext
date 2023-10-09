@@ -1,1 +1,1 @@
-export * from './drawer-form';
+export {default as DrawerForm} from './drawer-form';

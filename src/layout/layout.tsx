@@ -1,12 +1,12 @@
 import React, {FC} from "react"
 import {genLayoutStyle} from "./styles";
 import classNames from "classnames";
-import Item from "./item";
-import Sider from "./sider";
+import {LayoutItem} from "./item";
 import {useCssInJs} from "../hooks";
+import {LayoutSider} from "./sider";
 
 
-type LayoutProps = {
+export type LayoutProps = {
   children?: React.ReactNode
   className?: string | undefined
   style?: React.CSSProperties
@@ -15,7 +15,8 @@ type LayoutProps = {
 
 const Layout: FC<LayoutProps> = ({
                                    children,
-                                   className, style,
+                                   className,
+                                   style,
                                    direction = "horizontal"
                                  }) => {
   const prefixCls = 'ms-ant-layout';
@@ -28,7 +29,8 @@ const Layout: FC<LayoutProps> = ({
     </div>
   )
 }
+
 export default Object.assign(Layout, {
-  Item,
-  Sider
+  Item: LayoutItem,
+  Sider: LayoutSider
 })
