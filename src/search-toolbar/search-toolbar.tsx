@@ -19,6 +19,7 @@ export type SearchToolbarProps = {
   layout?: 'horizontal' | 'inline' | 'vertical';
   initialValues?: any;
   onSearch?: (values: any) => void;
+  onReset?: () => void
   span?: number;
   xs?: number;
   sm?: number;
@@ -32,6 +33,7 @@ export const SearchToolbar: FC<SearchToolbarProps> = ({
                                                         layout,
                                                         initialValues,
                                                         onSearch,
+                                                        onReset,
                                                         span = 6,
                                                         xs,
                                                         sm,
@@ -88,6 +90,11 @@ export const SearchToolbar: FC<SearchToolbarProps> = ({
       onSearch?.(values);
     });
   };
+
+  const handleReset = () => {
+    form.resetFields();
+    onReset?.()
+  }
 
   useEffect(() => {
     console.log('sss');
@@ -156,11 +163,7 @@ export const SearchToolbar: FC<SearchToolbarProps> = ({
           >
             <Form.Item>
               <Space>
-                <Button
-                  onClick={() => {
-                    form.resetFields();
-                  }}
-                >
+                <Button onClick={handleReset}>
                   重置
                 </Button>
                 <Button type={`primary`} onClick={handleSearch}>
