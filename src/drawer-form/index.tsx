@@ -1,1 +1,4 @@
-export {default as DrawerForm} from './drawer-form';
+import DrawerForm, {DrawerFormProps} from './drawer-form';
+
+export type {DrawerFormProps}
+export default DrawerForm

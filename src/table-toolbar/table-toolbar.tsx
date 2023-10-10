@@ -3,7 +3,8 @@ import classNames from 'classnames';
 import React, {FC} from 'react';
 import {useCssInJs} from "../hooks";
 import {genTableToolbarStyle} from "./styles";
-export interface TableToolbarProps {
+
+export type TableToolbarProps = {
   className?: string;
   style?: React.CSSProperties;
   /**

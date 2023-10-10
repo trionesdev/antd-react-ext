@@ -1,1 +1,4 @@
-export {default as TableToolbar} from "./table-toolbar";
+import TableToolbar, {TableToolbarProps} from "./table-toolbar";
+
+export type {TableToolbarProps}
+export default TableToolbar

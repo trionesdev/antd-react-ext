@@ -1,1 +1,3 @@
-export {default as FieldsMapping} from "./fields-mapping";
+import FieldsMapping from "./fields-mapping";
+
+export default FieldsMapping

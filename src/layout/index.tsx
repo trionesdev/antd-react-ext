@@ -1,2 +1,4 @@
-export {default as Layout} from "./layout"
-export type {LayoutProps} from "./layout"
+import Layout, {LayoutProps} from "./layout";
+
+export type {LayoutProps}
+export default Layout
