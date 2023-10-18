@@ -29,24 +29,23 @@ export type SearchToolbarProps = {
   xxl?: number;
 };
 const SearchToolbar: FC<SearchToolbarProps> = ({
-                                                        items,
-                                                        layout,
-                                                        initialValues,
-                                                        onSearch,
-                                                        onReset,
-                                                        span = 6,
-                                                        xs,
-                                                        sm,
-                                                        md,
-                                                        lg,
-                                                        xl,
-                                                        xxl,
-                                                      }) => {
+                                                 items,
+                                                 layout,
+                                                 initialValues,
+                                                 onSearch,
+                                                 onReset,
+                                                 span = 6,
+                                                 xs,
+                                                 sm,
+                                                 md,
+                                                 lg,
+                                                 xl,
+                                                 xxl,
+                                               }) => {
   const prefixCls = 'ant-search-toolbar';
 
   const [form] = Form.useForm();
   const screens = useBreakpoint();
-  console.log(screens);
   const [expanded, setExpanded] = useState(true);
   const [colSpan, setColSpan] = useState(span);
   const [rowColSize, setRowColSize] = useState(4);
@@ -97,8 +96,6 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   }
 
   useEffect(() => {
-    console.log('sss');
-    console.log(screens);
     let colSpan = span;
     if (screens.xxl) {
       colSpan = xxl || span;
