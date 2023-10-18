@@ -1,14 +1,10 @@
 import React, {FC, useEffect, useRef, useState} from "react"
-import {useStyleRegister} from "@ant-design/cssinjs";
 import {genFieldsMappingStyle} from "./styles";
-import {theme} from "antd";
 import classNames from "classnames";
 import _ from "lodash";
 import {ImageRemove} from "./images";
 import {useCssInJs} from "../hooks";
 
-
-const {useToken} = theme;
 
 type Config = {
   source?: { mutiple?: boolean }
@@ -17,7 +13,7 @@ type Config = {
   defaultColumnWidth?: number
 }
 
-type Column = {
+export type Column = {
   key?: string,
   title?: string,
   width?: string | number

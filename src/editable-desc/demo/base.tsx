@@ -1,6 +1,6 @@
 import {Button, Form, Input, Select} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditableDesc} from "../../index";
+import {EditableDesc} from "@moensun/antd-react-ext";
 
 export default () => {
   const [form] = Form.useForm()

@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../layout";
+import {Layout} from "@moensun/antd-react-ext";
 
 export default () => {
   return <div>

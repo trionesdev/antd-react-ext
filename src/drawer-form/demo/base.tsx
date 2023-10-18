@@ -1,6 +1,6 @@
 import { Button, Form, Input } from 'antd';
 import React from 'react';
-import DrawerForm from "../drawer-form";
+import {DrawerForm} from "@moensun/antd-react-ext";
 
 export default () => (
   <div>

@@ -1,5 +1,5 @@
-import GridTable from "../grid-table";
 import React from 'react';
+import {GridTable} from "@moensun/antd-react-ext";
 
 export default () => {
   const columns = [

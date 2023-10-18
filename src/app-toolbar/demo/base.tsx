@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button} from "antd";
-import AppToolbar from "../app-toolbar";
+import {AppToolbar} from "@moensun/antd-react-ext";
 
 export default () => {
   const items = [{

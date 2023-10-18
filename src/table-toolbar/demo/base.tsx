@@ -1,7 +1,6 @@
 import React from 'react';
 import {Button} from "antd";
-import TableToolbar from "../table-toolbar";
-import GridTable from "../../grid-table/grid-table";
+import {GridTable, TableToolbar} from "@moensun/antd-react-ext";
 
 export default () => {
   const columns = [

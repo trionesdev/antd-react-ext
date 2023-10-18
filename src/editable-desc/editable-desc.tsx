@@ -34,8 +34,20 @@ export type EditableDescProps = {
    * @default false
    */
   clickEdit?: boolean
+  /**
+   * @description 动作控制  为ture 的时候，不会直接变跟，需要手动确认或取消
+   * @default false
+   */
   actionControl?: boolean
+  /**
+   * @description 确定时调用
+   * @default
+   */
   onOk?: (val: any) => Promise<void>
+  /**
+   * @description 取消时调用
+   * @default false
+   */
   onCancel?: () => void
 }
 export const EditableDesc: FC<EditableDescProps> = ({
