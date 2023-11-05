@@ -1,2 +1,1 @@
-export { useCssInJs } from './useCssInJs';
-export type { CssInJsProps } from './useCssInJs';
+export * from './useCssInJs';
