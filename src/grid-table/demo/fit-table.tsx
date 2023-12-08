@@ -1,5 +1,5 @@
+import { GridTable } from '@trionesdev/antd-react-ext';
 import React from 'react';
-import {GridTable} from "@moensun/antd-react-ext";
 
 export default () => {
   const columns = [
@@ -39,7 +39,7 @@ export default () => {
   ];
 
   return (
-    <div style={{height:300}}>
+    <div style={{ height: 300 }}>
       <GridTable fit={true} columns={columns} dataSource={dataScore} />
     </div>
   );
