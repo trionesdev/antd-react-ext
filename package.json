@@ -52,9 +52,9 @@
     "@babel/runtime": "^7.21.0"
   },
   "devDependencies": {
-    "@ant-design/cssinjs": "^1.18.1",
-    "@ant-design/icons": "^5.2.6",
-    "@commitlint/cli": "^18.4.3",
+    "@ant-design/cssinjs": "^1.17.0",
+    "@ant-design/icons": "^5.2.5",
+    "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@types/lodash": "^4.14.191",
     "@types/react": "^18.0.0",
