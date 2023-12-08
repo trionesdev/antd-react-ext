@@ -1,6 +1,6 @@
-import {FieldsMapping} from "@moensun/antd-react-ext";
 import React from "react";
-import {Column} from "@moensun/antd-react-ext/fields-mapping/fields-mapping";
+import {Column} from "../fields-mapping";
+import {FieldsMapping} from "@moensun/antd-react-ext";
 
 export default () => {
   const sourceColumns: Column[] = [

@@ -1,13 +1,10 @@
 import React, {FC, useEffect, useRef, useState} from "react"
-import {useStyleRegister} from "@ant-design/cssinjs";
 import {genFieldsMappingStyle} from "./styles";
-import {theme} from "antd";
 import classNames from "classnames";
 import _ from "lodash";
 import {ImageRemove} from "./images";
+import {useCssInJs} from "../hooks";
 
-
-const {useToken} = theme;
 
 type Config = {
   source?: { mutiple?: boolean }
@@ -41,7 +38,7 @@ type Line = {
   }
 }
 
-type FieldsMappingProps = {
+export type FieldsMappingProps = {
   /**
    * @description 来源列
    * @default
@@ -80,7 +77,7 @@ type FieldsMappingProps = {
 }
 
 
-export const FieldsMapping: FC<FieldsMappingProps> = ({
+const FieldsMapping: FC<FieldsMappingProps> = ({
                                                         sourceColumns,
                                                         targetColumns,
                                                         sourceData,
@@ -176,7 +173,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
   }
 
   const handleDrawLines = () => {
-    if(_.isEmpty(sourceData) || _.isEmpty(targetData)){
+    if (_.isEmpty(sourceData) || _.isEmpty(targetData)) {
       return
     }
     const newLines: Line[] = []
@@ -213,8 +210,10 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
 
   useEffect(() => {
 
+    //region 监听div resize事件
     let observer = new ResizeObserver(() => _.debounce(handleResize, 200)());
     observer.observe(rootRef.current)
+    //endregion
 
     if (drawing) {
       document.addEventListener('mouseup', handleMouseUp);
@@ -230,11 +229,7 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
   }, [drawing]);
 
 
-  const {theme, token, hashId} = useToken();
-  const wrapSSR = useStyleRegister(
-    {theme, token, hashId, path: [prefixCls]},
-    () => [genFieldsMappingStyle(prefixCls, token)],
-  );
+  const {hashId, wrapSSR} = useCssInJs({prefix: prefixCls, styleFun: genFieldsMappingStyle})
   return wrapSSR(<div ref={rootRef} className={classNames(prefixCls, {'drawing': drawing}, hashId)}
                       onMouseMove={handleMouseMove} onResize={handleResize}>
     <div ref={sourceRef} className={classNames(`${prefixCls}-table`, `${prefixCls}-source`, hashId)}>
@@ -303,3 +298,5 @@ export const FieldsMapping: FC<FieldsMappingProps> = ({
     </div>
   </div>)
 }
+
+export default FieldsMapping

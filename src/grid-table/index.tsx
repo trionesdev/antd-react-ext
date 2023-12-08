@@ -1,2 +1,4 @@
-import GridTable from './grid-table';
-export default GridTable;
+import GridTable, {GridTableProps} from './grid-table';
+
+export type {GridTableProps}
+export default GridTable
