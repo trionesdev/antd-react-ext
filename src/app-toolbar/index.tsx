@@ -1,2 +1,4 @@
-import AppToolbar from './app-toolbar';
-export default AppToolbar;
+import AppToolbar, {AppToolbarProps} from "./app-toolbar"
+
+export type {AppToolbarProps}
+export default AppToolbar

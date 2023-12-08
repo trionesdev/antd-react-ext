@@ -1,55 +1,12 @@
-import type {CSSInterpolation} from '@ant-design/cssinjs';
-import {useStyleRegister} from '@ant-design/cssinjs';
 import {ArrowLeftOutlined} from '@ant-design/icons';
-import {
-  Avatar,
-  AvatarProps,
-  Breadcrumb,
-  BreadcrumbProps,
-  Button,
-  GlobalToken,
-  Space,
-  theme,
-} from 'antd';
+import {Avatar, AvatarProps, Breadcrumb, BreadcrumbProps, Button, Space,} from 'antd';
 import classNames from 'classnames';
 import React, {FC} from 'react';
+import {useCssInJs} from "../hooks";
+import {genPageHeaderStyle} from "./styles";
 
-const {useToken} = theme;
-const genPageHeaderStyle = (
-  prefixCls: string,
-  token: GlobalToken,
-): CSSInterpolation => {
-  return {
-    [`.${prefixCls}`]: {
-      backgroundColor: 'white',
-      padding: '8px',
-      [`&-breadcrumb`]: {},
-      [`&-heading`]: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        [`&-title`]: {
-          color: '#000000d9',
-          fontWeight: 600,
-          fontSize: '20px',
-          lineHeight: '32px',
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
-          textOverflow: 'ellipsis',
-        },
-        [`&-sub-title`]: {
-          color: '#00000073',
-          fontSize: '14px',
-          lineHeight: 1.5715,
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
-          textOverflow: 'ellipsis',
-        },
-      },
-    },
-  };
-};
 
-type PageHeaderProps = {
+export type PageHeaderProps = {
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
@@ -92,24 +49,21 @@ type PageHeaderProps = {
 };
 
 const PageHeader: FC<PageHeaderProps> = ({
-                                           className,
-                                           style,
-                                           children,
-                                           backIcon = true,
-                                           avatar,
-                                           title,
-                                           subTitle,
-                                           breadcrumb,
-                                           extra,
-                                           onBack,
-                                           footer,
-                                         }) => {
+                                                  className,
+                                                  style,
+                                                  children,
+                                                  backIcon = true,
+                                                  avatar,
+                                                  title,
+                                                  subTitle,
+                                                  breadcrumb,
+                                                  extra,
+                                                  onBack,
+                                                  footer,
+                                                }) => {
   const prefixCls = 'ant-page-header';
-  const {theme, token, hashId} = useToken();
-  const wrapSSR = useStyleRegister(
-    {theme, token, hashId, path: [prefixCls]},
-    () => [genPageHeaderStyle(prefixCls, token)],
-  );
+
+  const {hashId, wrapSSR} = useCssInJs({prefix: prefixCls, styleFun: genPageHeaderStyle})
 
   return wrapSSR(
     <div style={style} className={classNames(prefixCls, className, hashId)}>
@@ -126,7 +80,7 @@ const PageHeader: FC<PageHeaderProps> = ({
           {backIcon && (
             <Button
               type={`text`}
-              icon={<ArrowLeftOutlined/>}
+              icon={<ArrowLeftOutlined rev={undefined}/>}
               onClick={onBack}
             />
           )}
@@ -150,4 +104,4 @@ const PageHeader: FC<PageHeaderProps> = ({
     </div>,
   );
 };
-export default PageHeader;
+export default PageHeader

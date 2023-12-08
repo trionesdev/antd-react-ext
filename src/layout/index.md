@@ -3,6 +3,8 @@
 > 布局
 
 <code src="./demo/base.tsx"></code>
+<code src="./demo/layout-nest.tsx"></code>
+
 #### Layout
 <API id="Layout"></API>
 #### Layout.Item

@@ -1,54 +1,15 @@
-import {CSSInterpolation, useStyleRegister} from '@ant-design/cssinjs'
-import {GlobalToken, Table, TableProps, theme} from 'antd'
+import {Table, TableProps} from 'antd'
 import classNames from 'classnames'
 import React, {FC} from 'react'
 import _ from "lodash"
+import {genGridTableStyle} from "./styles";
+import {useCssInJs} from "../hooks";
 
-const {useToken} = theme
-const genGridTableStyle = (
-  prefixCls: string,
-  token: GlobalToken
-): CSSInterpolation => {
-  return {
-    [`.${prefixCls}`]: {
-      width: '100%',
-      display: `flex`,
-      flexDirection: 'column',
-      '&.ant-table-fill': {
-        height: '100%',
-        '.ant-table-wrapper': {
-          flex: '1 auto',
-          overflow: 'hidden',
-          '.ant-spin-nested-loading': {
-            height: '100%',
-            '.ant-spin-container': {
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              flex: '1 auto',
-              '.ant-table-header': {
-                overflow: 'inherit!important',
-              },
-            },
-          },
-          '.ant-table': {
-            overflow: 'hidden',
-            '.ant-table-container': {
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-            },
-          },
-        },
-      },
-    },
-  }
-}
 
-interface GridTableProps extends TableProps<any> {
+export type GridTableProps = TableProps<any> & {
   /**
    * @description 是否撑满外部容器
-   * @default
+   * @default false
    */
   fit?: boolean
   /**
@@ -59,16 +20,12 @@ interface GridTableProps extends TableProps<any> {
 }
 
 const GridTable: FC<GridTableProps> = (
-  {fit, toolbar, style, ...props},
+  {fit = false, toolbar, style, ...props},
   context
 ) => {
 
   const prefixCls = 'ant-grid-table'
-  const {theme, token, hashId} = useToken()
-  const wrapSSR = useStyleRegister(
-    {theme, token, hashId, path: [prefixCls]},
-    () => [genGridTableStyle(prefixCls, token)]
-  )
+  const {hashId, wrapSSR} = useCssInJs({prefix: prefixCls, styleFun: genGridTableStyle})
 
   return wrapSSR(
     <div

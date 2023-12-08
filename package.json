@@ -1,11 +1,11 @@
 {
-  "name": "@moensun/antd-react-ext",
-  "version": "0.0.1-beta",
+  "name": "@trionesdev/antd-react-ext",
+  "version": "0.0.1-beta.0",
   "description": "A react library developed with dumi",
-  "license": "MIT",
   "repository": {
-    "url": "https://github.com/triones-dev/antd-react-ext.git"
+    "url": "https://github.com/trionesdev/antd-react-ext.git"
   },
+  "license": "MIT",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -52,7 +52,7 @@
     "@babel/runtime": "^7.21.0"
   },
   "devDependencies": {
-    "@ant-design/cssinjs": "^1.6.1",
+    "@ant-design/cssinjs": "^1.17.0",
     "@ant-design/icons": "^5.2.5",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",

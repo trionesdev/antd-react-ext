@@ -9,7 +9,7 @@
     "paths": {
       "@@/*": [".dumi/tmp/*"],
       "@moensun/antd-react-ext": ["src"],
-      "@moensun/antd-react-ext/*": ["src/*", "*"]
+//      "@moensun/antd-react-ext/*": ["src/*", "*"]
     }
   },
   "include": [".dumi/**/*", ".dumirc.ts", "src/**/*"]
