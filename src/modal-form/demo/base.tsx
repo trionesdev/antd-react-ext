@@ -1,6 +1,6 @@
+import { ModalForm } from '@trionesdev/antd-react-ext';
 import { Button, Form, Input } from 'antd';
 import React from 'react';
-import {ModalForm} from "@moensun/antd-react-ext";
 
 export default () => (
   <div>

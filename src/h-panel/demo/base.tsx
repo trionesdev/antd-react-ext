@@ -1,4 +1,4 @@
-import { HPanel } from '@moensun/antd-react-ext';
+import { HPanel } from '@trionesdev/antd-react-ext';
 import React from 'react';
 
 export default () => {
