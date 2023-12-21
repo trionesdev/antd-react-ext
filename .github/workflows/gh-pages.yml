@@ -3,14 +3,14 @@ name: github pages
 on:
   push:
     branches:
-      - master # default branch
+      - main # default branch
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: npm install
