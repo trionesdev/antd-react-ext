@@ -48,10 +48,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
           <Space>
             {avatar && (
               <Avatar
-                {...Object.assign(
-                  { size: 40, shape: 'square', display: 'flex' },
-                  avatar,
-                )}
+                {...Object.assign({ size: 40, shape: 'square' }, avatar)}
               />
             )}
             <div

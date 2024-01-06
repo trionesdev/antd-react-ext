@@ -1,5 +1,5 @@
-import {GlobalToken} from "antd";
-import {CSSInterpolation} from "@ant-design/cssinjs";
+import { CSSInterpolation } from '@ant-design/cssinjs';
+import { GlobalToken } from 'antd';
 
 export const genAppToolbarStyle = (
   prefixCls: string,
@@ -22,6 +22,9 @@ export const genAppToolbarStyle = (
         gap: '8px',
 
         [`&-left`]: {
+          ['.ant-avatar']: {
+            display: 'flex',
+          },
           [`&-title`]: {
             color: '#000000d9',
             fontWeight: 600,
@@ -29,7 +32,7 @@ export const genAppToolbarStyle = (
             lineHeight: '32px',
             overflow: 'hidden',
             whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis'
+            textOverflow: 'ellipsis',
           },
         },
         [`&-right`]: {},
