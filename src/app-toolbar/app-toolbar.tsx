@@ -1,15 +1,14 @@
-import {Avatar, AvatarProps, Menu, MenuProps, Space, theme} from 'antd';
+import { Avatar, AvatarProps, Menu, MenuProps, Space } from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
-import React, {FC} from 'react';
-import {useCssInJs} from "../hooks";
-import {genAppToolbarStyle} from "./styles";
-
+import React, { FC } from 'react';
+import { useCssInJs } from '../hooks';
+import { genAppToolbarStyle } from './styles';
 
 export type AppToolbarProps = {
   className?: string;
   style?: React.CSSProperties;
-  avatar?: AvatarProps
+  avatar?: AvatarProps;
   /**
    * @description 标题
    * @default null
@@ -26,28 +25,38 @@ export type AppToolbarProps = {
    */
   navItems?: MenuProps['items'];
   selectedKeys?: string[];
-}
+};
 const AppToolbar: FC<AppToolbarProps> = ({
-                                           className,
-                                           style,
-                                           avatar,
-                                           title,
-                                           extra,
-                                           navItems,
-                                           selectedKeys,
-                                         }) => {
+  className,
+  style,
+  avatar,
+  title,
+  extra,
+  navItems,
+  selectedKeys,
+}) => {
   const prefixCls = 'ant-app-toolbar';
-  const {hashId, wrapSSR} = useCssInJs({prefix: prefixCls, styleFun: genAppToolbarStyle})
+  const { hashId, wrapSSR } = useCssInJs({
+    prefix: prefixCls,
+    styleFun: genAppToolbarStyle,
+  });
 
   return wrapSSR(
     <div style={style} className={classNames(prefixCls, hashId)}>
       <div className={classNames(`${prefixCls}-heading`, hashId, className)}>
         <div className={classNames(`${prefixCls}-heading-left`, hashId)}>
           <Space>
-            {avatar && <Avatar
-              {...Object.assign({size: 40, shape: 'square'}, avatar)}
-            />}
-            <div className={classNames(`${prefixCls}-heading-left-title`, hashId)}>
+            {avatar && (
+              <Avatar
+                {...Object.assign(
+                  { size: 40, shape: 'square', display: 'flex' },
+                  avatar,
+                )}
+              />
+            )}
+            <div
+              className={classNames(`${prefixCls}-heading-left-title`, hashId)}
+            >
               {title}
             </div>
           </Space>
@@ -66,4 +75,4 @@ const AppToolbar: FC<AppToolbarProps> = ({
     </div>,
   );
 };
-export default AppToolbar
+export default AppToolbar;
