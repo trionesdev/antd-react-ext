@@ -1,14 +1,15 @@
-import {GlobalToken} from "antd";
+import { GlobalToken } from 'antd';
 
 export const genGridTableStyle = (
   prefixCls: string,
-  token: GlobalToken
+  token: GlobalToken,
 ): any => {
   return {
     [`.${prefixCls}`]: {
       width: '100%',
       display: `flex`,
       flexDirection: 'column',
+      boxSizing: 'border-box',
       '&.ant-table-fill': {
         height: '100%',
         '.ant-table-wrapper': {
@@ -32,9 +33,9 @@ export const genGridTableStyle = (
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
-              '& > .ant-table-body':{
-                overflowY:'auto !important'
-              }
+              '& > .ant-table-body': {
+                overflowY: 'auto !important',
+              },
             },
           },
         },
