@@ -1,25 +1,27 @@
-import {Button, Col, Form, Grid, Row, Space} from 'antd';
-import React, {FC, useEffect, useState} from 'react';
-import _ from 'lodash';
-import {DownOutlined, UpOutlined} from '@ant-design/icons';
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { Button, Col, Form, Grid, Row, Space } from 'antd';
 import classNames from 'classnames';
-import {useCssInJs} from '../hooks';
-import {genSearchToolbarStyle} from './styled';
+import _ from 'lodash';
+import React, { FC, useEffect, useState } from 'react';
+import { useCssInJs } from '../hooks';
+import { genSearchToolbarStyle } from './styled';
 
-const {useBreakpoint} = Grid;
+const { useBreakpoint } = Grid;
 
 export type SearchToolbarItem = {
   label?: React.ReactNode;
   name?: string | string[];
   children?: React.ReactNode;
-}
+};
 
 export type SearchToolbarProps = {
+  style: React.CSSProperties;
+  className?: string;
   items?: SearchToolbarItem[];
   layout?: 'horizontal' | 'inline' | 'vertical';
   initialValues?: any;
   onSearch?: (values: any) => void;
-  onReset?: () => void
+  onReset?: () => void;
   span?: number;
   xs?: number;
   sm?: number;
@@ -29,19 +31,21 @@ export type SearchToolbarProps = {
   xxl?: number;
 };
 const SearchToolbar: FC<SearchToolbarProps> = ({
-                                                 items,
-                                                 layout,
-                                                 initialValues,
-                                                 onSearch,
-                                                 onReset,
-                                                 span = 6,
-                                                 xs,
-                                                 sm,
-                                                 md,
-                                                 lg,
-                                                 xl,
-                                                 xxl,
-                                               }) => {
+  style,
+  className,
+  items,
+  layout,
+  initialValues,
+  onSearch,
+  onReset,
+  span = 6,
+  xs,
+  sm,
+  md,
+  lg,
+  xl,
+  xxl,
+}) => {
   const prefixCls = 'ant-search-toolbar';
 
   const [form] = Form.useForm();
@@ -55,7 +59,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   //计算需要补偿的列数
   const handleCompleteCompensateColCount = (
     rowColSize: number,
-    itemSize: number
+    itemSize: number,
   ) => {
     if (expanded) {
       const remainder = (itemSize + 1) % rowColSize;
@@ -70,14 +74,14 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
     const rowColSize = 24 / colSpan;
     const compensateColCount = handleCompleteCompensateColCount(
       rowColSize,
-      itemSize
+      itemSize,
     ); //需要补偿列数
     const offsetSpan = colSpan * compensateColCount;
 
-    console.log(colSpan);
-    console.log(rowColSize);
-    console.log(compensateColCount);
-    console.log(offsetSpan);
+    // console.log(colSpan);
+    // console.log(rowColSize);
+    // console.log(compensateColCount);
+    // console.log(offsetSpan);
 
     setRowColSize(rowColSize);
     setOffsetSpan(offsetSpan);
@@ -92,8 +96,8 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
 
   const handleReset = () => {
     form.resetFields();
-    onReset?.()
-  }
+    onReset?.();
+  };
 
   useEffect(() => {
     let colSpan = span;
@@ -127,17 +131,14 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
     xxl,
   };
 
-  const {hashId, wrapSSR} = useCssInJs({
+  const { hashId, wrapSSR } = useCssInJs({
     prefix: prefixCls,
     styleFun: genSearchToolbarStyle,
   });
 
   return wrapSSR(
-    <div className={classNames(prefixCls, hashId)}>
-      <Form form={form}
-            layout={layout}
-            initialValues={initialValues}
-      >
+    <div className={classNames(className, prefixCls, hashId)} style={style}>
+      <Form form={form} layout={layout} initialValues={initialValues}>
         <Row gutter={[8, 8]}>
           {items?.map((item, index) => (
             <Col
@@ -145,7 +146,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
               {...colSpanProps}
               className={classNames({
                 [`${prefixCls}-col-hidden`]:
-                index > rowColSize - 2 && !expanded,
+                  index > rowColSize - 2 && !expanded,
               })}
             >
               <Form.Item label={item.label} name={item.name}>
@@ -156,31 +157,26 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
           <Col
             {...colSpanProps}
             offset={offsetSpan}
-            style={{textAlign: 'end'}}
+            style={{ textAlign: 'end' }}
           >
             <Form.Item>
               <Space>
-                <Button onClick={handleReset}>
-                  重置
-                </Button>
+                <Button onClick={handleReset}>重置</Button>
                 <Button type={`primary`} onClick={handleSearch}>
                   查询
                 </Button>
                 {expandable && (
-                  <Button
-                    type={`link`}
-                    onClick={() => setExpanded(!expanded)}
-                  >
+                  <Button type={`link`} onClick={() => setExpanded(!expanded)}>
                     {' '}
                     {expanded ? (
                       <>
                         收起
-                        <UpOutlined rev={undefined}/>
+                        <UpOutlined rev={undefined} />
                       </>
                     ) : (
                       <>
                         展开
-                        <DownOutlined rev={undefined}/>
+                        <DownOutlined rev={undefined} />
                       </>
                     )}{' '}
                   </Button>
@@ -190,7 +186,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
           </Col>
         </Row>
       </Form>
-    </div>
+    </div>,
   );
 };
-export default SearchToolbar
+export default SearchToolbar;
