@@ -15,10 +15,13 @@ export type SearchToolbarItem = {
 };
 
 export type SearchToolbarProps = {
-  style: React.CSSProperties;
+  style?: React.CSSProperties;
   className?: string;
   items?: SearchToolbarItem[];
   layout?: 'horizontal' | 'inline' | 'vertical';
+  labelCol?: { span?: number; offset?: number };
+  labelAlign?: 'left' | 'right';
+  size?: 'large' | 'middle' | 'small';
   initialValues?: any;
   onSearch?: (values: any) => void;
   onReset?: () => void;
@@ -35,6 +38,9 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   className,
   items,
   layout,
+  labelCol,
+  labelAlign,
+  size,
   initialValues,
   onSearch,
   onReset,
@@ -138,7 +144,14 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
 
   return wrapSSR(
     <div className={classNames(className, prefixCls, hashId)} style={style}>
-      <Form form={form} layout={layout} initialValues={initialValues}>
+      <Form
+        form={form}
+        layout={layout}
+        labelCol={labelCol}
+        labelAlign={labelAlign}
+        size={size}
+        initialValues={initialValues}
+      >
         <Row gutter={[8, 8]}>
           {items?.map((item, index) => (
             <Col
