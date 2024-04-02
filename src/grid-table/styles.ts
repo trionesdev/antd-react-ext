@@ -23,7 +23,7 @@ export const genGridTableStyle = (
               flexDirection: 'column',
               flex: '1 auto',
               '.ant-table-header': {
-                overflow: 'inherit!important',
+                flexShrink: 0,
               },
             },
           },
