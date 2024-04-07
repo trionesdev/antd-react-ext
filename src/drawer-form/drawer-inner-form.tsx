@@ -38,9 +38,9 @@ export const DrawerInnerForm = forwardRef<
 
   useEffect(() => {
     if (formValues) {
-      trueFrom.setFieldsValue(formValues);
+      trueFrom?.setFieldsValue(formValues);
     } else {
-      trueFrom.resetFields();
+      trueFrom?.resetFields();
     }
   }, [formValues]);
 

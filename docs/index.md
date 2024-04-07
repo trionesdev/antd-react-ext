@@ -1,6 +1,6 @@
 ---
 hero:
-  title: Antd Ext
+  title: TrionesDev Antd Ext
   description: 基于Antd组件库的扩展
   actions:
     - text: guide
@@ -17,4 +17,4 @@ features:
     description: Put ! description here
 ---
 
-antd组件扩展库
+antd 组件扩展库

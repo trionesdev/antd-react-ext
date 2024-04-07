@@ -1,6 +1,8 @@
-# Antd Ext
+# TrionesDev Antd Ext
 
-是基于 antd 的一个扩展组件库
+## 概述
+
+该项目是基于 antd 的一个扩展组件库
 
 ## 配置
 

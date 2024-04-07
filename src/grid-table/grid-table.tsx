@@ -129,6 +129,13 @@ const GridTable: FC<GridTableProps> = (
       childList: true,
       subtree: true,
     });
+
+    return () => {
+      resizeObserverTableContainer.disconnect();
+      resizeObserverTableHeader.disconnect();
+      resizeObserverTableBody.disconnect();
+      mutationObserver.disconnect();
+    };
   }, []);
 
   return wrapSSR(
