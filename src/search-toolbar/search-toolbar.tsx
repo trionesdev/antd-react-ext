@@ -1,5 +1,5 @@
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Grid, Row, Space } from 'antd';
+import { Button, Col, Form, FormItemProps, Grid, Row, Space } from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
@@ -8,21 +8,20 @@ import { genSearchToolbarStyle } from './styled';
 
 const { useBreakpoint } = Grid;
 
-export type SearchToolbarItem = {
-  label?: React.ReactNode;
-  name?: string | string[];
-  children?: React.ReactNode;
-};
-
 export type SearchToolbarProps = {
   style?: React.CSSProperties;
   className?: string;
-  items?: SearchToolbarItem[];
+  items?: FormItemProps[];
   layout?: 'horizontal' | 'inline' | 'vertical';
   labelCol?: { span?: number; offset?: number };
   labelAlign?: 'left' | 'right';
   size?: 'large' | 'middle' | 'small';
   initialValues?: any;
+  /**
+   * @description 查询参数改变后回调
+   * @default
+   */
+  onSearchParamsChange?: (values: any) => void;
   onSearch?: (values: any) => void;
   onReset?: () => void;
   span?: number;
@@ -43,6 +42,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   size,
   initialValues,
   onSearch,
+  onSearchParamsChange,
   onReset,
   span = 6,
   xs,
@@ -150,6 +150,9 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
         labelCol={labelCol}
         labelAlign={labelAlign}
         size={size}
+        onValuesChange={(_, allValues) => {
+          onSearchParamsChange?.(allValues);
+        }}
         initialValues={initialValues}
       >
         <Row gutter={[8, 8]}>
@@ -162,9 +165,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
                   index > rowColSize - 2 && !expanded,
               })}
             >
-              <Form.Item label={item.label} name={item.name}>
-                {item.children}
-              </Form.Item>
+              <Form.Item {...item} />
             </Col>
           ))}
           <Col
