@@ -1,5 +1,5 @@
-import {GlobalToken, theme} from "antd";
-import {CSSInterpolation} from "@ant-design/cssinjs";
+import { CSSInterpolation } from '@ant-design/cssinjs';
+import { GlobalToken } from 'antd';
 
 export const genLayoutStyle = (
   prefixCls: string,
@@ -20,7 +20,7 @@ export const genLayoutStyle = (
         [`>.${prefixCls}-item-auto`]: {
           minWidth: 0,
           minHeight: 0,
-        }
+        },
       },
       [`&-horizontal`]: {
         flexDirection: 'row',
@@ -29,11 +29,11 @@ export const genLayoutStyle = (
         [`>.${prefixCls}-item-auto`]: {
           minWidth: 0,
           minHeight: 0,
-        }
+        },
       },
-    }
-  }
-}
+    },
+  };
+};
 
 export const genItemStyle = (
   prefixCls: string,
@@ -41,15 +41,16 @@ export const genItemStyle = (
 ): CSSInterpolation => {
   return {
     [`.${prefixCls}`]: {
+      flexShrink: 0,
       [`&-auto`]: {
         boxSizing: 'border-box',
         flex: '1 auto',
         minWidth: 0,
         minHeight: 0,
-      }
-    }
-  }
-}
+      },
+    },
+  };
+};
 
 export const genSiderStyle = (
   prefixCls: string,
@@ -62,16 +63,17 @@ export const genSiderStyle = (
       display: 'flex',
       minWidth: 0,
       minHeight: 0,
+      flexShrink: 0,
       flexDirection: 'column',
       transition: 'all 0.2s,background 0s',
       [`&-children`]: {
-        flex: '1 auto'
+        flex: '1 auto',
       },
       [`&-trigger`]: {
         textAlign: 'center',
         lineHeight: '48px',
-        cursor: 'pointer'
-      }
-    }
-  }
-}
+        cursor: 'pointer',
+      },
+    },
+  };
+};
