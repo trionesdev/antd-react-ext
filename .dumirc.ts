@@ -22,6 +22,6 @@ export default defineConfig({
       zhihu: 'https://www.ithere.net/',
     },
     footer:
-      '<div><div></div><div>友情链接： <a href="https://www.ithere.net/" target="_blank">书阙</a></div></div>',
+      '<div><div>Copyright © 2018-present TrionesDev</div><div>友情链接： <a href="https://www.ithere.net/" target="_blank">书阙</a></div></div>',
   },
 });
