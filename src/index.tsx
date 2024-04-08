@@ -14,12 +14,12 @@ export type { ModalFormProps } from './modal-form';
 export { default as PageHeader } from './page-header';
 export type { PageHeaderProps } from './page-header';
 export { default as SearchToolbar } from './search-toolbar';
-export type { SearchToolbarItem, SearchToolbarProps } from './search-toolbar';
+export type { SearchToolbarProps } from './search-toolbar';
 export { default as TableToolbar } from './table-toolbar';
 export type { TableToolbarProps } from './table-toolbar';
 export { default as VPanel } from './v-panel';
 
-export {default as EditableDesc} from "./editable-desc"
+export { default as EditableDesc } from './editable-desc';
 
 /*hooks*/
 // export { useCssInJs } from './hooks';
