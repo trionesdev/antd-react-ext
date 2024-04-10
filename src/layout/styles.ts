@@ -68,6 +68,7 @@ export const genSiderStyle = (
       transition: 'all 0.2s,background 0s',
       [`&-children`]: {
         flex: '1 auto',
+        overflowY: 'auto',
       },
       [`&-trigger`]: {
         textAlign: 'center',
