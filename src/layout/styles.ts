@@ -69,6 +69,9 @@ export const genSiderStyle = (
       [`&-children`]: {
         flex: '1 auto',
         overflowY: 'auto',
+        [`.ant-menu`]: {
+          borderInlineEnd: '0px !important',
+        },
       },
       [`&-trigger`]: {
         textAlign: 'center',
