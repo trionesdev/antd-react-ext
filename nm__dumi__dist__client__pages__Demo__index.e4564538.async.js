@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_trionesdev_antd_react_ext=self.webpackChunk_trionesdev_antd_react_ext||[]).push([[9],{65149:function(f,t,e){e.r(t),e.d(t,{default:function(){return o}});var n=e(27544),r=e(67294),d=function(){var s=(0,n.UO)(),u=s.id,m=(0,n.WF)(),c=m.demos,v=c[u]||{},a=v.component;return a&&(0,r.createElement)(a)},o=d}}]);
