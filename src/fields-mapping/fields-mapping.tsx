@@ -85,7 +85,7 @@ const FieldsMapping: FC<FieldsMappingProps> = ({
   config,
 }) => {
   const dataKey = 'data-key';
-  const prefixCls = 'ms-ant-fields-mapping';
+  const prefixCls = 'triones-ant-fields-mapping';
   const rootRef = useRef<any>();
   const sourceRef = useRef<any>();
   const targetRef = useRef<any>();

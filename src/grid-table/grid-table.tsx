@@ -32,7 +32,7 @@ const GridTable: FC<GridTableProps> = (
 
   const [scrollY, setScrollY] = useState(false);
 
-  const prefixCls = 'ant-grid-table';
+  const prefixCls = 'triones-ant-grid-table';
   const { hashId, wrapSSR } = useCssInJs({
     prefix: prefixCls,
     styleFun: genGridTableStyle,

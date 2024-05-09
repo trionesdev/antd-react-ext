@@ -1,36 +1,46 @@
-import React, {FC} from "react"
-import {genLayoutStyle} from "./styles";
-import classNames from "classnames";
-import {LayoutItem} from "./item";
-import {useCssInJs} from "../hooks";
-import {LayoutSider} from "./sider";
-
+import classNames from 'classnames';
+import React, { FC } from 'react';
+import { useCssInJs } from '../hooks';
+import { LayoutItem } from './item';
+import { LayoutSider } from './sider';
+import { genLayoutStyle } from './styles';
 
 export type LayoutProps = {
-  children?: React.ReactNode
-  className?: string | undefined
-  style?: React.CSSProperties
-  direction?: 'vertical' | 'horizontal'
-}
+  children?: React.ReactNode;
+  className?: string | undefined;
+  style?: React.CSSProperties;
+  direction?: 'vertical' | 'horizontal';
+};
 
 const Layout: FC<LayoutProps> = ({
-                                   children,
-                                   className,
-                                   style,
-                                   direction = "horizontal"
-                                 }) => {
-  const prefixCls = 'ms-ant-layout';
+  children,
+  className,
+  style,
+  direction = 'horizontal',
+}) => {
+  const prefixCls = 'triones-ant-layout';
 
-  const {hashId, wrapSSR} = useCssInJs({prefix: prefixCls, styleFun: genLayoutStyle})
+  const { hashId, wrapSSR } = useCssInJs({
+    prefix: prefixCls,
+    styleFun: genLayoutStyle,
+  });
 
   return wrapSSR(
-    <div className={classNames(prefixCls, `${prefixCls}-${direction}`, className, hashId)} style={style}>
+    <div
+      className={classNames(
+        prefixCls,
+        `${prefixCls}-${direction}`,
+        className,
+        hashId,
+      )}
+      style={style}
+    >
       {children}
-    </div>
-  )
-}
+    </div>,
+  );
+};
 
 export default Object.assign(Layout, {
   Item: LayoutItem,
-  Sider: LayoutSider
-})
+  Sider: LayoutSider,
+});

@@ -29,7 +29,7 @@ export const LayoutSider: FC<LayoutSiderProps> = ({
   onCollapse,
 }) => {
   const [scopeCollapsed, setScopeCollapsed] = useState(collapsed);
-  const prefixCls = 'ms-ant-layout-sider';
+  const prefixCls = 'triones-ant-layout-sider';
 
   const { hashId, wrapSSR } = useCssInJs({
     prefix: prefixCls,

@@ -35,7 +35,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
   navItems,
   selectedKeys,
 }) => {
-  const prefixCls = 'ant-app-toolbar';
+  const prefixCls = 'triones-ant-app-toolbar';
   const { hashId, wrapSSR } = useCssInJs({
     prefix: prefixCls,
     styleFun: genAppToolbarStyle,

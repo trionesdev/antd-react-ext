@@ -1,8 +1,8 @@
-import {Space, theme} from 'antd';
+import { Space } from 'antd';
 import classNames from 'classnames';
-import React, {FC} from 'react';
-import {useCssInJs} from "../hooks";
-import {genTableToolbarStyle} from "./styles";
+import React, { FC } from 'react';
+import { useCssInJs } from '../hooks';
+import { genTableToolbarStyle } from './styles';
 
 export type TableToolbarProps = {
   className?: string;
@@ -17,17 +17,20 @@ export type TableToolbarProps = {
    * @default []
    */
   extra?: React.ReactNode;
-}
+};
 
 const TableToolbar: FC<TableToolbarProps> = ({
-                                               className,
-                                               style,
-                                               title,
-                                               extra,
-                                             }) => {
-  const prefixCls = 'ant-table-toolbar';
+  className,
+  style,
+  title,
+  extra,
+}) => {
+  const prefixCls = 'triones-ant-table-toolbar';
 
-  const {hashId, wrapSSR} = useCssInJs({prefix: prefixCls, styleFun: genTableToolbarStyle})
+  const { hashId, wrapSSR } = useCssInJs({
+    prefix: prefixCls,
+    styleFun: genTableToolbarStyle,
+  });
 
   return wrapSSR(
     <div style={style} className={classNames(prefixCls, hashId, className)}>
@@ -40,4 +43,4 @@ const TableToolbar: FC<TableToolbarProps> = ({
     </div>,
   );
 };
-export default TableToolbar
+export default TableToolbar;
