@@ -152,8 +152,6 @@ const FieldsMapping: FC<FieldsMappingProps> = ({
     const rootClient = rootRef.current!.getBoundingClientRect();
     const scrollTop = window.scrollY || window.document.body.scrollTop || 0;
     const scrollLeft = window.scrollX || window.document.body.scrollLeft || 0;
-    console.log(scrollTop);
-    console.log(scrollLeft);
     const targetPoint = {
       x: e.pageX - rootClient.left - scrollLeft,
       y: e.pageY - rootClient.top - scrollTop,
