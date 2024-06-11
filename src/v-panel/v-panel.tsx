@@ -1,14 +1,12 @@
-import type {CSSInterpolation} from '@ant-design/cssinjs';
-import {useStyleRegister} from '@ant-design/cssinjs';
-import {GlobalToken, theme} from 'antd';
+import type { CSSInterpolation } from '@ant-design/cssinjs';
+import { GlobalToken } from 'antd';
 import classNames from 'classnames';
-import React, {FC} from 'react';
-
-const {useToken} = theme;
+import React, { FC } from 'react';
+import { useCssInJs } from '../hooks';
 
 interface VPanelProps {
   children?: React.ReactNode;
-  className?: string | undefined,
+  className?: string | undefined;
   style?: React.CSSProperties;
   header?: React.ReactNode;
   footer?: React.ReactNode;
@@ -23,7 +21,7 @@ const genVPanelStyle = (
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
-      boxSizing:'border-box',
+      boxSizing: 'border-box',
       [`&-header`]: {},
       [`&-content`]: {
         flex: 'auto 1',
@@ -34,13 +32,18 @@ const genVPanelStyle = (
   };
 };
 
-const VPanel: FC<VPanelProps> = ({children, className, style, header, footer}) => {
-  const prefixCls = 'ant-vertical-panel';
-  const {theme, token, hashId} = useToken();
-  const wrapSSR = useStyleRegister(
-    {theme, token, hashId, path: [prefixCls]},
-    () => [genVPanelStyle(prefixCls, token)],
-  );
+const VPanel: FC<VPanelProps> = ({
+  children,
+  className,
+  style,
+  header,
+  footer,
+}) => {
+  const prefixCls = 'triones-ant-vertical-panel';
+  const { wrapSSR, hashId } = useCssInJs({
+    prefix: prefixCls,
+    styleFun: genVPanelStyle,
+  });
   return wrapSSR(
     <div style={style} className={classNames(prefixCls, hashId, className)}>
       {header && (
