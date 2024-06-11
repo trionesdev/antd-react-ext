@@ -2,6 +2,7 @@ import { Table, TableProps } from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
+
 import { useCssInJs } from '../hooks';
 import { genGridTableStyle } from './styles';
 
@@ -29,7 +30,9 @@ const GridTable: FC<GridTableProps> = (
   const [headerHeight, setHeaderHeight] = useState(0);
   const [bodyHeight, setBodyHeight] = useState(0);
   const [bodyWidth, setBodyWidth] = useState(0);
+  const [footerHeight, setFooterHeight] = useState(0);
 
+  const [scrollX, setScrollX] = useState(false);
   const [scrollY, setScrollY] = useState(false);
 
   const prefixCls = 'triones-ant-grid-table';
@@ -74,50 +77,103 @@ const GridTable: FC<GridTableProps> = (
     }
   });
 
-  const mutationObserver = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      const hasFixedRight = gridTableRef.current?.querySelector(
-        '.ant-table-has-fix-right',
+  const resizeObserverTableFooter = new ResizeObserver((entries) => {
+    for (let entry of entries) {
+      const { target, contentRect } = entry;
+      const { height } = contentRect;
+      if (height > 0) {
+        setFooterHeight(height);
+      }
+    }
+  });
+
+  const handleObserverTableContent = () => {
+    const hasFixedRight = gridTableRef.current?.querySelector(
+      '.ant-table-has-fix-right',
+    ) as HTMLDivElement;
+    if (hasFixedRight) {
+      const fixedHeader = gridTableRef.current?.querySelector(
+        '.ant-table-container .ant-table-thead',
       ) as HTMLDivElement;
-      if (hasFixedRight) {
-        const fixedHeader = gridTableRef.current?.querySelector(
-          '.ant-table-container .ant-table-thead',
-        ) as HTMLDivElement;
-        const fixedBody = gridTableRef.current?.querySelector(
-          '.ant-table-container .ant-table-tbody',
-        ) as HTMLDivElement;
+      const fixedBody = gridTableRef.current?.querySelector(
+        '.ant-table-container .ant-table-tbody',
+      ) as HTMLDivElement;
+      const fixedFooter = gridTableRef.current?.querySelector(
+        '.ant-table-container .ant-table-summary',
+      ) as HTMLDivElement;
+      if (fixedHeader) {
         resizeObserverTableHeader.observe(fixedHeader);
+      }
+      if (fixedBody) {
         resizeObserverTableBody.observe(fixedBody);
-      } else {
-        const tableHeader = gridTableRef.current?.querySelector(
-          '.ant-table-container .ant-table-thead',
-        ) as HTMLDivElement;
-        const tableBody = gridTableRef.current?.querySelector(
-          '.ant-table-container .ant-table-tbody',
-        ) as HTMLDivElement;
+      }
+      if (fixedFooter) {
+        resizeObserverTableFooter.observe(fixedFooter);
+      }
+    } else {
+      const tableHeader = gridTableRef.current?.querySelector(
+        '.ant-table-container .ant-table-thead',
+      ) as HTMLDivElement;
+      const tableBody = gridTableRef.current?.querySelector(
+        '.ant-table-container .ant-table-tbody',
+      ) as HTMLDivElement;
+      const tableFooter = gridTableRef.current?.querySelector(
+        '.ant-table-container .ant-table-summary',
+      ) as HTMLDivElement;
+      if (tableHeader) {
         resizeObserverTableHeader.observe(tableHeader);
+      }
+      if (tableBody) {
         resizeObserverTableBody.observe(tableBody);
       }
+      if (tableFooter) {
+        resizeObserverTableFooter.observe(tableFooter);
+      }
+    }
+  };
+
+  const mutationObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      handleObserverTableContent();
     });
   });
 
   useEffect(
     _.debounce(() => {
       if (containerWidth < bodyWidth) {
-        if (containerHeight < headerHeight + bodyHeight + 17) {
+        if (!props.scroll?.x) {
+          setScrollX(true);
+        }
+        if (
+          Math.ceil(containerHeight) <
+          Math.ceil(headerHeight + bodyHeight + footerHeight + 8)
+        ) {
           setScrollY(true);
         } else {
           setScrollY(false);
         }
       } else {
-        if (containerHeight < headerHeight + bodyHeight) {
+        if (!props.scroll?.x) {
+          setScrollX(false);
+        }
+        if (
+          Math.ceil(containerHeight) <
+          Math.ceil(headerHeight + bodyHeight + footerHeight)
+        ) {
           setScrollY(true);
         } else {
           setScrollY(false);
         }
       }
     }, 500),
-    [containerHeight, containerWidth, headerHeight, bodyHeight, bodyWidth],
+    [
+      containerHeight,
+      containerWidth,
+      headerHeight,
+      bodyHeight,
+      bodyWidth,
+      footerHeight,
+    ],
   );
 
   useEffect(() => {
@@ -129,11 +185,13 @@ const GridTable: FC<GridTableProps> = (
       childList: true,
       subtree: true,
     });
+    handleObserverTableContent();
 
     return () => {
       resizeObserverTableContainer.disconnect();
       resizeObserverTableHeader.disconnect();
       resizeObserverTableBody.disconnect();
+      resizeObserverTableFooter.disconnect();
       mutationObserver.disconnect();
     };
   }, []);
@@ -155,7 +213,12 @@ const GridTable: FC<GridTableProps> = (
           {...props}
           scroll={
             fit
-              ? _.assign({}, props.scroll, scrollY ? { y: true } : {})
+              ? _.assign(
+                  {},
+                  props.scroll,
+                  scrollY ? { y: true } : {},
+                  scrollX ? { x: true } : {},
+                )
               : props.scroll
           }
         />
