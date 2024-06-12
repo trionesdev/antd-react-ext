@@ -66,6 +66,7 @@ export const genSiderStyle = (
       flexShrink: 0,
       flexDirection: 'column',
       transition: 'all 0.2s,background 0s',
+      borderRight: `1px solid ${token.colorBorder}`,
       [`&-children`]: {
         flex: '1 auto',
         overflowY: 'auto',
