@@ -99,6 +99,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
 
   const handleReset = () => {
     form.resetFields();
+    onSearchParamsChange?.({});
     onReset?.();
   };
 
