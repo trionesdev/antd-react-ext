@@ -9,7 +9,7 @@ export type DrawerInnerFormProps = {
   children?: React.ReactElement | React.ReactNode;
   formValues?: any;
   onSubmit?: (values: any, form?: FormInstance<any>) => Promise<any> | void;
-} & FormProps;
+} & Omit<FormProps, 'children'>;
 export const DrawerInnerForm = forwardRef<
   DrawerInnerFormHandle,
   DrawerInnerFormProps

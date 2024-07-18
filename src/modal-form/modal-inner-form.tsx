@@ -8,10 +8,10 @@ export interface ModalInnerFormHandle {
 }
 
 type ModalInnerFormProps = {
-  children?: React.ReactElement | React.ReactNode;
+  children: React.ReactElement | React.ReactNode;
   formValues?: any;
   onSubmit?: (values: any) => Promise<any> | void;
-} & FormProps;
+} & Omit<FormProps, 'children'>;
 export const ModalInnerForm = forwardRef<
   ModalInnerFormHandle,
   ModalInnerFormProps
@@ -25,14 +25,10 @@ export const ModalInnerForm = forwardRef<
         trueFrom
           .validateFields()
           .then((values: any) => {
-            if (onSubmit) {
-              return onSubmit(values);
-            } else {
-              return Promise.resolve();
-            }
+            onSubmit?.(values);
           })
           .catch((ex: any) => {
-            console.log(ex);
+            console.error(ex.message);
           });
       },
       resetFields: (fields?: NamePath[]) => {
@@ -50,7 +46,7 @@ export const ModalInnerForm = forwardRef<
   }, [formValues]);
 
   return (
-    <Form form={trueFrom} {...rest}>
+    <Form {...rest} form={trueFrom}>
       {children}
     </Form>
   );
