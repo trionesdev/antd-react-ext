@@ -1,6 +1,6 @@
 {
   "name": "@trionesdev/antd-react-ext",
-  "version": "1.0.0-beta.0",
+  "version": "2.0.0-beta.0",
   "description": "A react library developed with dumi",
   "repository": {
     "url": "https://github.com/trionesdev/antd-react-ext.git"
