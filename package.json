@@ -1,6 +1,6 @@
 {
   "name": "@trionesdev/antd-react-ext",
-  "version": "0.0.6-beta.2",
+  "version": "0.0.6-beta.3",
   "description": "A react library developed with dumi",
   "repository": {
     "url": "https://github.com/trionesdev/antd-react-ext.git"
@@ -14,7 +14,7 @@
   "scripts": {
     "build": "father build",
     "build:watch": "father dev",
-    "codingPublish": "npm publish --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
+    "codingPublish": "npm publish --registry=https://registry.npmjs.org/",
     "deploy": "gh-pages -d dist",
     "dev": "dumi dev",
     "docs:build": "dumi build",
@@ -24,7 +24,8 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "version:beta": "npm version premajor --preid beta"
   },
   "commitlint": {
     "extends": [
