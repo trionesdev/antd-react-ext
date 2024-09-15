@@ -5,7 +5,6 @@ export type { DrawerFormProps } from './drawer-form';
 export { default as FieldsMapping } from './fields-mapping';
 export { default as GridTable } from './grid-table';
 export type { GridTableProps } from './grid-table';
-export { default as HPanel } from './h-panel';
 
 export { default as Layout } from './layout';
 export type { LayoutProps } from './layout';
@@ -17,7 +16,6 @@ export { default as SearchToolbar } from './search-toolbar';
 export type { SearchToolbarProps } from './search-toolbar';
 export { default as TableToolbar } from './table-toolbar';
 export type { TableToolbarProps } from './table-toolbar';
-export { default as VPanel } from './v-panel';
 
 export { default as EditableDesc } from './editable-desc';
 
