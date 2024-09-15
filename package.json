@@ -25,7 +25,7 @@
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
     "start": "npm run dev",
-    "version:beta": "npm version prepatch --preid beta"
+    "version:beta": "npm version prerelease --preid beta"
   },
   "commitlint": {
     "extends": [
