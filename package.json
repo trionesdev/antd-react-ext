@@ -25,7 +25,7 @@
     "prepublishOnly": "father doctor && npm run build",
     "publish": "npm publish --registry=https://registry.npmjs.org/",
     "start": "npm run dev",
-    "triones:publish": "npm publish --ignore-scripts --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
+    "triones:publishOnly": "npm publish --ignore-scripts --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
     "version:beta": "npm version prerelease --preid beta"
   },
   "commitlint": {
