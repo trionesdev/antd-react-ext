@@ -2,7 +2,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { useCssInJs } from '@trionesdev/antd-react-ext';
 import { Button, Divider, Image, Space, Spin, Upload, message } from 'antd';
 import classNames from 'classnames';
-import { CSSProperties, FC, useEffect, useState } from 'react';
+import React, { CSSProperties, FC, useEffect, useState } from 'react';
 import { genPictureUploadStyle } from './styles';
 
 type PictureUploadProps = {
