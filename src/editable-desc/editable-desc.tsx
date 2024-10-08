@@ -1,5 +1,5 @@
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Col, Row, Space } from 'antd';
+import { CheckOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
+import { Button, Space } from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
 import React, { FC, isValidElement, useEffect, useState } from 'react';
@@ -25,6 +25,11 @@ export type EditableDescProps = {
   valueRender?: ((value?: any) => React.ReactNode) | React.ReactNode;
   onChange?: (val: any) => void;
   /**
+   * @description 将按钮宽度调整为其父宽度的选项
+   * @default
+   */
+  block?: boolean;
+  /**
    * @description 占位符
    * @default
    */
@@ -35,10 +40,15 @@ export type EditableDescProps = {
    */
   clickEdit?: boolean;
   /**
-   * @description 动作控制  为ture 的时候，不会直接变跟，需要手动确认或取消
+   * @description 手动变更，  为ture 的时候，修改后的值不会直接变化，需要手动确认或取消
    * @default false
    */
-  actionControl?: boolean;
+  manualChange?: boolean;
+  /**
+   * @description 是否展示编辑Icon
+   * @default false
+   */
+  editIcon?: boolean;
   /**
    * @description 确定时调用
    * @default
@@ -61,9 +71,11 @@ export const EditableDesc: FC<EditableDescProps> = ({
   value,
   valueRender,
   onChange,
+  block = false,
   placeholder,
   clickEdit = false,
-  actionControl = false,
+  manualChange = false,
+  editIcon = false,
   onOk,
   onCancel,
   afterEditingChange,
@@ -83,7 +95,7 @@ export const EditableDesc: FC<EditableDescProps> = ({
   };
 
   const handleChange = (val: any) => {
-    if (actionControl) {
+    if (manualChange) {
       if (val?.target) {
         setScopeValue((val.target as HTMLInputElement).value);
       } else {
@@ -100,9 +112,7 @@ export const EditableDesc: FC<EditableDescProps> = ({
   if (children && isValidElement(children)) {
     let childProps = _.cloneDeep(children.props);
     _.assign(childProps, {
-      onChange: (val: any) => {
-        handleChange(val);
-      },
+      onChange: handleChange,
       value: scopeValue,
     });
 
@@ -143,8 +153,11 @@ export const EditableDesc: FC<EditableDescProps> = ({
     : scopeValue;
 
   return wrapSSR(
-    <Row gutter={4} className={classNames(prefixCls, hashId)}>
-      <Col flex={`auto`}>
+    <div
+      className={classNames(prefixCls, hashId)}
+      style={{ width: block ? '100%' : 'inherit' }}
+    >
+      <span className={classNames(`${prefixCls}-col-auto`, hashId)}>
         {scopeEditing ? (
           cloneChild
         ) : (
@@ -159,25 +172,33 @@ export const EditableDesc: FC<EditableDescProps> = ({
             {scopeValue ? text : placeholder}
           </div>
         )}
-      </Col>
-      {actionControl && scopeEditing && (
-        <Col>
-          <Space>
-            <Button
-              size={`small`}
-              type={`text`}
-              icon={<CheckOutlined rev={undefined} />}
-              onClick={handleOk}
-            />
-            <Button
-              size={`small`}
-              type={`text`}
-              icon={<CloseOutlined rev={undefined} />}
-              onClick={handleCancel}
-            />
-          </Space>
-        </Col>
+      </span>
+      {!scopeEditing && editIcon && (
+        <Button
+          size={`small`}
+          type={`text`}
+          icon={<EditOutlined rev={undefined} />}
+          onClick={() => {
+            setScopeEditing(true);
+          }}
+        />
       )}
-    </Row>,
+      {manualChange && scopeEditing && (
+        <Space>
+          <Button
+            size={`small`}
+            type={`text`}
+            icon={<CheckOutlined rev={undefined} />}
+            onClick={handleOk}
+          />
+          <Button
+            size={`small`}
+            type={`text`}
+            icon={<CloseOutlined rev={undefined} />}
+            onClick={handleCancel}
+          />
+        </Space>
+      )}
+    </div>,
   );
 };
