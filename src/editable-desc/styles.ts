@@ -10,13 +10,13 @@ export const genEditableDescStyle = (
       display: 'inline-flex',
       gap: 4,
       alignItems: 'center',
-      lineHeight: '32px',
+      lineHeight: '31px',
       [`&-col-auto`]: {
         flex: '1 auto',
       },
       [`&-render`]: {
         minWidth: 24,
-        minHeight: 32,
+        minHeight: 31,
         [`&.editable`]: {
           cursor: 'pointer',
         },
