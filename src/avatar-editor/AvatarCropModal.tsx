@@ -138,7 +138,9 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
   // 缩放，不使用zoom接口，zoom是根据当前图像进行缩放的，我们的需求是根据原始图像进行缩放，否则图像的缩放比例会比较难以计算
   const handleZoomChange = (value: number) => {
     // console.log(initTransform)
+    //获取当前的矩阵信息
     const currentImageTransform = cropper?.getCropperImage().$getTransform();
+    //获取原始图像的缩放比
     const scaleX_origin = Math.sqrt(
       initTransform![0] * initTransform![0] +
         initTransform![1] * initTransform![1],
@@ -147,6 +149,7 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
       initTransform![2] * initTransform![2] +
         initTransform![3] * initTransform![3],
     );
+    //获取当前图像的缩放比
     const currentScaleX = Math.sqrt(
       currentImageTransform![0] * currentImageTransform![0] +
         currentImageTransform![1] * currentImageTransform![1],
@@ -173,7 +176,9 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
   };
 
   const handleRotateChange = (value: number) => {
+    //获取当前的矩阵信息
     const currentImageTransform = cropper?.getCropperImage().$getTransform();
+    //获取原始图像的缩放比
     const currentScaleX = Math.sqrt(
       currentImageTransform![0] * currentImageTransform![0] +
         currentImageTransform![1] * currentImageTransform![1],
@@ -182,8 +187,9 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
       currentImageTransform![2] * currentImageTransform![2] +
         currentImageTransform![3] * currentImageTransform![3],
     );
-
+    //计算出角度
     const radians = (Math.PI / 180) * value;
+    //变换图像
     cropper
       ?.getCropperImage()
       .$setTransform(
