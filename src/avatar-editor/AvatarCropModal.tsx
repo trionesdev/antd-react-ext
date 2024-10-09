@@ -49,7 +49,7 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
         '</cropper-canvas>',
     });
     cropperInstance.getCropperImage()?.$ready((image) => {
-      console.log(image.naturalWidth, image.naturalHeight);
+      // console.log(image.naturalWidth, image.naturalHeight);
       //region copperjs 存在同一张图片第二次打开的时候，缩放比例会重置为1，这里手动设置一下
       let transform = cropperInstance.getCropperImage()!.$getTransform();
       let scale = 1;
