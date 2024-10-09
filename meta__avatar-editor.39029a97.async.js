@@ -1,7 +1,0 @@
-"use strict";(self.webpackChunk_trionesdev_antd_react_ext=self.webpackChunk_trionesdev_antd_react_ext||[]).push([[8743],{13206:function(d,t,e){var _;e.r(t),e.d(t,{demos:function(){return c}});var a=e(15009),o=e.n(a),u=e(99289),m=e.n(u),r=e(67294),h=e(85308),l=e(62760),c={"avatar-editor-demo-base":{component:r.memo(r.lazy(function(){return e.e(1728).then(e.bind(e,57584))})),asset:{type:"BLOCK",id:"avatar-editor-demo-base",refAtomIds:["avatar-editor"],dependencies:{"index.tsx":{type:"FILE",value:e(53157).Z},"@trionesdev/antd-react-ext":{type:"NPM",value:"0.0.7-beta.4"},react:{type:"NPM",value:"18.3.1"}},entry:"index.tsx"},context:{"@trionesdev/antd-react-ext":l,react:_||(_=e.t(r,2))},renderOpts:{compile:function(){var i=m()(o()().mark(function E(){var s,x=arguments;return o()().wrap(function(n){for(;;)switch(n.prev=n.next){case 0:return n.next=2,e.e(7335).then(e.bind(e,37335));case 2:return n.abrupt("return",(s=n.sent).default.apply(s,x));case 3:case"end":return n.stop()}},E)}));function v(){return i.apply(this,arguments)}return v}()}}}},14554:function(d,t,e){e.r(t),e.d(t,{texts:function(){return a}});var _=e(85308);const a=[{value:"\u5934\u50CF\u7F16\u8F91\u5668\uFF0C\u5E26\u56FE\u7247\u88C1\u526A\u529F\u80FD\u7684\u5934\u50CF\u7EC4\u4EF6",paraId:0,tocIndex:0}]},53157:function(d,t){t.Z=`import { AvatarEditor } from '@trionesdev/antd-react-ext';
-import React from 'react';
-
-export default () => {
-  return <AvatarEditor />;
-};
-`}}]);
