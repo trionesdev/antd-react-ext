@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_trionesdev_antd_react_ext=self.webpackChunk_trionesdev_antd_react_ext||[]).push([[1728],{57584:function(a,_,t){t.r(_);var n=t(16112),r=t(67294),e=t(85893);_.default=function(){return(0,e.jsx)(n.AvatarEditor,{})}}}]);
