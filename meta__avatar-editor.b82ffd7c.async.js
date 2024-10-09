@@ -138,7 +138,9 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
   // \u7F29\u653E\uFF0C\u4E0D\u4F7F\u7528zoom\u63A5\u53E3\uFF0Czoom\u662F\u6839\u636E\u5F53\u524D\u56FE\u50CF\u8FDB\u884C\u7F29\u653E\u7684\uFF0C\u6211\u4EEC\u7684\u9700\u6C42\u662F\u6839\u636E\u539F\u59CB\u56FE\u50CF\u8FDB\u884C\u7F29\u653E\uFF0C\u5426\u5219\u56FE\u50CF\u7684\u7F29\u653E\u6BD4\u4F8B\u4F1A\u6BD4\u8F83\u96BE\u4EE5\u8BA1\u7B97
   const handleZoomChange = (value: number) => {
     // console.log(initTransform)
+    //\u83B7\u53D6\u5F53\u524D\u7684\u77E9\u9635\u4FE1\u606F
     const currentImageTransform = cropper?.getCropperImage().$getTransform();
+    //\u83B7\u53D6\u539F\u59CB\u56FE\u50CF\u7684\u7F29\u653E\u6BD4
     const scaleX_origin = Math.sqrt(
       initTransform![0] * initTransform![0] +
         initTransform![1] * initTransform![1],
@@ -147,6 +149,7 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
       initTransform![2] * initTransform![2] +
         initTransform![3] * initTransform![3],
     );
+    //\u83B7\u53D6\u5F53\u524D\u56FE\u50CF\u7684\u7F29\u653E\u6BD4
     const currentScaleX = Math.sqrt(
       currentImageTransform![0] * currentImageTransform![0] +
         currentImageTransform![1] * currentImageTransform![1],
@@ -173,7 +176,9 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
   };
 
   const handleRotateChange = (value: number) => {
+    //\u83B7\u53D6\u5F53\u524D\u7684\u77E9\u9635\u4FE1\u606F
     const currentImageTransform = cropper?.getCropperImage().$getTransform();
+    //\u83B7\u53D6\u539F\u59CB\u56FE\u50CF\u7684\u7F29\u653E\u6BD4
     const currentScaleX = Math.sqrt(
       currentImageTransform![0] * currentImageTransform![0] +
         currentImageTransform![1] * currentImageTransform![1],
@@ -182,8 +187,9 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
       currentImageTransform![2] * currentImageTransform![2] +
         currentImageTransform![3] * currentImageTransform![3],
     );
-
+    //\u8BA1\u7B97\u51FA\u89D2\u5EA6
     const radians = (Math.PI / 180) * value;
+    //\u53D8\u6362\u56FE\u50CF
     cropper
       ?.getCropperImage()
       .$setTransform(
