@@ -19,6 +19,8 @@ export type { TableToolbarProps } from './table-toolbar';
 
 export { default as AvatarEditor } from './avatar-editor';
 export { default as EditableDesc } from './editable-desc';
+export { default as FetchSelect } from './fetch-select';
+export { default as FetchTreeSelect } from './fetch-tree-select';
 
 /*hooks*/
 // export { useCssInJs } from './hooks';
