@@ -4,8 +4,8 @@ import { Avatar, Spin } from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
 import React, { CSSProperties, FC, useEffect, useState } from 'react';
-import { AvatarCropModal } from './AvatarCropModal.tsx';
-import { genAvatarEditorStyle } from './styles.ts';
+import { AvatarCropModal } from './AvatarCropModal';
+import { genAvatarEditorStyle } from './styles';
 
 type AvatarEditorProps = {
   value?: string;

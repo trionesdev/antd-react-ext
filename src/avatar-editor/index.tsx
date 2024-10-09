@@ -1,3 +1,3 @@
-import { AvatarEditor } from './AvatarEditor.tsx';
+import { AvatarEditor } from './AvatarEditor';
 
 export default AvatarEditor;

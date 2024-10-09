@@ -9,7 +9,7 @@ import { Button, Flex, Modal, Slider, Space } from 'antd';
 import classNames from 'classnames';
 import Cropper from 'cropperjs';
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { genAvatarCropModalStyle } from './styles.ts';
+import { genAvatarCropModalStyle } from './styles';
 
 type AvatarCropModalProps = {
   open?: boolean;
