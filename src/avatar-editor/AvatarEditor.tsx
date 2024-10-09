@@ -97,7 +97,7 @@ export const AvatarEditor: FC<AvatarEditorProps> = ({
   };
 
   useEffect(() => {
-    if (_.eq(value || '', innerValue || '')) {
+    if (!_.eq(value || '', innerValue || '')) {
       setInnerValue(value || '');
     }
   }, [value]);
