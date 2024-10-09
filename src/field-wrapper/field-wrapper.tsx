@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import React, { FC, useMemo } from 'react';
 import { genFieldWrapperStyle } from './styles';
 
-type FieldWrapperProps = {
+export type FieldWrapperProps = {
   /**
    * @description 类名
    * @default

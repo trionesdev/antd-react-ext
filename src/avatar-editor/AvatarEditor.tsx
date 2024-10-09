@@ -7,7 +7,7 @@ import React, { CSSProperties, FC, useEffect, useState } from 'react';
 import { AvatarCropModal } from './AvatarCropModal';
 import { genAvatarEditorStyle } from './styles';
 
-type AvatarEditorProps = {
+export type AvatarEditorProps = {
   value?: string;
   onChange?: (value: string) => void;
   style?: CSSProperties;
