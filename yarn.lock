@@ -606,6 +606,105 @@
     "@types/conventional-commits-parser" "^5.0.0"
     chalk "^5.3.0"
 
+"@cropper/element-canvas@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@cropper/element-canvas/-/element-canvas-2.0.0-rc.2.tgz#438ac2f52bf42872d8ea82e8de42f3ac64269922"
+  integrity sha512-0aqbJ3ycQM6/yn4T03vw8K/OeTB8C6+Z/jimuavy4UM2CENH9ucSLM4hAG0yYCgghIyv9Zd0unaBmtgW+I5+SQ==
+  dependencies:
+    "@cropper/element" "^2.0.0-rc.2"
+    "@cropper/utils" "^2.0.0-rc.2"
+
+"@cropper/element-crosshair@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@cropper/element-crosshair/-/element-crosshair-2.0.0-rc.2.tgz#46909655a0e65c7ddd589a22ff88310869834366"
+  integrity sha512-yopINLvaZhL3E2GNienju1zeQ1Cifkn5f/0R7ZabXcAgUI0s2sLzNqL8+2XV2J3DzEzYEIYc+49KmMle04nVWQ==
+  dependencies:
+    "@cropper/element" "^2.0.0-rc.2"
+    "@cropper/utils" "^2.0.0-rc.2"
+
+"@cropper/element-grid@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@cropper/element-grid/-/element-grid-2.0.0-rc.2.tgz#b845235db766d9757c3476ac1d59f17e92d18b5a"
+  integrity sha512-PzAfEya6CmIc/o/lcA/NZ1rohszz42wjq2z3E2zq2jMfNDxY/EIoFnGI6+hJrxCAaoKD8UlKOEHQdRQbtnjcMg==
+  dependencies:
+    "@cropper/element" "^2.0.0-rc.2"
+    "@cropper/utils" "^2.0.0-rc.2"
+
+"@cropper/element-handle@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@cropper/element-handle/-/element-handle-2.0.0-rc.2.tgz#2ebb6faf06c01fe381faa105507b9b355d2f30f5"
+  integrity sha512-wOWX4xpryxKcrhnJC2mHebqQQ622UN2oyQoDZcaMzvlwt7nnX3bInF+SFrIj9/aCxtCUYY0oD2gaJkfd6aNJ0g==
+  dependencies:
+    "@cropper/element" "^2.0.0-rc.2"
+    "@cropper/utils" "^2.0.0-rc.2"
+
+"@cropper/element-image@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@cropper/element-image/-/element-image-2.0.0-rc.2.tgz#ab31f5f0dc23fd636e60656e3bc9799bed592b61"
+  integrity sha512-RTKnuJrqn1K8FscS11auit2W57AG04mxRNOxBldYs3lKTkwZjzJdQFkZ/Nxu+cwVXT+c6IeEiayNKvu4B7CAQg==
+  dependencies:
+    "@cropper/element" "^2.0.0-rc.2"
+    "@cropper/element-canvas" "^2.0.0-rc.2"
+    "@cropper/utils" "^2.0.0-rc.2"
+
+"@cropper/element-selection@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@cropper/element-selection/-/element-selection-2.0.0-rc.2.tgz#76e5c4eb393a5bce78f5cfe1ced62a91cb4a95e1"
+  integrity sha512-UIgIHKHz4qNKlm5YRnC/Pu9+VrInm5TSOzkmU8kPt2swUk0WHNRv3ZcOjCQZ2ccTQnAH3FVM3FYDZ8HjRwLcBg==
+  dependencies:
+    "@cropper/element" "^2.0.0-rc.2"
+    "@cropper/element-canvas" "^2.0.0-rc.2"
+    "@cropper/element-image" "^2.0.0-rc.2"
+    "@cropper/utils" "^2.0.0-rc.2"
+
+"@cropper/element-shade@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@cropper/element-shade/-/element-shade-2.0.0-rc.2.tgz#a953b6ca2a572bf290bb05ccc2daf41a26bac94f"
+  integrity sha512-vHAGFxlqgflGZWkRYNWNHUY0zsV72YZGmCgtUu4sMrnWLZL/jMGhxmm8zZCe/aB94F829XcQ6uf3BoiApB+7Ng==
+  dependencies:
+    "@cropper/element" "^2.0.0-rc.2"
+    "@cropper/element-canvas" "^2.0.0-rc.2"
+    "@cropper/element-selection" "^2.0.0-rc.2"
+    "@cropper/utils" "^2.0.0-rc.2"
+
+"@cropper/element-viewer@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@cropper/element-viewer/-/element-viewer-2.0.0-rc.2.tgz#5694f207ab9b64ff4b29348bb16ff72f13ce1795"
+  integrity sha512-2z9mIA7ic3enNS4xvq9Gq6hnRZ1tPr0h+lCrOHP55NL4he63lE9oTVJfDx19rL95wUS4VxL2ANvr2BVLNiBM7A==
+  dependencies:
+    "@cropper/element" "^2.0.0-rc.2"
+    "@cropper/element-canvas" "^2.0.0-rc.2"
+    "@cropper/element-image" "^2.0.0-rc.2"
+    "@cropper/element-selection" "^2.0.0-rc.2"
+    "@cropper/utils" "^2.0.0-rc.2"
+
+"@cropper/element@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@cropper/element/-/element-2.0.0-rc.2.tgz#6576c1e6caf055a6ded042225b3a2005d15cfd67"
+  integrity sha512-4G6lTJblndwzpsb43YKeHiKcocOkDIWystGzbHNbqRysE0U0lYHuRyvV7FW6a9S63wtMFSYuwFxcdUdUcmkF8w==
+  dependencies:
+    "@cropper/utils" "^2.0.0-rc.2"
+
+"@cropper/elements@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@cropper/elements/-/elements-2.0.0-rc.2.tgz#ec68b22fc4a8d0928a2f76d0191f358dce2ed602"
+  integrity sha512-NG5kdqpv7/tGvUfNjJiIHr2Ip431v5t/P5cIXTcYAgt8PRyFJmjx3fatC7NLnP/FUlv+bbzd8PMRI4LY4Gaw3Q==
+  dependencies:
+    "@cropper/element" "^2.0.0-rc.2"
+    "@cropper/element-canvas" "^2.0.0-rc.2"
+    "@cropper/element-crosshair" "^2.0.0-rc.2"
+    "@cropper/element-grid" "^2.0.0-rc.2"
+    "@cropper/element-handle" "^2.0.0-rc.2"
+    "@cropper/element-image" "^2.0.0-rc.2"
+    "@cropper/element-selection" "^2.0.0-rc.2"
+    "@cropper/element-shade" "^2.0.0-rc.2"
+    "@cropper/element-viewer" "^2.0.0-rc.2"
+
+"@cropper/utils@^2.0.0-rc.2":
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@cropper/utils/-/utils-2.0.0-rc.2.tgz#2b8ba6cb4abd75fcc48f5efd363ff77a0bd3e25d"
+  integrity sha512-EEivNsyV6BtL496m4Q/IeAC6FGlyKjKIT1qMtwaxtkR+2ZlKnf9O7AdcGpClemIBA+TbwWAzp0UyIvYFtKUZ1Q==
+
 "@csstools/postcss-color-function@^1.1.0":
   version "1.1.1"
   resolved "https://moensun-npm.pkg.coding.net/npm/moensun/@csstools/postcss-color-function/-/postcss-color-function-1.1.1.tgz#2bd36ab34f82d0497cfacdc9b18d34b5e6f64b6b"
@@ -3914,6 +4013,14 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+cropperjs@2.0.0-rc.2:
+  version "2.0.0-rc.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/cropperjs/-/cropperjs-2.0.0-rc.2.tgz#dc961be5f275418ce5178b7592d84ebb771e63df"
+  integrity sha512-BTuz+UeZphGOEnBCuQiNT4rk1uFfKJaKmTgoH9XU7Q8IMkLdodW7YPWINmXJXwWMt1nXiKze5qKADVbz9xtVFg==
+  dependencies:
+    "@cropper/elements" "^2.0.0-rc.2"
+    "@cropper/utils" "^2.0.0-rc.2"
 
 cross-spawn@^5.0.1:
   version "5.1.0"

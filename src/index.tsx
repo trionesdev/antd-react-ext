@@ -17,6 +17,7 @@ export type { SearchToolbarProps } from './search-toolbar';
 export { default as TableToolbar } from './table-toolbar';
 export type { TableToolbarProps } from './table-toolbar';
 
+export { default as AvatarEditor } from './avatar-editor';
 export { default as EditableDesc } from './editable-desc';
 
 /*hooks*/

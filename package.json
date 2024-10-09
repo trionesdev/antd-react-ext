@@ -63,6 +63,7 @@
     "@types/react-dom": "^18.3.0",
     "@umijs/lint": "^4.2.10",
     "antd": "^5.17.0",
+    "cropperjs": "2.0.0-rc.2",
     "dumi": "^2.3.8",
     "eslint": "^8.46.0",
     "father": "^4.4.4",

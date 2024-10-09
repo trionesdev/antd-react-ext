@@ -5,9 +5,21 @@ import React, { FC, useMemo } from 'react';
 import { genFieldWrapperStyle } from './styles';
 
 type FieldWrapperProps = {
+  /**
+   * @description 类名
+   * @default
+   */
   className?: string;
+  /**
+   * @description 样式
+   * @default
+   */
   style?: React.CSSProperties;
   children?: React.ReactNode;
+  /**
+   * @description 大小
+   * @default middle
+   */
   size?: SizeType;
   [key: string]: any;
 };
