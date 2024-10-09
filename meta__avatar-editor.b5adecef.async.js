@@ -49,7 +49,7 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
         '</cropper-canvas>',
     });
     cropperInstance.getCropperImage()?.$ready((image) => {
-      console.log(image.naturalWidth, image.naturalHeight);
+      // console.log(image.naturalWidth, image.naturalHeight);
       //region copperjs \u5B58\u5728\u540C\u4E00\u5F20\u56FE\u7247\u7B2C\u4E8C\u6B21\u6253\u5F00\u7684\u65F6\u5019\uFF0C\u7F29\u653E\u6BD4\u4F8B\u4F1A\u91CD\u7F6E\u4E3A1\uFF0C\u8FD9\u91CC\u624B\u52A8\u8BBE\u7F6E\u4E00\u4E0B
       let transform = cropperInstance.getCropperImage()!.$getTransform();
       let scale = 1;
