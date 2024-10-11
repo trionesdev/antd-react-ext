@@ -44,7 +44,7 @@ export const AvatarEditor: FC<AvatarEditorProps> = ({
   accept = '.jpg,.jpeg,.png,.svg,.webp',
   uploadRequest,
 }) => {
-  const [innerValue, setInnerValue] = useState<any>(value);
+  const [innerValue, setInnerValue] = useState<any>(value || '');
   const [open, setOpen] = useState<boolean>(false);
   const [cropImage, setCropImage] = useState<any>();
   const [loading, setLoading] = useState(false);
