@@ -17,7 +17,17 @@ export type { SearchToolbarProps } from './search-toolbar';
 export { default as TableToolbar } from './table-toolbar';
 export type { TableToolbarProps } from './table-toolbar';
 
+export { default as AvatarEditor } from './avatar-editor';
+export type { AvatarEditorProps } from './avatar-editor';
+
 export { default as EditableDesc } from './editable-desc';
+export type { EditableDescProps } from './editable-desc';
+
+export { default as FetchSelect } from './fetch-select';
+export type { FetchSelectProps } from './fetch-select';
+
+export { default as FetchTreeSelect } from './fetch-tree-select';
+export type { FetchTreeSelectProps } from './fetch-tree-select';
 
 /*hooks*/
 // export { useCssInJs } from './hooks';

@@ -36,13 +36,10 @@ export const VideoUpload: FC<VideoUploadProps> = ({
   videoUploadRequest,
   posterUploadRequest,
 }) => {
-  const [innerValue, setInnerValue] = useState<
-    | {
-        url?: string;
-        poster?: string;
-      }
-    | undefined
-  >(value || {});
+  const [innerValue, setInnerValue] = useState<{
+    url?: string;
+    poster?: string;
+  }>(value || {});
   const [url, setUrl] = useState<string | undefined>();
   const [fileList, setFileList] = useState<any>();
 
@@ -86,14 +83,14 @@ export const VideoUpload: FC<VideoUploadProps> = ({
     }
   };
 
-  useEffect(() => {
-    onChange?.(innerValue || {});
-    setUrl(innerValue?.url);
-  }, [innerValue]);
+  const handleSetInnerValue = (innerValue: any) => {
+    setInnerValue(innerValue || {});
+    onChange?.(innerValue);
+  };
 
   useEffect(() => {
     if (!_.eq(value || {}, innerValue || {})) {
-      setInnerValue(value);
+      setInnerValue(value || {});
     }
   }, [value]);
 
@@ -103,7 +100,7 @@ export const VideoUpload: FC<VideoUploadProps> = ({
     styleFun: genVideoUploadStyle,
   });
   return wrapSSR(
-    <div className={classNames(className, prefixCls, hashId)}>
+    <div className={classNames(className, prefixCls, hashId)} style={style}>
       <Row style={{ height: '100%' }} gutter={[8, 8]} wrap={false}>
         <Col
           flex={'auto'}
@@ -127,7 +124,7 @@ export const VideoUpload: FC<VideoUploadProps> = ({
             uploadRequest={posterUploadRequest}
             value={innerValue?.poster}
             onChange={(value) => {
-              setInnerValue({ ...innerValue, poster: value });
+              handleSetInnerValue({ ...innerValue, poster: value });
             }}
           />
           <div style={{ padding: 8 }}>视频文件</div>
@@ -162,7 +159,7 @@ export const VideoUpload: FC<VideoUploadProps> = ({
               <Button
                 type={`primary`}
                 onClick={() => {
-                  setInnerValue({ ...innerValue, url: url });
+                  handleSetInnerValue({ ...innerValue, url: url });
                 }}
               >
                 确定

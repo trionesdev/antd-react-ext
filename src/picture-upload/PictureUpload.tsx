@@ -2,7 +2,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { useCssInJs } from '@trionesdev/antd-react-ext';
 import { Button, Divider, Image, Space, Spin, Upload, message } from 'antd';
 import classNames from 'classnames';
-import { CSSProperties, FC, useEffect, useState } from 'react';
+import React, { CSSProperties, FC, useEffect, useState } from 'react';
 import { genPictureUploadStyle } from './styles';
 
 type PictureUploadProps = {
@@ -13,8 +13,20 @@ type PictureUploadProps = {
   width?: number;
   height?: number;
   preview?: boolean;
+  /**
+   * @description 可选择的文件类型
+   * @default .jpg,.jpeg,.png,.webp,.svg
+   */
   accept?: string;
+  /**
+   * @description 大小限制，单位：字节
+   * @default
+   */
   limitSize?: number;
+  /**
+   * @description 上传请求，返回图片地址
+   * @default
+   */
   uploadRequest?: (file: File) => Promise<string>;
 };
 export const PictureUpload: FC<PictureUploadProps> = ({
@@ -26,7 +38,7 @@ export const PictureUpload: FC<PictureUploadProps> = ({
   height = 180,
   preview = true,
   limitSize,
-  accept = '.jpg,.jpeg,.png,.webp',
+  accept = '.jpg,.jpeg,.png,.webp,.svg',
   uploadRequest,
 }) => {
   const [scopeValue, setScopeValue] = useState<any>(value);

@@ -37,13 +37,19 @@ export default () => {
             }
           }}
           clickEdit={true}
-          actionControl={true}
+          manualChange={true}
+          editIcon={false}
           editing={editing}
         >
           <Select>
             <Select.Option value={`MALE`}>男</Select.Option>
             <Select.Option value={`FEMA`}>女</Select.Option>
           </Select>
+        </EditableDesc>
+      </Form.Item>
+      <Form.Item label={`年龄`} name={`age`}>
+        <EditableDesc editing={editing} editIcon={true} manualChange={true}>
+          <Input />
         </EditableDesc>
       </Form.Item>
       <Form.Item>
