@@ -1,5 +1,5 @@
-import { CSSInterpolation } from '@ant-design/cssinjs';
-import { GlobalToken } from 'antd';
+import {CSSInterpolation} from '@ant-design/cssinjs';
+import {GlobalToken} from 'antd';
 
 export const genLayoutStyle = (
   prefixCls: string,
@@ -70,6 +70,7 @@ export const genSiderStyle = (
       [`&-children`]: {
         flex: '1 auto',
         overflowY: 'auto',
+        overflowX: 'hidden',
         [`.ant-menu`]: {
           borderInlineEnd: '0px !important',
         },
