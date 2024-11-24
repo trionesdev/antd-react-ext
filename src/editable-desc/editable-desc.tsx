@@ -2,12 +2,12 @@ import { CheckOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
-import React, { FC, isValidElement, useEffect, useMemo, useState } from 'react';
+import React, { FC, isValidElement, useEffect, useState } from 'react';
 import { useCssInJs } from '../hooks';
 import { genEditableDescStyle } from './styles';
 
 export type EditableDescProps = {
-  children?: React.ReactNode;
+  children?: React.ReactElement;
   /**
    * @description 是否编辑状态
    * @default false
@@ -65,6 +65,7 @@ export type EditableDescProps = {
    */
   afterEditingChange?: (editing: boolean) => void;
 };
+
 export const EditableDesc: FC<EditableDescProps> = ({
   children,
   editing = false,
@@ -104,23 +105,14 @@ export const EditableDesc: FC<EditableDescProps> = ({
     } else {
       if (onChange) {
         onChange(val);
+        if (val?.target) {
+          setScopeValue((val.target as HTMLInputElement).value);
+        } else {
+          setScopeValue(val);
+        }
       }
     }
   };
-
-  let cloneChild = useMemo(() => {
-    if (children && isValidElement(children)) {
-      let childProps = _.cloneDeep(children.props);
-      _.assign(childProps, {
-        onChange: handleChange,
-        value: scopeValue,
-      });
-
-      return React.createElement(children.type, childProps);
-    } else {
-      return null;
-    }
-  }, []);
 
   const handleOk = () => {
     let okAction = onOk?.(scopeValue) || Promise.resolve();
@@ -136,6 +128,7 @@ export const EditableDesc: FC<EditableDescProps> = ({
   };
 
   useEffect(() => {
+    console.log('value', value, scopeValue);
     if (!_.isEqual(value, scopeValue)) {
       setScopeValue(value);
     }
@@ -162,7 +155,12 @@ export const EditableDesc: FC<EditableDescProps> = ({
     >
       <span className={classNames(`${prefixCls}-col-auto`, hashId)}>
         {scopeEditing ? (
-          cloneChild
+          children && isValidElement(children) ? (
+            React.cloneElement(children as React.ReactElement, {
+              onChange: handleChange,
+              value: scopeValue,
+            })
+          ) : null
         ) : (
           <div
             className={classNames(

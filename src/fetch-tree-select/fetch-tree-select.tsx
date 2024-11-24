@@ -1,4 +1,3 @@
-import { useRequest } from 'ahooks';
 import { TreeSelect, TreeSelectProps } from 'antd';
 import _ from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
@@ -44,22 +43,24 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
   const [options, setOptions] = useState(
     _.concat([], fixedOptions || [], initialValueOption || []),
   );
-  const { run: handleQuery } = useRequest(
-    (searchValue?: string) => {
-      return fetchRequest ? fetchRequest(searchValue) : Promise.resolve([]);
-    },
-    {
-      manual: dropdownFetch,
-      onSuccess: (data: any) => {
+
+  const handleQuery = (searchValue?: string) => {
+    const request = fetchRequest
+      ? fetchRequest(searchValue)
+      : Promise.resolve([]);
+    request
+      .then((data) => {
         setOptions([...(fixedOptions || []), ...(data || [])]);
-      },
-      onFinally: () => {
+      })
+      .finally(() => {
         setFetched(true);
-      },
-    },
-  );
+      });
+  };
 
   useEffect(() => {
+    if (!dropdownFetch) {
+      handleQuery();
+    }
     if (fetched) {
       handleQuery();
     }

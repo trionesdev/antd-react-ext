@@ -1,4 +1,3 @@
-import { useRequest } from 'ahooks';
 import { Select, SelectProps } from 'antd';
 import _ from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
@@ -44,24 +43,25 @@ export const FetchSelect: FC<FetchSelectProps> = ({
   const [options, setOptions] = useState(
     _.concat([], fixedOptions || [], initialValueOption || []),
   );
-  const { run: handleQuery } = useRequest(
-    (searchValue?: string) => {
-      return fetchRequest && fetchEnable
+
+  const handleQuery = (searchValue?: string) => {
+    const request =
+      fetchRequest && fetchEnable
         ? fetchRequest(searchValue)
         : Promise.resolve([]);
-    },
-    {
-      manual: dropdownFetch,
-      onSuccess: (data: any) => {
+    request
+      .then((data) => {
         setOptions([...(fixedOptions || []), ...(data || [])]);
-      },
-      onFinally: () => {
+      })
+      .finally(() => {
         setFetched(true);
-      },
-    },
-  );
+      });
+  };
 
   useEffect(() => {
+    if (!dropdownFetch) {
+      handleQuery();
+    }
     if (fetched) {
       handleQuery();
     }

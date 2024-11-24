@@ -24,7 +24,7 @@ export default () => {
   return (
     <Form form={form}>
       <Form.Item label={`姓名`} name={`name`}>
-        <EditableDesc clickEdit={true} editing={editing}>
+        <EditableDesc editing={editing}>
           <Input />
         </EditableDesc>
       </Form.Item>
@@ -37,9 +37,6 @@ export default () => {
               return '女';
             }
           }}
-          clickEdit={true}
-          manualChange={true}
-          editIcon={false}
           editing={editing}
         >
           <Select>
@@ -49,13 +46,18 @@ export default () => {
         </EditableDesc>
       </Form.Item>
       <Form.Item label={`年龄`} name={`age`}>
-        <EditableDesc editing={editing} editIcon={true} manualChange={true}>
+        <EditableDesc editing={editing}>
           <Input />
         </EditableDesc>
       </Form.Item>
       <Form.Item label={`描述`} name={`description`}>
         <EditableDesc block={true} editing={editing}>
           <Input.TextArea />
+        </EditableDesc>
+      </Form.Item>
+      <Form.Item label={`描述2`} name={`description2`}>
+        <EditableDesc block={true} editing={editing}>
+          <textarea />
         </EditableDesc>
       </Form.Item>
       <Form.Item>
