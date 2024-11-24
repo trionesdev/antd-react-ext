@@ -1,10 +1,10 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
+import {Button} from 'antd';
 import classNames from 'classnames';
-import React, { FC, useEffect, useState } from 'react';
-import { useCssInJs } from '../hooks';
-import { LayoutItem } from './item';
-import { genSiderStyle } from './styles';
+import React, {FC, useEffect, useState} from 'react';
+import {useCssInJs} from '../hooks';
+import {LayoutItem} from './item';
+import {genSiderStyle} from './styles';
 
 export type LayoutSiderProps = {
   children?: React.ReactElement;
@@ -18,22 +18,22 @@ export type LayoutSiderProps = {
   trigger?: React.ReactNode;
 };
 export const LayoutSider: FC<LayoutSiderProps> = ({
-  children,
-  className,
-  style,
-  collapsedWidth = 80,
-  collapsed = false,
-  collapsible = false,
-  width = 200,
-  trigger,
-  onCollapse,
-}) => {
+                                                    children,
+                                                    className,
+                                                    style,
+                                                    collapsedWidth = 80,
+                                                    collapsed = false,
+                                                    collapsible = false,
+                                                    width = 200,
+                                                    trigger,
+                                                    onCollapse,
+                                                  }) => {
   const [scopeCollapsed, setScopeCollapsed] = useState(collapsed);
   const prefixCls = 'triones-ant-layout-sider';
 
-  const { hashId, wrapSSR } = useCssInJs({
+  const {hashId, wrapSSR} = useCssInJs({
     prefix: prefixCls,
-    styleFun: genSiderStyle,
+    styleFun: (prefix, token) => genSiderStyle(prefixCls, token, collapsedWidth),
   });
   const handleCollapse = () => {
     const changeCollapsed = !scopeCollapsed;
@@ -77,9 +77,9 @@ export const LayoutSider: FC<LayoutSiderProps> = ({
               type={`text`}
               icon={
                 scopeCollapsed ? (
-                  <MenuUnfoldOutlined rev={undefined} />
+                  <MenuUnfoldOutlined rev={undefined}/>
                 ) : (
-                  <MenuFoldOutlined rev={undefined} />
+                  <MenuFoldOutlined rev={undefined}/>
                 )
               }
               onClick={handleCollapse}

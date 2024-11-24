@@ -55,6 +55,7 @@ export const genItemStyle = (
 export const genSiderStyle = (
   prefixCls: string,
   token: GlobalToken,
+  collapsedWidth: number,
 ): CSSInterpolation => {
   return {
     [`.${prefixCls}`]: {
@@ -73,6 +74,9 @@ export const genSiderStyle = (
         overflowX: 'hidden',
         [`.ant-menu`]: {
           borderInlineEnd: '0px !important',
+          [`& > .ant-menu-inline-collapsed`]: {
+            width: collapsedWidth
+          }
         },
       },
       [`&-trigger`]: {
