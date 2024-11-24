@@ -1,10 +1,9 @@
 import { Form, FormProps } from 'antd';
-import { NamePath } from 'rc-field-form/es/interface';
 import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
 
 export interface ModalInnerFormHandle {
   submit: () => void;
-  resetFields: (fields?: NamePath[]) => void;
+  resetFields: (fields?: any[]) => void;
 }
 
 type ModalInnerFormProps = {
@@ -31,7 +30,7 @@ export const ModalInnerForm = forwardRef<
             console.error(ex.message);
           });
       },
-      resetFields: (fields?: NamePath[]) => {
+      resetFields: (fields?: any[]) => {
         trueFrom.resetFields(fields);
       },
     };
