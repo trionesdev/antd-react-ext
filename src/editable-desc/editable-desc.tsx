@@ -2,7 +2,7 @@ import { CheckOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import classNames from 'classnames';
 import _ from 'lodash';
-import React, { FC, isValidElement, useEffect, useState } from 'react';
+import React, { FC, isValidElement, useEffect, useMemo, useState } from 'react';
 import { useCssInJs } from '../hooks';
 import { genEditableDescStyle } from './styles';
 
@@ -108,16 +108,19 @@ export const EditableDesc: FC<EditableDescProps> = ({
     }
   };
 
-  let cloneChild = null;
-  if (children && isValidElement(children)) {
-    let childProps = _.cloneDeep(children.props);
-    _.assign(childProps, {
-      onChange: handleChange,
-      value: scopeValue,
-    });
+  let cloneChild = useMemo(() => {
+    if (children && isValidElement(children)) {
+      let childProps = _.cloneDeep(children.props);
+      _.assign(childProps, {
+        onChange: handleChange,
+        value: scopeValue,
+      });
 
-    cloneChild = React.createElement(children.type, childProps);
-  }
+      return React.createElement(children.type, childProps);
+    } else {
+      return null;
+    }
+  }, []);
 
   const handleOk = () => {
     let okAction = onOk?.(scopeValue) || Promise.resolve();
