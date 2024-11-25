@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import React, { CSSProperties, FC, useEffect, useState } from 'react';
 import { genPictureUploadStyle } from './styles';
 
-type PictureUploadProps = {
+export type PictureUploadProps = {
   value?: string;
   onChange?: (value: string) => void;
   style?: CSSProperties;

@@ -20,6 +20,9 @@ export type { TableToolbarProps } from './table-toolbar';
 export { default as AvatarEditor } from './avatar-editor';
 export type { AvatarEditorProps } from './avatar-editor';
 
+export { default as PictureUpload } from './picture-upload';
+export type { PictureUploadProps } from './picture-upload';
+
 export { default as EditableDesc } from './editable-desc';
 export type { EditableDescProps } from './editable-desc';
 
