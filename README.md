@@ -1,4 +1,8 @@
-# Ant Design 扩展组件库
+## Ant Design 扩展组件库
+
+> 基于And Design 组件库的扩展组件库。需要依赖 [ant-design](https://github.com/ant-design/ant-design)
+
+---
 
 #### 互相吹捧，共同进步
 
