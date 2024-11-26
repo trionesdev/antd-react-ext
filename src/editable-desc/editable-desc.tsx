@@ -128,7 +128,6 @@ export const EditableDesc: FC<EditableDescProps> = ({
   };
 
   useEffect(() => {
-    console.log('value', value, scopeValue);
     if (!_.isEqual(value, scopeValue)) {
       setScopeValue(value);
     }
