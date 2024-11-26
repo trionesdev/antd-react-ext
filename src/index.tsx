@@ -26,6 +26,9 @@ export type { PictureUploadProps } from './picture-upload';
 export { default as EditableDesc } from './editable-desc';
 export type { EditableDescProps } from './editable-desc';
 
+export { default as FieldWrapper } from './field-wrapper';
+export type { FieldWrapperProps } from './field-wrapper';
+
 export { default as FetchSelect } from './fetch-select';
 export type { FetchSelectProps } from './fetch-select';
 
