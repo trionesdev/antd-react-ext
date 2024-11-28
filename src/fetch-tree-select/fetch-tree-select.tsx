@@ -1,6 +1,6 @@
 import { TreeSelect, TreeSelectProps } from 'antd';
 import _ from 'lodash';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 export type FetchTreeSelectProps = {
   /**
@@ -44,18 +44,21 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
     _.concat([], fixedOptions || [], initialValueOption || []),
   );
 
-  const handleQuery = (searchValue?: string) => {
-    const request = fetchRequest
-      ? fetchRequest(searchValue)
-      : Promise.resolve([]);
-    request
-      .then((data) => {
-        setOptions([...(fixedOptions || []), ...(data || [])]);
-      })
-      .finally(() => {
-        setFetched(true);
-      });
-  };
+  const handleQuery = useCallback(
+    (searchValue?: string) => {
+      const request = fetchRequest
+        ? fetchRequest(searchValue)
+        : Promise.resolve([]);
+      request
+        .then((data) => {
+          setOptions([...(fixedOptions || []), ...(data || [])]);
+        })
+        .finally(() => {
+          setFetched(true);
+        });
+    },
+    [fetchRequest],
+  );
 
   useEffect(() => {
     if (!dropdownFetch) {
@@ -64,7 +67,7 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
     if (fetched) {
       handleQuery();
     }
-  }, [fetchRequest]);
+  }, []);
 
   return (
     <TreeSelect

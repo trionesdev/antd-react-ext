@@ -17,11 +17,11 @@ export const ModalInnerForm = forwardRef<
 >(({ children, formValues, onSubmit, ...rest }, componentRef) => {
   const [form] = Form.useForm();
   /**支持自己传入form，外部传入form的话使用外部传入的form */
-  const trueFrom = rest.form ? rest.form : form;
+  const finalFrom = rest.form ? rest.form : form;
   useImperativeHandle(componentRef, () => {
     return {
       submit: () => {
-        trueFrom
+        finalFrom
           .validateFields()
           .then((values: any) => {
             onSubmit?.(values);
@@ -31,21 +31,19 @@ export const ModalInnerForm = forwardRef<
           });
       },
       resetFields: (fields?: any[]) => {
-        trueFrom.resetFields(fields);
+        finalFrom.resetFields(fields);
       },
     };
   });
 
   useEffect(() => {
     if (formValues) {
-      trueFrom.setFieldsValue(formValues);
-    } else {
-      trueFrom.resetFields();
+      finalFrom.setFieldsValue(formValues);
     }
   }, [formValues]);
 
   return (
-    <Form {...rest} form={trueFrom}>
+    <Form {...rest} form={finalFrom}>
       {children}
     </Form>
   );

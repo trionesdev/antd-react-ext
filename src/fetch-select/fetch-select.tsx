@@ -1,6 +1,6 @@
 import { Select, SelectProps } from 'antd';
 import _ from 'lodash';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 export type FetchSelectProps = {
   /**
@@ -44,19 +44,22 @@ export const FetchSelect: FC<FetchSelectProps> = ({
     _.concat([], fixedOptions || [], initialValueOption || []),
   );
 
-  const handleQuery = (searchValue?: string) => {
-    const request =
-      fetchRequest && fetchEnable
-        ? fetchRequest(searchValue)
-        : Promise.resolve([]);
-    request
-      .then((data) => {
-        setOptions([...(fixedOptions || []), ...(data || [])]);
-      })
-      .finally(() => {
-        setFetched(true);
-      });
-  };
+  const handleQuery = useCallback(
+    (searchValue?: string) => {
+      const request =
+        fetchRequest && fetchEnable
+          ? fetchRequest(searchValue)
+          : Promise.resolve([]);
+      request
+        .then((data) => {
+          setOptions([...(fixedOptions || []), ...(data || [])]);
+        })
+        .finally(() => {
+          setFetched(true);
+        });
+    },
+    [fetchRequest],
+  );
 
   useEffect(() => {
     if (!dropdownFetch) {
@@ -65,7 +68,7 @@ export const FetchSelect: FC<FetchSelectProps> = ({
     if (fetched) {
       handleQuery();
     }
-  }, [fetchRequest]);
+  }, []);
 
   return (
     <Select
