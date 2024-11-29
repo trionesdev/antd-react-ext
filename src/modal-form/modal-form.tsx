@@ -1,12 +1,6 @@
-import {FormInstance, FormProps, Modal, ModalProps} from 'antd';
-import React, {
-  FC,
-  useEffect,
-  useRef,
-  useState,
-  type SyntheticEvent,
-} from 'react';
-import ModalInnerForm, {ModalInnerFormHandle} from './modal-inner-form';
+import { FormInstance, FormProps, Modal, ModalProps } from 'antd';
+import React, { FC, useRef, useState, type SyntheticEvent } from 'react';
+import ModalInnerForm, { ModalInnerFormHandle } from './modal-inner-form';
 
 export type ModalFormProps = {
   /**
@@ -31,14 +25,14 @@ export type ModalFormProps = {
 } & ModalProps;
 
 const ModalForm: FC<ModalFormProps> = ({
-                                         trigger,
-                                         onTriggerClick,
-                                         onSubmit,
-                                         form,
-                                         formValues,
-                                         formProps,
-                                         ...rest
-                                       }) => {
+  trigger,
+  onTriggerClick,
+  onSubmit,
+  form,
+  formValues,
+  formProps,
+  ...rest
+}) => {
   const formRef = useRef({} as ModalInnerFormHandle);
   const [scopeOpen, setScopeOpen] = useState(false);
 
@@ -49,15 +43,6 @@ const ModalForm: FC<ModalFormProps> = ({
     }
   };
 
-  const handleClose = (e: SyntheticEvent) => {
-    rest?.onClose?.(e);
-  };
-
-  const handleAfterClose = () => {
-    rest?.afterClose?.();
-    formRef.current?.resetFields();
-  };
-
   return (
     <>
       {trigger &&
@@ -65,15 +50,10 @@ const ModalForm: FC<ModalFormProps> = ({
           ...trigger.props,
           onClick: (e?: SyntheticEvent) => {
             trigger.props.onClick?.(e);
-            setScopeOpen(true);
+            onTriggerClick?.();
           },
         })}
-      <Modal
-        {...rest}
-        onCancel={handleClose}
-        onOk={handleSubmit}
-        afterClose={handleAfterClose}
-      >
+      <Modal {...rest} onOk={handleSubmit}>
         <ModalInnerForm
           ref={formRef}
           {...formProps}

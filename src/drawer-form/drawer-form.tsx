@@ -6,14 +6,8 @@ import {
   FormProps,
   Space,
 } from 'antd';
-import React, {
-  FC,
-  useEffect,
-  useRef,
-  useState,
-  type SyntheticEvent,
-} from 'react';
-import DrawerInnerForm, {DrawerInnerFormHandle} from './drawer-inner-form';
+import React, { FC, useRef, type SyntheticEvent } from 'react';
+import DrawerInnerForm, { DrawerInnerFormHandle } from './drawer-inner-form';
 
 export type DrawerFormProps = {
   /**
@@ -39,7 +33,6 @@ export type DrawerFormProps = {
   onTriggerClick?: () => void;
   onOk?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onCancel?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onClose?: (e: SyntheticEvent) => any;
   /**
    * @description 提交回调
    * @default
@@ -55,21 +48,20 @@ export type DrawerFormProps = {
 } & DrawerProps;
 
 const DrawerForm: FC<DrawerFormProps> = ({
-                                           trigger,
-                                           cancelText = '取消',
-                                           okText = '确定',
-                                           footer,
-                                           onTriggerClick,
-                                           onOk,
-                                           onCancel,
-                                           onClose,
-                                           form,
-                                           onSubmit,
+  trigger,
+  cancelText = '取消',
+  okText = '确定',
+  footer,
+  onTriggerClick,
+  onOk,
+  onCancel,
+  form,
+  onSubmit,
 
-                                           formValues,
-                                           formProps,
-                                           ...rest
-                                         }) => {
+  formValues,
+  formProps,
+  ...rest
+}) => {
   const formRef = useRef({} as DrawerInnerFormHandle);
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -79,14 +71,14 @@ const DrawerForm: FC<DrawerFormProps> = ({
     }
   };
 
-  const handleClose = (e: React.MouseEvent | React.KeyboardEvent) => {
-    onClose?.(e);
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onCancel?.(e);
   };
 
   const footerEl = (
-    <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <Space>
-        <Button onClick={handleClose}>{cancelText}</Button>
+        <Button onClick={handleCancel}>{cancelText}</Button>
         <Button type={`primary`} onClick={handleSubmit}>
           {okText}
         </Button>
@@ -100,14 +92,10 @@ const DrawerForm: FC<DrawerFormProps> = ({
           ...trigger.props,
           onClick: (e?: SyntheticEvent) => {
             trigger.props.onClick?.(e);
-            onTriggerClick?.()
+            onTriggerClick?.();
           },
         })}
-      <Drawer
-        {...rest}
-        onClose={handleClose}
-        footer={footer === undefined ? footerEl : footer}
-      >
+      <Drawer {...rest} footer={footer === undefined ? footerEl : footer}>
         <DrawerInnerForm
           ref={formRef}
           {...formProps}
