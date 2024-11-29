@@ -1,5 +1,5 @@
-import { Form, FormInstance, FormProps } from 'antd';
-import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
+import {Form, FormInstance, FormProps} from 'antd';
+import React, {forwardRef, useEffect, useImperativeHandle} from 'react';
 
 export interface DrawerInnerFormHandle {
   submit: () => void;
@@ -10,10 +10,11 @@ export type DrawerInnerFormProps = {
   formValues?: any;
   onSubmit?: (values: any, form?: FormInstance<any>) => Promise<any> | void;
 } & Omit<FormProps, 'children'>;
+
 export const DrawerInnerForm = forwardRef<
   DrawerInnerFormHandle,
   DrawerInnerFormProps
->(({ children, formValues, onSubmit, ...rest }, componentRef) => {
+>(({children, formValues, onSubmit, ...rest}, componentRef) => {
   const [form] = Form.useForm();
   /**支持自己传入form，外部传入form的话使用外部传入的form */
   const finalFrom = rest.form ? rest.form : form;

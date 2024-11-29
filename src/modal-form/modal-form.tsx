@@ -1,4 +1,4 @@
-import { FormInstance, FormProps, Modal, ModalProps } from 'antd';
+import {FormInstance, FormProps, Modal, ModalProps} from 'antd';
 import React, {
   FC,
   useEffect,
@@ -6,7 +6,7 @@ import React, {
   useState,
   type SyntheticEvent,
 } from 'react';
-import ModalInnerForm, { ModalInnerFormHandle } from './modal-inner-form';
+import ModalInnerForm, {ModalInnerFormHandle} from './modal-inner-form';
 
 export type ModalFormProps = {
   /**
@@ -14,24 +14,31 @@ export type ModalFormProps = {
    * @default
    */
   trigger?: React.ReactElement;
-  form?: FormInstance;
-  formValues?: any;
+
+  /**
+   * @description 触发标签点击
+   * @default
+   */
+  onTriggerClick?: () => void;
   /**
    * @description 提交回调
    * @default
    */
   onSubmit?: (values: any) => Promise<any> | void;
+  form?: FormInstance;
+  formValues?: any;
   formProps?: Omit<FormProps, 'form'>;
 } & ModalProps;
 
 const ModalForm: FC<ModalFormProps> = ({
-  trigger,
-  form,
-  onSubmit,
-  formValues,
-  formProps,
-  ...rest
-}) => {
+                                         trigger,
+                                         onTriggerClick,
+                                         onSubmit,
+                                         form,
+                                         formValues,
+                                         formProps,
+                                         ...rest
+                                       }) => {
   const formRef = useRef({} as ModalInnerFormHandle);
   const [scopeOpen, setScopeOpen] = useState(false);
 
@@ -44,19 +51,12 @@ const ModalForm: FC<ModalFormProps> = ({
 
   const handleClose = (e: SyntheticEvent) => {
     rest?.onClose?.(e);
-    setScopeOpen(false);
   };
 
   const handleAfterClose = () => {
     rest?.afterClose?.();
     formRef.current?.resetFields();
   };
-
-  useEffect(() => {
-    if (rest.open !== undefined) {
-      setScopeOpen(rest.open);
-    }
-  }, [rest.open]);
 
   return (
     <>
@@ -70,8 +70,6 @@ const ModalForm: FC<ModalFormProps> = ({
         })}
       <Modal
         {...rest}
-        closable={true}
-        open={scopeOpen}
         onCancel={handleClose}
         onOk={handleSubmit}
         afterClose={handleAfterClose}
