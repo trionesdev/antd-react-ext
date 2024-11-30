@@ -12,7 +12,7 @@ export type LayoutProps = {
   direction?: 'vertical' | 'horizontal';
 };
 
-const Layout: FC<LayoutProps> = ({
+export const Layout: FC<LayoutProps> = ({
   children,
   className,
   style,
@@ -39,8 +39,3 @@ const Layout: FC<LayoutProps> = ({
     </div>,
   );
 };
-
-export default Object.assign(Layout, {
-  Item: LayoutItem,
-  Sider: LayoutSider,
-});
