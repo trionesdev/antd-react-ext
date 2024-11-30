@@ -24,7 +24,7 @@ export type ModalFormProps = {
   formProps?: Omit<FormProps, 'form'>;
 } & ModalProps;
 
-const ModalForm: FC<ModalFormProps> = ({
+export const ModalForm: FC<ModalFormProps> = ({
   trigger,
   onTriggerClick,
   onSubmit,
@@ -67,4 +67,3 @@ const ModalForm: FC<ModalFormProps> = ({
     </>
   );
 };
-export default ModalForm;

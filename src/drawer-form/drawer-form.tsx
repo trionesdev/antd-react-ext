@@ -55,9 +55,9 @@ export const DrawerForm: FC<DrawerFormProps> = ({
   onTriggerClick,
   onOk,
   onCancel,
-  form,
-  onSubmit,
 
+  onSubmit,
+  form,
   formValues,
   formProps,
   ...rest
