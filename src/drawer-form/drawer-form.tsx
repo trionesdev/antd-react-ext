@@ -47,7 +47,7 @@ export type DrawerFormProps = {
   formProps?: Omit<FormProps, 'form' | 'children'>;
 } & DrawerProps;
 
-const DrawerForm: FC<DrawerFormProps> = ({
+export const DrawerForm: FC<DrawerFormProps> = ({
   trigger,
   cancelText = '取消',
   okText = '确定',
@@ -109,4 +109,3 @@ const DrawerForm: FC<DrawerFormProps> = ({
     </>
   );
 };
-export default DrawerForm;
