@@ -39,3 +39,4 @@ export type { FetchTreeSelectProps } from './fetch-tree-select';
 // export { useCssInJs } from './hooks';
 // export type { CssInJsProps } from './hooks';
 export * from './hooks';
+export * from "./util"
