@@ -1,8 +1,6 @@
 import classNames from 'classnames';
 import React, { FC } from 'react';
 import { useCssInJs } from '../hooks';
-import { LayoutItem } from './item';
-import { LayoutSider } from './sider';
 import { genLayoutStyle } from './styles';
 
 export type LayoutProps = {
@@ -10,6 +8,7 @@ export type LayoutProps = {
   className?: string | undefined;
   style?: React.CSSProperties;
   direction?: 'vertical' | 'horizontal';
+  gap?: number;
 };
 
 export const Layout: FC<LayoutProps> = ({
@@ -17,6 +16,7 @@ export const Layout: FC<LayoutProps> = ({
   className,
   style,
   direction = 'horizontal',
+  gap,
 }) => {
   const prefixCls = 'triones-ant-layout';
 
@@ -33,7 +33,7 @@ export const Layout: FC<LayoutProps> = ({
         className,
         hashId,
       )}
-      style={style}
+      style={{ ...style, gap: gap }}
     >
       {children}
     </div>,
