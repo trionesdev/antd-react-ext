@@ -33,7 +33,7 @@ export const Layout: FC<LayoutProps> = ({
         className,
         hashId,
       )}
-      style={{ ...style, gap: gap }}
+      style={{ gap: gap, ...style }}
     >
       {children}
     </div>,
