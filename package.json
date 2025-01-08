@@ -80,7 +80,6 @@
   "peerDependencies": {
     "@ant-design/cssinjs": "^1.21.1",
     "@ant-design/icons": "^5.3.6",
-    "ahooks": "^3.8.1",
     "antd": "^5.17.0",
     "classnames": "^2.5.1",
     "cropperjs": "2.0.0-rc.2",
