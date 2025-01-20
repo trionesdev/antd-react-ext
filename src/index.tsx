@@ -3,6 +3,7 @@ export type { AppToolbarProps } from './app-toolbar';
 export { default as DrawerForm } from './drawer-form';
 export type { DrawerFormProps } from './drawer-form';
 export { default as FieldsMapping } from './fields-mapping';
+export type { FieldsMappingProps } from './fields-mapping';
 export { default as GridTable } from './grid-table';
 export type { GridTableProps } from './grid-table';
 
@@ -35,8 +36,11 @@ export type { FetchSelectProps } from './fetch-select';
 export { default as FetchTreeSelect } from './fetch-tree-select';
 export type { FetchTreeSelectProps } from './fetch-tree-select';
 
+export { default as VideoUpload } from './video-upload';
+export type { VideoUploadProps } from './video-upload';
+
 /*hooks*/
 // export { useCssInJs } from './hooks';
 // export type { CssInJsProps } from './hooks';
 export * from './hooks';
-export * from "./util"
+export * from './util';

@@ -8,7 +8,7 @@ import PictureUpload from '../picture-upload';
 import { NoFile } from './Icons';
 import { genVideoUploadStyle } from './styles';
 
-type VideoUploadProps = {
+export type VideoUploadProps = {
   value?: {
     url?: string;
     poster?: string;

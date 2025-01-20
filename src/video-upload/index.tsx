@@ -1,2 +1,3 @@
-import { VideoUpload } from './VideoUpload';
+import { VideoUpload, VideoUploadProps } from './VideoUpload';
+export type { VideoUploadProps };
 export default VideoUpload;

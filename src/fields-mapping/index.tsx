@@ -1,3 +1,4 @@
-import FieldsMapping from "./fields-mapping";
+import FieldsMapping, { FieldsMappingProps } from './fields-mapping';
 
-export default FieldsMapping
+export { FieldsMappingProps };
+export default FieldsMapping;
