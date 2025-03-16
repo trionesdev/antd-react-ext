@@ -47,6 +47,9 @@ export const genGridTableStyle = (
               '.ant-table-header': {
                 flexShrink: 0,
               },
+              '.ant-table-summary': {
+                flexShrink: 0,
+              },
             },
           },
           '.ant-table': {
