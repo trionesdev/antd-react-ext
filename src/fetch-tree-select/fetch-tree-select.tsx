@@ -61,13 +61,15 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
   );
 
   useEffect(() => {
-    if (_.isEmpty(options)) {
-      setOptions(_.concat([], fixedOptions || [], initialValueOption || []));
-    } else {
-      if (
-        !_.find(options, (item) => item.value === initialValueOption?.value)
-      ) {
-        setOptions(_.concat(options, initialValueOption));
+    if (initialValueOption) {
+      if (_.isEmpty(options)) {
+        setOptions(_.concat([], fixedOptions || [], initialValueOption || []));
+      } else {
+        if (
+          !_.find(options, (item) => item.value === initialValueOption?.value)
+        ) {
+          setOptions(_.concat(options, initialValueOption));
+        }
       }
     }
   }, [initialValueOption]);
