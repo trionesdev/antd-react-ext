@@ -66,7 +66,12 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
         setOptions(_.concat([], fixedOptions || [], initialValueOption || []));
       } else {
         if (
-          !_.find(options, (item) => item.value === initialValueOption?.value)
+          !_.find(
+            options,
+            (item) =>
+              _.get(item, props.fieldNames?.value ?? 'value') ===
+              _.get(initialValueOption, props.fieldNames?.value ?? 'value'),
+          )
         ) {
           setOptions(_.concat(options, initialValueOption));
         }

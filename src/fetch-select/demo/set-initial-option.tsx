@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import FetchSelect from '../index';
 
 export default () => {
-  const [value, setValue] = React.useState(2);
+  const [value, setValue] = React.useState(3);
   const [initialValueOption, setInitialValueOption] = useState<any>();
   return (
     <div>

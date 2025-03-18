@@ -69,7 +69,9 @@ export const FetchSelect: FC<FetchSelectProps> = ({
         if (
           !_.find(
             options || [],
-            (item) => item.value === initialValueOption?.value,
+            (item) =>
+              _.get(item, props.fieldNames?.value ?? 'value') ===
+              _.get(initialValueOption, props.fieldNames?.value ?? 'value'),
           )
         ) {
           setOptions(_.concat([], options, initialValueOption));
