@@ -12,6 +12,7 @@ export type AvatarEditorProps = {
   onChange?: (value: string) => void;
   style?: CSSProperties;
   className?: string;
+  icon?: React.ReactNode;
   /**
    * @description 大小
    * @default 200
@@ -39,6 +40,7 @@ export const AvatarEditor: FC<AvatarEditorProps> = ({
   onChange,
   style,
   className,
+  icon,
   size = 200,
   editable = true,
   accept = '.jpg,.jpeg,.png,.svg,.webp',
@@ -118,7 +120,7 @@ export const AvatarEditor: FC<AvatarEditorProps> = ({
             <Avatar
               size={size}
               shape={'square'}
-              icon={<UserOutlined />}
+              icon={icon || <UserOutlined />}
               src={innerValue || null}
             />
             {editable && (
