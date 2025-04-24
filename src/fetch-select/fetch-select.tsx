@@ -29,6 +29,8 @@ export type FetchSelectProps = {
    */
   fetchAlways?: boolean;
   fetchRequest?: (searchValue?: string) => Promise<any>;
+  cacheKey?: string;
+  cacheExpire?: number;
 } & Omit<SelectProps, 'options' | 'onDropdownVisibleChange'>;
 export const FetchSelect: FC<FetchSelectProps> = ({
   initialValueOption,
@@ -37,6 +39,8 @@ export const FetchSelect: FC<FetchSelectProps> = ({
   fetchEnable = true,
   fetchAlways = false,
   fetchRequest,
+  cacheKey,
+  cacheExpire = 0,
   ...props
 }) => {
   const [fetched, setFetched] = useState(false);
@@ -50,9 +54,16 @@ export const FetchSelect: FC<FetchSelectProps> = ({
         fetchRequest && fetchEnable
           ? fetchRequest(searchValue)
           : Promise.resolve([]);
+      const data = SessionStorageUtils.getExpireItem(cacheKey, true);
+      if (data) {
+        setOptions([...(fixedOptions || []), ...(data || [])]);
+        setFetched(true);
+        return;
+      }
       request
         .then((data) => {
           setOptions([...(fixedOptions || []), ...(data || [])]);
+          SessionStorageUtils.setExpireItem(cacheKey, data, cacheExpire);
         })
         .finally(() => {
           setFetched(true);
@@ -93,7 +104,7 @@ export const FetchSelect: FC<FetchSelectProps> = ({
     <Select
       {...props}
       options={options}
-      onSearch={props.showSearch ? handleQuery : undefined}
+      onSearch={props.showSearch ? _.debounce(handleQuery, 500) : undefined}
       onDropdownVisibleChange={(open) => {
         if (open && dropdownFetch && fetchEnable && (fetchAlways || !fetched)) {
           handleQuery();

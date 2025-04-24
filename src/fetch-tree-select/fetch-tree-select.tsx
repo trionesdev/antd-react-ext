@@ -92,7 +92,7 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
     <TreeSelect
       {...props}
       treeData={options}
-      onSearch={props.showSearch ? handleQuery : undefined}
+      onSearch={props.showSearch ? _.debounce(handleQuery, 500) : undefined}
       onDropdownVisibleChange={(open) => {
         if (open && dropdownFetch && fetchEnable && (fetchAlways || !fetched)) {
           handleQuery();
