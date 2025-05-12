@@ -3,7 +3,7 @@
   "version": "0.0.7-beta.15",
   "description": "A react library developed with dumi",
   "repository": {
-    "url": "https://github.com/trionesdev/antd-react-ext.git"
+    "url": "git+https://github.com/trionesdev/antd-react-ext.git"
   },
   "license": "MIT",
   "module": "dist/index.js",
