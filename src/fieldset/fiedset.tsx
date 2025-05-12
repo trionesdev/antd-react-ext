@@ -1,7 +1,7 @@
-import { genFieldsetStyle } from '@components/fieldset/styles.ts';
 import { useCssInJs } from '@trionesdev/antd-react-ext';
 import classNames from 'classnames';
 import React, { FC } from 'react';
+import { genFieldsetStyle } from './styles';
 
 type FieldsetProps = {
   children?: React.ReactNode;

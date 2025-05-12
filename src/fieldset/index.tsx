@@ -1,3 +1,3 @@
-import Fieldset from './fiedset.tsx';
+import Fieldset from './fiedset';
 
 export default Fieldset;
