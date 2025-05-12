@@ -1,1 +1,2 @@
-export * from "./ReactDomUtils"
+export * from './ReactDomUtils';
+export * from './SessionStorageUtils';

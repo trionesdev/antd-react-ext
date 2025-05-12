@@ -23,7 +23,7 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
-    "publish": "npm publish --registry=https://registry.npmjs.org/",
+    "publish": "npm publish --tag latest --registry=https://registry.npmjs.org/",
     "start": "npm run dev",
     "triones:publishOnly": "npm publish --ignore-scripts --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
     "version:beta": "npm version prerelease --preid beta"
