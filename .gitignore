@@ -4,6 +4,3 @@ node_modules
 .dumi/tmp-test
 .dumi/tmp-production
 .DS_Store
-.idea
-.npmrc
-docs-dist

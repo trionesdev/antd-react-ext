@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { genValidationCodeInputStyle } from './styles';
 
-type ValidationCodeInputProps = Omit<InputProps, 'suffix'> & {
+export type ValidationCodeInputProps = Omit<InputProps, 'suffix'> & {
   sendText?: string;
   resendText?: string;
   waitSeconds?: number;

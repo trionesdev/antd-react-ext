@@ -7,11 +7,11 @@ export default defineConfig({
   apiParser: {},
   resolve: {
     // 配置入口文件路径，API 解析将从这里开始
-    entryFile: './src/validation-code-input.tsx',
+    entryFile: './src/index.ts',
   },
   themeConfig: {
     editLink: true,
-    name: 'antd扩展库',
+    name: 'Antd Extensions',
     logo: '/antd-react-ext/logo.png',
     nav: [
       { title: '指南', link: '/guide' },
@@ -22,6 +22,7 @@ export default defineConfig({
       zhihu: 'https://www.ithere.net/',
     },
     footer:
-      '<div><div>Copyright © 2015-present TrionesDev</div><div>友情链接： <a href="https://www.ithere.net/" target="_blank">书阙</a></div></div>',
+      '<div><div>Copyright © 2015-present TrionesDev</div><div>友情链接： <a href="https://www.ithere.net/" target="_blank">书阙</a>  <a href="https://www.trionesdev.com/" target="_blank">TrionesDev</a> </div></div>',
   },
+
 });

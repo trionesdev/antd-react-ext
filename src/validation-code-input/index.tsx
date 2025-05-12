@@ -1,3 +1,7 @@
-import ValidationCodeInput from './validation-code-input';
+import ValidationCodeInput, {
+  ValidationCodeInputProps,
+} from './validation-code-input';
+
+export type { ValidationCodeInputProps };
 
 export default ValidationCodeInput;
