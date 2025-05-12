@@ -1,6 +1,7 @@
 import { Select, SelectProps } from 'antd';
 import _ from 'lodash';
 import React, { FC, useCallback, useEffect, useState } from 'react';
+import { SessionStorageUtils } from '../util/SessionStorageUtils';
 
 export type FetchSelectProps = {
   /**
@@ -61,7 +62,7 @@ export const FetchSelect: FC<FetchSelectProps> = ({
         return;
       }
       request
-        .then((data) => {
+        .then((data: any) => {
           setOptions([...(fixedOptions || []), ...(data || [])]);
           SessionStorageUtils.setExpireItem(cacheKey, data, cacheExpire);
         })
@@ -80,7 +81,7 @@ export const FetchSelect: FC<FetchSelectProps> = ({
         if (
           !_.find(
             options || [],
-            (item) =>
+            (item: any) =>
               _.get(item, props.fieldNames?.value ?? 'value') ===
               _.get(initialValueOption, props.fieldNames?.value ?? 'value'),
           )
@@ -95,9 +96,6 @@ export const FetchSelect: FC<FetchSelectProps> = ({
     if (!dropdownFetch) {
       handleQuery();
     }
-    if (fetched) {
-      handleQuery();
-    }
   }, []);
 
   return (
@@ -105,10 +103,11 @@ export const FetchSelect: FC<FetchSelectProps> = ({
       {...props}
       options={options}
       onSearch={props.showSearch ? _.debounce(handleQuery, 500) : undefined}
-      onDropdownVisibleChange={(open) => {
+      onOpenChange={(open: boolean) => {
         if (open && dropdownFetch && fetchEnable && (fetchAlways || !fetched)) {
           handleQuery();
         }
+        props.onOpenChange?.(open);
       }}
     />
   );

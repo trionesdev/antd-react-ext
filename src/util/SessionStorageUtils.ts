@@ -2,7 +2,7 @@ type StorageDataType = {
   data: any;
   expire: number;
 };
-class SessionStorageUtils {
+export class SessionStorageUtils {
   static setExpireItem(key?: string, data?: any, expire?: number) {
     if (!key || !data) {
       return;

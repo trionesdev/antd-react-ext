@@ -1,6 +1,7 @@
 import { TreeSelect, TreeSelectProps } from 'antd';
 import _ from 'lodash';
 import React, { FC, useCallback, useEffect, useState } from 'react';
+import { SessionStorageUtils } from '../util/SessionStorageUtils';
 
 export type FetchTreeSelectProps = {
   /**
@@ -28,8 +29,22 @@ export type FetchTreeSelectProps = {
    * @default false
    */
   fetchAlways?: boolean;
+  /**
+   * @description 请求方法
+   * @default undefined
+   */
   fetchRequest?: (searchValue?: string) => Promise<any>;
-} & Omit<TreeSelectProps, 'treeData' | 'onDropdownVisibleChange'>;
+  /**
+   * @description 缓存key
+   * @default undefined
+   */
+  cacheKey?: string;
+  /**
+   * @description 缓存过期时间
+   * @default 0
+   */
+  cacheExpire?: number;
+} & Omit<TreeSelectProps, 'treeData'>;
 export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
   initialValueOption,
   fixedOptions,
@@ -37,6 +52,8 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
   fetchEnable = true,
   fetchAlways,
   fetchRequest,
+  cacheKey,
+  cacheExpire = 0,
   ...props
 }) => {
   const [fetched, setFetched] = useState(false);
@@ -49,9 +66,16 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
       const request = fetchRequest
         ? fetchRequest(searchValue)
         : Promise.resolve([]);
+      const data = SessionStorageUtils.getExpireItem(cacheKey, true);
+      if (!_.isEmpty(data) && cacheExpire) {
+        setOptions([...(fixedOptions || []), ...(data || [])]);
+        setFetched(true);
+        return;
+      }
       request
         .then((data) => {
           setOptions([...(fixedOptions || []), ...(data || [])]);
+          SessionStorageUtils.setExpireItem(cacheKey, data, cacheExpire);
         })
         .finally(() => {
           setFetched(true);
@@ -83,9 +107,6 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
     if (!dropdownFetch) {
       handleQuery();
     }
-    if (fetched) {
-      handleQuery();
-    }
   }, []);
 
   return (
@@ -93,10 +114,11 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
       {...props}
       treeData={options}
       onSearch={props.showSearch ? _.debounce(handleQuery, 500) : undefined}
-      onDropdownVisibleChange={(open) => {
+      onOpenChange={(open) => {
         if (open && dropdownFetch && fetchEnable && (fetchAlways || !fetched)) {
           handleQuery();
         }
+        props.onOpenChange?.(open);
       }}
     />
   );
