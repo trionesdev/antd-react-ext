@@ -1,0 +1,3 @@
+"use strict";(self.webpackChunk_trionesdev_antd_react_ext=self.webpackChunk_trionesdev_antd_react_ext||[]).push([[1904],{60810:function(e,n,t){t.r(n),t.d(n,{demos:function(){return a}});var d=t(67294),a={}},11171:function(e,n,t){t.r(n),t.d(n,{demos:function(){return a}});var d=t(67294),a={}},87799:function(e,n,t){t.r(n),t.d(n,{texts:function(){return d}});const d=[{value:"\u8BE5\u9879\u76EE\u662F\u57FA\u4E8E antd \u7684\u4E00\u4E2A\u6269\u5C55\u7EC4\u4EF6\u5E93",paraId:0,tocIndex:1},{value:`npm install @trionesdev/antd-react-ext@latest
+`,paraId:1,tocIndex:2},{value:`yarn add @trionesdev/antd-react-ext@latest
+`,paraId:2,tocIndex:2}]},51446:function(e,n,t){t.r(n),t.d(n,{texts:function(){return d}});const d=[{value:"antd \u7EC4\u4EF6\u6269\u5C55\u5E93",paraId:0}]}}]);
