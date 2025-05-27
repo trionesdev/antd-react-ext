@@ -3,10 +3,10 @@ name: github pages
 on:
   push:
     branches:
-      - develop # default branch
+      - master # default branch
   pull_request:
     branches:
-      - develop
+      - master
 
 jobs:
   deploy:
