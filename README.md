@@ -1,4 +1,4 @@
-## Ant Design 扩展组件库
+# Ant Design 扩展组件库
 
 [![NPM version](https://img.shields.io/npm/v/@trionesdev/antd-react-ext.svg?style=flat)](https://npmjs.org/package/@trionesdev/antd-react-ext)
 [![NPM downloads](http://img.shields.io/npm/dm/@trionesdev/antd-react-ext.svg?style=flat)](https://npmjs.org/package/@trionesdev/antd-react-ext)
@@ -8,7 +8,7 @@
 [文档网站](https://trionesdev.github.io/antd-react-ext/components/table-toolbar)
 
 ---
-### 组件列表
+## 组件列表
 - [x] AppToolbar 应用工具栏
 - [x] AvatarEditor 头像编辑器
 - [x] DrawerForm 抽屉表单
@@ -27,8 +27,8 @@
 
 ---
 
-#### 互相吹捧，共同进步
-
+## 互相吹捧，共同进步
+> 留言回复不及时，可以通过关注公众号联系我们
 <div style="width: 100%;text-align: center;">
 <img src="images/shuque_wx.jpg" width="200px" alt="">
 </div>
