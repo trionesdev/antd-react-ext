@@ -4,14 +4,14 @@ import classNames from 'classnames';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { genValidationCodeInputStyle } from './styles';
 
-export type ValidationCodeInputProps = Omit<InputProps, 'suffix'> & {
+export type VerificationCodeInputProps = Omit<InputProps, 'suffix'> & {
   sendText?: string;
   resendText?: string;
   waitSeconds?: number;
   onSend?: () => Promise<boolean>;
 };
 
-const ValidationCodeInput: FC<ValidationCodeInputProps> = ({
+const VerificationCodeInput: FC<VerificationCodeInputProps> = ({
   sendText = '获取验证码',
   resendText = '重新发送',
   waitSeconds = 60,
@@ -81,4 +81,4 @@ const ValidationCodeInput: FC<ValidationCodeInputProps> = ({
     />,
   );
 };
-export default ValidationCodeInput;
+export default VerificationCodeInput;

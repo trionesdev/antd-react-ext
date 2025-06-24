@@ -45,8 +45,8 @@ export type { SearchToolbarProps } from './search-toolbar';
 export { default as TableToolbar } from './table-toolbar';
 export type { TableToolbarProps } from './table-toolbar';
 
-export { default as ValidationCodeInput} from "./validation-code-input"
-export type {  ValidationCodeInputProps} from "./validation-code-input"
+export { default as VerificationCodeInput} from "./verification-code-input"
+export type {  VerificationCodeInputProps} from "./verification-code-input"
 
 export { default as VideoUpload } from './video-upload';
 export type { VideoUploadProps } from './video-upload';
