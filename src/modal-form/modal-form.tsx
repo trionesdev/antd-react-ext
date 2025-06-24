@@ -7,7 +7,7 @@ export type ModalFormProps = {
    * @description 触发标签
    * @default
    */
-  trigger?: React.ReactElement;
+  trigger?: React.ReactNode | React.ReactElement;
 
   /**
    * @description 触发标签点击
@@ -45,7 +45,7 @@ export const ModalForm: FC<ModalFormProps> = ({
 
   return (
     <>
-      {trigger &&
+      {trigger && React.isValidElement(trigger) &&
         React.cloneElement(trigger, {
           ...trigger.props,
           onClick: (e?: SyntheticEvent) => {

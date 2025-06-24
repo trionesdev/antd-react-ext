@@ -14,7 +14,7 @@ export type DrawerFormProps = {
    * @description 触发标签
    * @default
    */
-  trigger?: React.ReactElement;
+  trigger?: React.ReactNode | React.ReactElement;
   /**
    * @description 取消按钮文本
    * @default 取消
@@ -88,6 +88,7 @@ export const DrawerForm: FC<DrawerFormProps> = ({
   return (
     <>
       {trigger &&
+        React.isValidElement(trigger) &&
         React.cloneElement(trigger, {
           ...trigger.props,
           onClick: (e?: SyntheticEvent) => {
