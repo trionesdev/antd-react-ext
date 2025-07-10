@@ -18,6 +18,7 @@ export const genPictureUploadStyle = (
         '.ant-image': {
           borderRadius: 4,
           overflow: 'hidden',
+          objectFit: 'cover',
         },
         [`&-tooltip`]: {
           position: 'absolute',
