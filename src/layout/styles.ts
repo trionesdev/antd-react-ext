@@ -42,6 +42,7 @@ export const genItemStyle = (
   return {
     [`.${prefixCls}`]: {
       flexShrink: 0,
+      backgroundColor: token.colorBgBase,
       [`&-auto`]: {
         boxSizing: 'border-box',
         flex: '1 auto',
