@@ -85,20 +85,21 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
   );
 
   useEffect(() => {
+
     if (initialValueOption) {
       if (_.isEmpty(options)) {
         setOptions(_.concat([], fixedOptions || [], initialValueOption || []));
       } else {
-        if (
-          !_.find(
-            options,
-            (item) =>
-              _.get(item, props.fieldNames?.value ?? 'value') ===
-              _.get(initialValueOption, props.fieldNames?.value ?? 'value'),
-          )
-        ) {
-          setOptions(_.concat(options, initialValueOption));
-        }
+        const missOptions: any[] = []
+        initialValueOption.forEach((initialOption:any) => {
+          if (!_.find(options, (option) => {
+            return _.get(option, props.fieldNames?.value ?? 'value') === _.get(initialOption, props.fieldNames?.value ?? 'value');
+          })) {
+            missOptions.push(initialOption);
+          }
+        });
+        setOptions(_.concat(options, missOptions));
+
       }
     }
   }, [initialValueOption]);
