@@ -1,7 +1,7 @@
-import { Select, SelectProps } from 'antd';
 import _ from 'lodash';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { SessionStorageUtils } from '../util/SessionStorageUtils';
+import { ExtSelectProps,ExtSelect } from '../ext-select';
 
 export type FetchSelectProps = {
   /**
@@ -32,7 +32,7 @@ export type FetchSelectProps = {
   fetchRequest?: (searchValue?: string) => Promise<any>;
   cacheKey?: string;
   cacheExpire?: number;
-} & Omit<SelectProps, 'options' | 'onDropdownVisibleChange'>;
+} & Omit<ExtSelectProps, 'options' | 'onDropdownVisibleChange'>;
 export const FetchSelect: FC<FetchSelectProps> = ({
   initialValueOption,
   fixedOptions,
@@ -99,7 +99,7 @@ export const FetchSelect: FC<FetchSelectProps> = ({
   }, []);
 
   return (
-    <Select
+    <ExtSelect
       {...props}
       options={options}
       onSearch={props.showSearch ? _.debounce(handleQuery, 500) : undefined}
