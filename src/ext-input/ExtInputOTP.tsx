@@ -1,12 +1,15 @@
 import {Input, InputProps} from "antd";
 import React from "react";
 import {FC, useEffect, useState} from "react";
+import {TextAreaProps} from "antd/es/input/TextArea";
+import {PasswordProps} from "antd/es/input/Password";
+import {OTPProps} from "antd/es/input/OTP";
 
-export type ExtInputProps = InputProps & {
+export type ExtInputOPTProps = OTPProps & {
   readOnly?: boolean;
   valueRender?: ((value?: any) => React.ReactNode) | React.ReactNode;
 };
-export const ExtInput: FC<ExtInputProps> = ({readOnly, valueRender, ...rest}) => {
+export const ExtInputOTP: FC<ExtInputOPTProps> = ({readOnly, valueRender, ...rest}) => {
   const [value, setValue] = useState<any>(rest.value || rest.defaultValue);
 
   const handleRender = () => {
@@ -33,14 +36,12 @@ export const ExtInput: FC<ExtInputProps> = ({readOnly, valueRender, ...rest}) =>
   if (readOnly) {
     return <div>{handleRender()}</div>
   } else {
-    return <Input
-      {...rest}
-      value={value}
-      onChange={(e) => {
-        setValue(e.target.value)
-        rest.onChange?.(e)
-      }
-      }
+    return <Input.OTP {...rest}
+                      onChange={(v) => {
+                        setValue(v)
+                        rest.onChange?.(v)
+                      }
+                      }
     />
   }
 }

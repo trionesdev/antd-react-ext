@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { SessionStorageUtils } from '../util/SessionStorageUtils';
-import { ExtSelectProps,ExtSelect } from '../ext-select';
+import ExtSelect, {ExtSelectProps} from "../ext-select";
+
 
 export type FetchSelectProps = {
   /**

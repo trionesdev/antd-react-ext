@@ -1,2 +1,4 @@
-export {ExtInputNumber} from "./ExtInputNumber.tsx"
-export type {ExtInputNumberProps} from "./ExtInputNumber.tsx"
+import ExtInputNumber,{ExtInputNumberProps} from "./ExtInputNumber"
+
+export type {ExtInputNumberProps}
+export default ExtInputNumber

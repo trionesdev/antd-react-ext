@@ -1,7 +1,7 @@
-import { TreeSelect, TreeSelectProps } from 'antd';
 import _ from 'lodash';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { SessionStorageUtils } from '../util/SessionStorageUtils';
+import ExtTreeSelect, { ExtTreeSelectProps } from "../ext-tree-select";
 
 export type FetchTreeSelectProps = {
   /**
@@ -44,7 +44,7 @@ export type FetchTreeSelectProps = {
    * @default 0
    */
   cacheExpire?: number;
-} & Omit<TreeSelectProps, 'treeData'>;
+} & Omit<ExtTreeSelectProps, 'treeData'>;
 export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
   initialValueOption,
   fixedOptions,
@@ -111,7 +111,7 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
   }, []);
 
   return (
-    <TreeSelect
+    <ExtTreeSelect
       {...props}
       treeData={options}
       onSearch={props.showSearch ? _.debounce(handleQuery, 500) : undefined}

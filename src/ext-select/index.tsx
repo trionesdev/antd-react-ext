@@ -1,2 +1,4 @@
-export type {ExtSelectProps} from "./ExtSelect"
-export {ExtSelect} from "./ExtSelect"
+import {ExtSelect,ExtSelectProps} from "./ExtSelect"
+
+export type {ExtSelectProps}
+export default ExtSelect

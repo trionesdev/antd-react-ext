@@ -1,31 +1,15 @@
 import {InputNumber, InputNumberProps} from "antd";
-import {FC, useEffect, useState} from "react";
+import React, {FC} from "react";
+import ReadOnlyField from "../readonly-field";
 
 export type ExtInputNumberProps = InputNumberProps & {
-    readOnly?: boolean;
+  readOnly?: boolean;
+  valueRender?: ((value?: any) => React.ReactNode) | React.ReactNode;
 };
 
-export const ExtInputNumber: FC<ExtInputNumberProps> = ({readOnly, ...rest}) => {
-    const [value, setValue] = useState<any>(rest.value || rest.defaultValue);
-    useEffect(() => {
-        if (rest.value === undefined) {
-            return
-        }
-        if (rest.value !== value) {
-            setValue(rest.value)
-        }
-    }, [rest.value]);
-
-    if (readOnly) {
-        return <div>{value}</div>
-    } else {
-        return <InputNumber {...rest}
-                            value={value}
-                            onChange={(value) => {
-                                setValue(value)
-                                rest.onChange?.(value)
-                            }
-                            }
-        />
-    }
+const ExtInputNumber: FC<ExtInputNumberProps> = ({readOnly, valueRender, ...rest}) => {
+  return <ReadOnlyField readOnly={readOnly} value={rest.value || rest.defaultValue} valueRender={valueRender}>
+    <InputNumber {...rest}/>
+  </ReadOnlyField>
 }
+export default ExtInputNumber;
