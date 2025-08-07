@@ -46,7 +46,7 @@ export type FetchTreeSelectProps = {
   cacheExpire?: number;
 } & Omit<ExtTreeSelectProps, 'treeData'>;
 export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
-  initialValueOption,
+  initialValueOption=[],
   fixedOptions,
   dropdownFetch = false,
   fetchEnable = true,
@@ -60,6 +60,8 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
   const [options, setOptions] = useState(
     _.concat([], fixedOptions || [], initialValueOption || []),
   );
+  const valueFiled = props.fieldNames?.value ?? 'value';
+  const labelFiled = props.fieldNames?.label ?? 'label';
 
   const handleQuery = useCallback(
     (searchValue?: string) => {
@@ -91,9 +93,9 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
         setOptions(_.concat([], fixedOptions || [], initialValueOption || []));
       } else {
         const missOptions: any[] = []
-        initialValueOption.forEach((initialOption:any) => {
+        initialValueOption?.forEach((initialOption:any) => {
           if (!_.find(options, (option) => {
-            return _.get(option, props.fieldNames?.value ?? 'value') === _.get(initialOption, props.fieldNames?.value ?? 'value');
+            return _.get(option, valueFiled) === _.get(initialOption, valueFiled);
           })) {
             missOptions.push(initialOption);
           }

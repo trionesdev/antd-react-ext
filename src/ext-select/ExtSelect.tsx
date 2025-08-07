@@ -1,57 +1,52 @@
-import {Select, SelectProps, Tag} from "antd";
-import React from "react";
-import {FC, useEffect, useState} from "react";
-import _ from "lodash";
+import { Select, SelectProps } from 'antd';
+import _ from 'lodash';
+import React, { FC } from 'react';
+import ExtFormField from '../ext-form-field';
 
 export type ExtSelectProps = SelectProps & {
   readOnly?: boolean;
-  valueRender?: ((value?: any, option?: any) => React.ReactNode) | React.ReactNode;
-}
-export const ExtSelect: FC<ExtSelectProps> = ({readOnly = false, valueRender, ...rest}) => {
-  const [value, setValue] = useState<any>(rest.value || rest.defaultValue);
-  const valueField = rest.fieldNames?.value ?? 'value'
-  const labelField = rest.fieldNames?.label ?? 'label'
+  valueRender?:
+    | ((value?: any, option?: any) => React.ReactNode)
+    | React.ReactNode;
+};
+export const ExtSelect: FC<ExtSelectProps> = ({
+  readOnly = false,
+  valueRender,
+  ...rest
+}) => {
+  const valueField = rest.fieldNames?.value ?? 'value';
+  const labelField = rest.fieldNames?.label ?? 'label';
 
-  const handleRender = () => {
-    if (valueRender) {
-      if (typeof valueRender === 'function') {
-        if (Array.isArray(value)) {
-          const options = rest.options?.filter(option => {
-            return _.includes(value, option[valueField])
-          })
-          return valueRender(value, options)
-        } else {
-          const option = rest.options?.find(option => option[valueField] === value)
-          return valueRender(value, option);
-        }
-
-      } else {
-        return valueRender;
-      }
-    }
+  const handleValueOptions = (value: any) => {
     if (rest.mode === 'multiple' || rest.mode === 'tags') {
-      return rest.options?.filter(option => {
-        return _.includes(value, option[valueField])
-      })?.map(option => <Tag
-        key={option[valueField]} bordered={false} style={{fontSize: 14}}>{option[labelField]}</Tag>)
+      return rest.options?.filter((option) => {
+        return _.includes(value, option[valueField]);
+      });
     } else {
-      return rest.options?.find(option => option[valueField] === value)?.[labelField]
+      return rest.options?.find((option) => option[valueField] === value);
     }
-  }
-  useEffect(() => {
-    if (rest.value === undefined) {
-      return
+  };
+
+  const handleRender = (value: any, options: any) => {
+    if (rest.mode === 'multiple' || rest.mode === 'tags') {
+      return options?.map((option: any) => option[labelField]).join(', ');
+    } else {
+      return options?.[labelField];
     }
-    if (rest.value !== value) {
-      setValue(rest.value)
-    }
-  }, [rest.value]);
-  if (readOnly) {
-    return <div style={{fontSize: 14}}>{handleRender()}</div>
-  } else {
-    return <Select {...rest} onChange={(value, option) => {
-      setValue(value)
-      rest.onChange?.(value, option)
-    }}/>
-  }
-}
+  };
+
+  return (
+    <ExtFormField
+      value={rest.value}
+      defaultValue={rest.defaultValue}
+      readOnly={readOnly}
+      valueRender={valueRender}
+      options={handleValueOptions}
+      fieldRender={(value, options) => {
+        return handleRender(value, options);
+      }}
+    >
+      <Select {...rest} />
+    </ExtFormField>
+  );
+};

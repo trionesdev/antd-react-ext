@@ -13,6 +13,9 @@ export default () => {
       <ExtInputNumber readOnly={readOnly} value={value} onChange={(v) => {
         setValue(v)
       }}/>
+      <ExtInputNumber readOnly={readOnly} value={1} onChange={(v) => {
+        setValue(v)
+      }}/>
     </div>
   </div>
 }

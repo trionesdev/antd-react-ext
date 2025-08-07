@@ -1,10 +1,12 @@
 import { defineConfig } from 'dumi';
-
+import process from 'node:process';
+const apiParserEnable =
+  process.env.NODE_ENV === 'production' || process.env.API_PARSER == 'true';
 export default defineConfig({
   base: '/antd-react-ext/',
   publicPath: '/antd-react-ext/',
   outputPath: 'docs-dist',
-  apiParser: {},
+  apiParser: apiParserEnable ? {} : false,
   resolve: {
     // 配置入口文件路径，API 解析将从这里开始
     entryFile: './src/index.ts',
