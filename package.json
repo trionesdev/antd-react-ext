@@ -87,7 +87,7 @@
     "stylelint": "^14.9.1"
   },
   "dependencies": {
-    "@trionesdev/antd-react-ext": "file:"
+    "@trionesdev/antd-react-ext": "file:",
+    "dayjs": "^1.11.13"
   }
-
 }
