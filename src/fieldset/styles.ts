@@ -13,7 +13,7 @@ export const genFieldsetStyle = (
         borderBottom: `1px solid ${token.colorBorder}`,
         marginBottom: '16px',
         paddingBottom: '8px',
-        paddingTop: '8px',
+        paddingTop: '16px',
       },
     },
   };
