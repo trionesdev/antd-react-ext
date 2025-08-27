@@ -7,8 +7,9 @@ export const genFieldsetStyle = (
   return {
     [`.${prefixCls}`]: {
       [`&-title`]: {
-        color: 'rgba(0,0,0,0.45)',
-        fontSize: token.fontSize,
+        color: token.colorTextBase,
+        fontSize: token.fontSizeHeading5,
+        fontWeight: token.fontWeightStrong,
         borderBottom: `1px solid ${token.colorBorder}`,
         marginBottom: '16px',
         paddingBottom: '8px',

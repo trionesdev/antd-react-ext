@@ -32,6 +32,7 @@ export { default as FetchTreeSelect } from './fetch-tree-select';
 export type { FetchTreeSelectProps } from './fetch-tree-select';
 
 export { default as Fieldset } from './fieldset';
+export type { FieldsetProps } from './fieldset';
 
 export { default as FieldsMapping } from './fields-mapping';
 export type { FieldsMappingProps } from './fields-mapping';
@@ -65,7 +66,6 @@ export type { VerificationCodeInputProps } from './verification-code-input';
 
 export { default as VideoUpload } from './video-upload';
 export type { VideoUploadProps } from './video-upload';
-
 
 //region utils
 export * from './hooks';
