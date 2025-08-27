@@ -10,25 +10,27 @@ import React, {
 export type ExtFormFieldProps = {
   value?: any;
   defaultValue?: any;
-  options?: any|((value?:any)=>any[]);
+  options?: any | ((value?: any) => any[]);
   readOnly?: boolean;
   valueRender?:
     | ((value?: any, options?: any) => React.ReactNode)
     | React.ReactNode;
+  defaultRender?: React.ReactNode;
   fieldRender?: (value?: any, options?: any) => React.ReactNode;
-  onChange?: (val: any,options?: any,extra?:any) => void;
+  onChange?: (val: any, options?: any, extra?: any) => void;
 };
 export const ExtFormField: FC<PropsWithChildren<ExtFormFieldProps>> = memo(
   ({
-    children,
-    value,
-    defaultValue,
-    options,
-    readOnly,
-    valueRender,
-    fieldRender,
-    onChange,
-  }) => {
+     children,
+     value,
+     defaultValue,
+     options,
+     readOnly,
+     valueRender,
+     defaultRender,
+     fieldRender,
+     onChange,
+   }) => {
     const [internalValue, setInternalValue] = useState(value || defaultValue);
     const handleRender = () => {
       const valueOptions = typeof options === 'function' ? options(internalValue) : options;
@@ -55,7 +57,7 @@ export const ExtFormField: FC<PropsWithChildren<ExtFormFieldProps>> = memo(
     }, [value]);
 
     if (readOnly) {
-      return <div style={{ fontSize: 14 }}>{handleRender()}</div>;
+      return <div style={{fontSize: 14}}>{handleRender() || defaultRender}</div>;
     }
 
     return (
@@ -64,13 +66,13 @@ export const ExtFormField: FC<PropsWithChildren<ExtFormFieldProps>> = memo(
       React.cloneElement(children as React.ReactElement, {
         ...children.props,
         value: internalValue,
-        onChange: (value: any, options:any ,extra:any ) => {
+        onChange: (value: any, options: any, extra: any) => {
           if (value && typeof value === 'object' && 'nativeEvent' in value) {
             setInternalValue(value.target.value);
           } else {
             setInternalValue(value);
           }
-          onChange?.(value, options,extra);
+          onChange?.(value, options, extra);
         },
       })
     );
