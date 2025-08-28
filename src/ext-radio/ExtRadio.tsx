@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {Radio, RadioProps} from "antd";
-import ExtFormField from "@components/ext-form-field";
+import ExtFormField from '../ext-form-field';
 
 export type ExtRadioProps = RadioProps & {
     readOnly?: boolean;
