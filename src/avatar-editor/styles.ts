@@ -1,5 +1,5 @@
-import { CSSInterpolation } from '@ant-design/cssinjs';
-import { GlobalToken } from 'antd';
+import {CSSInterpolation} from '@ant-design/cssinjs';
+import {GlobalToken} from 'antd';
 
 export const genAvatarEditorStyle = (
   prefixCls: string,
@@ -8,6 +8,8 @@ export const genAvatarEditorStyle = (
   return {
     [`.${prefixCls}`]: {
       boxSizing: 'border-box',
+      borderRadius: token.borderRadius,
+      overflow: 'hidden',
       [`&-avatar`]: {
         position: 'relative',
         '.ant-avatar-square': {
