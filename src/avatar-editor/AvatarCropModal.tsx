@@ -238,7 +238,7 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
       closable={false}
       onCancel={onCancel}
       width={420}
-      destroyOnClose={true}
+      destroyOnHidden={true}
       onOk={handleOk}
       footer={(originNode) => {
         return (
