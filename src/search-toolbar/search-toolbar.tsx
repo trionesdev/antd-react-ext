@@ -1,7 +1,7 @@
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Button, Col, Form, FormItemProps, Grid, Row, Space } from 'antd';
 import classNames from 'classnames';
-import _ from 'lodash';
+import { size } from 'lodash-es';
 import React, { FC, useEffect, useState } from 'react';
 import { useCssInJs } from '../hooks';
 import { genSearchToolbarStyle } from './styled';
@@ -78,7 +78,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   };
 
   const handleCompute = () => {
-    const itemSize = _.size(items);
+    const itemSize = size(items);
     const rowColSize = 24 / colSpan;
     const compensateColCount = handleCompleteCompensateColCount(
       rowColSize,

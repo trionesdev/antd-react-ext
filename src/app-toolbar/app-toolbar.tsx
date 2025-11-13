@@ -1,9 +1,9 @@
 import { Avatar, AvatarProps, Menu, MenuProps, Space } from 'antd';
 import classNames from 'classnames';
-import _ from 'lodash';
 import React, { FC } from 'react';
 import { useCssInJs } from '../hooks';
 import { genAppToolbarStyle } from './styles';
+import { isEmpty } from 'lodash-es';
 
 export type AppToolbarProps = {
   className?: string;
@@ -58,7 +58,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
             </div>
           </Space>
         </div>
-        {!_.isEmpty(navItems) && (
+        {!isEmpty(navItems) && (
           <Menu
             mode="horizontal"
             items={navItems}

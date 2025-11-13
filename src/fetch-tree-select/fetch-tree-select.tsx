@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { concat, debounce, find, get, isEmpty } from 'lodash-es';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { SessionStorageUtils } from '../util/SessionStorageUtils';
 import ExtTreeSelect, { ExtTreeSelectProps } from "../ext-tree-select";
@@ -58,7 +58,7 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
 }) => {
   const [fetched, setFetched] = useState(false);
   const [options, setOptions] = useState(
-    _.concat([], fixedOptions || [], initialValueOption || []),
+    concat([], fixedOptions || [], initialValueOption || []),
   );
   const valueFiled = props.fieldNames?.value ?? 'value';
   const labelFiled = props.fieldNames?.label ?? 'label';
@@ -69,7 +69,7 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
         ? fetchRequest(searchValue)
         : Promise.resolve([]);
       const data = SessionStorageUtils.getExpireItem(cacheKey, true);
-      if (!_.isEmpty(data) && cacheExpire) {
+      if (!isEmpty(data) && cacheExpire) {
         setOptions([...(fixedOptions || []), ...(data || [])]);
         setFetched(true);
         return;
@@ -89,18 +89,18 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
   useEffect(() => {
 
     if (initialValueOption) {
-      if (_.isEmpty(options)) {
-        setOptions(_.concat([], fixedOptions || [], initialValueOption || []));
+      if (isEmpty(options)) {
+        setOptions(concat([], fixedOptions || [], initialValueOption || []));
       } else {
         const missOptions: any[] = []
         initialValueOption?.forEach((initialOption:any) => {
-          if (!_.find(options, (option) => {
-            return _.get(option, valueFiled) === _.get(initialOption, valueFiled);
+          if (!find(options, (option) => {
+            return get(option, valueFiled) === get(initialOption, valueFiled);
           })) {
             missOptions.push(initialOption);
           }
         });
-        setOptions(_.concat(options, missOptions));
+        setOptions(concat(options, missOptions));
 
       }
     }
@@ -116,7 +116,7 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
     <ExtTreeSelect
       {...props}
       treeData={options}
-      onSearch={props.showSearch ? _.debounce(handleQuery, 500) : undefined}
+      onSearch={props.showSearch ? debounce(handleQuery, 500) : undefined}
       onOpenChange={(open) => {
         if (open && dropdownFetch && fetchEnable && (fetchAlways || !fetched)) {
           handleQuery();

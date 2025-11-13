@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { concat, debounce, find, get, isEmpty } from 'lodash-es';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { SessionStorageUtils } from '../util/SessionStorageUtils';
 import ExtSelect, {ExtSelectProps} from "../ext-select";
@@ -47,7 +47,7 @@ export const FetchSelect: FC<FetchSelectProps> = ({
 }) => {
   const [fetched, setFetched] = useState(false);
   const [options, setOptions] = useState(
-    _.concat([], fixedOptions || [], initialValueOption || []),
+    concat([], fixedOptions || [], initialValueOption || []),
   );
 
   const handleQuery = useCallback(
@@ -76,18 +76,18 @@ export const FetchSelect: FC<FetchSelectProps> = ({
 
   useEffect(() => {
     if (initialValueOption) {
-      if (_.isEmpty(options)) {
-        setOptions(_.concat([], fixedOptions || [], initialValueOption || []));
+      if (isEmpty(options)) {
+        setOptions(concat([], fixedOptions || [], initialValueOption || []));
       } else {
         if (
-          !_.find(
+          !find(
             options || [],
             (item: any) =>
-              _.get(item, props.fieldNames?.value ?? 'value') ===
-              _.get(initialValueOption, props.fieldNames?.value ?? 'value'),
+              get(item, props.fieldNames?.value ?? 'value') ===
+              get(initialValueOption, props.fieldNames?.value ?? 'value'),
           )
         ) {
-          setOptions(_.concat([], options, initialValueOption));
+          setOptions(concat([], options, initialValueOption));
         }
       }
     }
@@ -103,7 +103,7 @@ export const FetchSelect: FC<FetchSelectProps> = ({
     <ExtSelect
       {...props}
       options={options}
-      onSearch={props.showSearch ? _.debounce(handleQuery, 500) : undefined}
+      onSearch={props.showSearch ? debounce(handleQuery, 500) : undefined}
       onOpenChange={(open: boolean) => {
         if (open && dropdownFetch && fetchEnable && (fetchAlways || !fetched)) {
           handleQuery();

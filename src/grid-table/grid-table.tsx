@@ -1,6 +1,6 @@
 import { Table, TableProps } from 'antd';
 import classNames from 'classnames';
-import _ from 'lodash';
+import { assign, debounce } from 'lodash-es';
 import React, { FC, useEffect, useState } from 'react';
 
 import { useCssInJs } from '../hooks';
@@ -139,7 +139,7 @@ const GridTable: FC<GridTableProps> = (
   });
 
   useEffect(
-    _.debounce(() => {
+    debounce(() => {
       if (containerWidth < bodyWidth) {
         if (!props.scroll?.x) {
           setScrollX(true);
@@ -213,7 +213,7 @@ const GridTable: FC<GridTableProps> = (
           {...props}
           scroll={
             fit
-              ? _.assign(
+              ? assign(
                   {},
                   props.scroll,
                   scrollY ? { y: true } : {},

@@ -1,5 +1,5 @@
 import { TreeSelect, TreeSelectProps } from 'antd';
-import _ from 'lodash';
+import { includes, isEmpty } from 'lodash-es';
 import React, { FC, useEffect, useState } from 'react';
 import ExtFormField from '../ext-form-field';
 
@@ -35,7 +35,7 @@ export const ExtTreeSelect: FC<ExtTreeSelectProps> = ({
   const handleValueOptions = (value: any) => {
     if (rest.multiple) {
       return options?.filter((option) => {
-        return _.includes(value, option[valueField]);
+        return includes(value, option[valueField]);
       });
     } else {
       return options?.find((option) => option[valueField] === value);
@@ -51,7 +51,7 @@ export const ExtTreeSelect: FC<ExtTreeSelectProps> = ({
   };
 
   useEffect(() => {
-    if (_.isEmpty(rest.treeData)) {
+    if (isEmpty(rest.treeData)) {
     } else {
       const newOptions = handleOptions(rest.treeData || []);
       setOptions(newOptions);

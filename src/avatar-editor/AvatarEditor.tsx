@@ -2,7 +2,7 @@ import { CameraOutlined, UserOutlined } from '@ant-design/icons';
 import { useCssInJs } from '@trionesdev/antd-react-ext';
 import { Avatar, Spin } from 'antd';
 import classNames from 'classnames';
-import _ from 'lodash';
+import { eq } from 'lodash-es';
 import React, { CSSProperties, FC, useEffect, useState } from 'react';
 import { AvatarCropModal } from './AvatarCropModal';
 import { genAvatarEditorStyle } from './styles';
@@ -99,7 +99,7 @@ export const AvatarEditor: FC<AvatarEditorProps> = ({
   };
 
   useEffect(() => {
-    if (!_.eq(value || '', innerValue || '')) {
+    if (!eq(value || '', innerValue || '')) {
       setInnerValue(value || '');
     }
   }, [value]);

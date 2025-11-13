@@ -1,7 +1,7 @@
 import { CheckOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import classNames from 'classnames';
-import _ from 'lodash';
+import { isEqual } from 'lodash-es';
 import React, { FC, isValidElement, useEffect, useState } from 'react';
 import { useCssInJs } from '../hooks';
 import { genEditableDescStyle } from './styles';
@@ -128,7 +128,7 @@ export const EditableDesc: FC<EditableDescProps> = ({
   };
 
   useEffect(() => {
-    if (!_.isEqual(value, scopeValue)) {
+    if (!isEqual(value, scopeValue)) {
       setScopeValue(value);
     }
   }, [value]);

@@ -2,7 +2,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { useCssInJs } from '@trionesdev/antd-react-ext';
 import { Button, Col, Flex, Input, message, Row, Upload } from 'antd';
 import classNames from 'classnames';
-import _ from 'lodash';
+import { eq } from 'lodash-es';
 import React, { FC, useEffect, useState } from 'react';
 import PictureUpload from '../picture-upload';
 import { NoFile } from './Icons';
@@ -89,7 +89,7 @@ export const VideoUpload: FC<VideoUploadProps> = ({
   };
 
   useEffect(() => {
-    if (!_.eq(value || {}, innerValue || {})) {
+    if (!eq(value || {}, innerValue || {})) {
       setInnerValue(value || {});
     }
   }, [value]);

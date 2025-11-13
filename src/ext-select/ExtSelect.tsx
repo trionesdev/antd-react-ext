@@ -1,5 +1,5 @@
 import {Select, SelectProps} from 'antd';
-import _ from 'lodash';
+import { includes } from 'lodash-es';
 import React, {FC} from 'react';
 import ExtFormField from '../ext-form-field';
 
@@ -22,7 +22,7 @@ export const ExtSelect: FC<ExtSelectProps> = ({
     const handleValueOptions = (value: any) => {
         if (rest.mode === 'multiple' || rest.mode === 'tags') {
             return rest.options?.filter((option) => {
-                return _.includes(value, option[valueField]);
+                return includes(value, option[valueField]);
             });
         } else {
             return rest.options?.find((option) => option[valueField] === value);

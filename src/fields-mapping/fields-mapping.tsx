@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import _ from 'lodash';
+import { cloneDeep, debounce, eq, find, forEach, isEmpty, isEqual } from 'lodash-es';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useCssInJs } from '../hooks';
 import { ImageRemove } from './images';
@@ -121,7 +121,7 @@ const FieldsMapping: FC<FieldsMappingProps> = ({
 
   const handleAddLine = (source: string, target: string) => {
     scopeMappingData?.push({ sourceKey: source, targetKey: target });
-    setScopeMappingData(_.cloneDeep(scopeMappingData));
+    setScopeMappingData(cloneDeep(scopeMappingData));
     setTmpSourceKey(undefined);
   };
 
@@ -130,7 +130,7 @@ const FieldsMapping: FC<FieldsMappingProps> = ({
       `.${prefixCls}-table-row`,
     )?.getAttribute(dataKey);
     if (
-      _.find(scopeMappingData, (item: MappingItem) => {
+      find(scopeMappingData, (item: MappingItem) => {
         return item.sourceKey === sourceKey;
       }) &&
       !config?.source?.mutiple
@@ -169,7 +169,7 @@ const FieldsMapping: FC<FieldsMappingProps> = ({
     )?.getAttribute(dataKey); // 找到上层最近的row
     if (
       !targetKey ||
-      (_.find(scopeMappingData, (item: MappingItem) => {
+      (find(scopeMappingData, (item: MappingItem) => {
         return item.targetKey === targetKey;
       }) &&
         !config?.target?.mutiple)
@@ -184,19 +184,19 @@ const FieldsMapping: FC<FieldsMappingProps> = ({
   const handleCloseLine = (line: Line) => {
     const newMappingData = scopeMappingData?.filter((lineItem) => {
       return (
-        !_.eq(lineItem.sourceKey, line.source.key) &&
-        !_.eq(lineItem.targetKey, line.target.key)
+        !eq(lineItem.sourceKey, line.source.key) &&
+        !eq(lineItem.targetKey, line.target.key)
       );
     });
     setScopeMappingData(newMappingData);
   };
 
   const handleDrawLines = () => {
-    if (_.isEmpty(sourceData) || _.isEmpty(targetData)) {
+    if (isEmpty(sourceData) || isEmpty(targetData)) {
       return;
     }
     const newLines: Line[] = [];
-    _.forEach(scopeMappingData, (item) => {
+    forEach(scopeMappingData, (item) => {
       const sourcePort = sourceRef.current
         ?.querySelector(`[${dataKey}=${item.sourceKey}]`)
         ?.querySelector(`.${prefixCls}-table-row-port`);
@@ -225,14 +225,14 @@ const FieldsMapping: FC<FieldsMappingProps> = ({
   }, [scopeMappingData]);
 
   useEffect(() => {
-    if (!_.isEqual(mappingData || [], scopeMappingData || [])) {
+    if (!isEqual(mappingData || [], scopeMappingData || [])) {
       setScopeMappingData(mappingData || []);
     }
   }, [mappingData]);
 
   useEffect(() => {
     //region 监听div resize事件
-    let observer = new ResizeObserver(() => _.debounce(handleResize, 200)());
+    let observer = new ResizeObserver(() => debounce(handleResize, 200)());
     observer.observe(rootRef.current);
     //endregion
 
