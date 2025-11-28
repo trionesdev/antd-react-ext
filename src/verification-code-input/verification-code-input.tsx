@@ -4,19 +4,36 @@ import classNames from 'classnames';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { genValidationCodeInputStyle } from './styles';
 
-export type VerificationCodeInputProps = Omit<InputProps, 'suffix'> & {
+const prefixCls = 'triones-validation-code-input';
+
+type ValidationCodeInputProps = Omit<InputProps, 'suffix'> & {
+  /**
+   * @description 发送按钮文案
+   * @default '获取验证码'
+   */
   sendText?: string;
+  /**
+   * @description 重新发送按钮文案
+   * @default '重新发送'
+   */
   resendText?: string;
-  waitSeconds?: number;
+  /**
+   * @description 倒计时间隔时间
+   * @default 60
+   */
+  intervalSeconds?: number;
+  /**
+   * @description 发送验证码
+   * @default () => true
+   */
   onSend?: () => Promise<boolean>;
 };
 
-const VerificationCodeInput: FC<VerificationCodeInputProps> = ({
-  sendText = '获取验证码',
-  resendText = '重新发送',
-  waitSeconds = 60,
+const SendSuffix: FC<ValidationCodeInputProps> = ({
+  sendText,
+  resendText,
+  intervalSeconds = 60,
   onSend,
-  ...props
 }) => {
   const [send, setSend] = useState<boolean>(false);
   const [seconds, setSeconds] = useState<any>(0);
@@ -38,8 +55,6 @@ const VerificationCodeInput: FC<VerificationCodeInputProps> = ({
     };
   }, []);
 
-  const prefixCls = 'triones-validation-code-input';
-
   const { hashId, wrapSSR } = useCssInJs({
     prefix: prefixCls,
     styleFun: genValidationCodeInputStyle,
@@ -59,7 +74,8 @@ const VerificationCodeInput: FC<VerificationCodeInputProps> = ({
         onClick={async () => {
           if (!timer.current) {
             if (await onSend?.()) {
-              secondsRef.current = waitSeconds;
+              secondsRef.current = intervalSeconds - 1;
+              setSeconds(secondsRef.current);
               timer.current = setInterval(() => {
                 secondsRef.current = secondsRef.current - 1;
                 setSeconds(secondsRef.current);
@@ -72,12 +88,33 @@ const VerificationCodeInput: FC<VerificationCodeInputProps> = ({
       </div>
     );
   };
+  return wrapSSR(handleSuffix());
+};
+
+const VerificationCodeInput: FC<ValidationCodeInputProps> = ({
+  sendText = '获取验证码',
+  resendText = '重新发送',
+  intervalSeconds = 60,
+  onSend,
+  ...props
+}) => {
+  const { hashId, wrapSSR } = useCssInJs({
+    prefix: prefixCls,
+    styleFun: genValidationCodeInputStyle,
+  });
 
   return wrapSSR(
     <Input
       {...props}
       className={classNames(prefixCls, props.className, hashId)}
-      suffix={handleSuffix()}
+      suffix={
+        <SendSuffix
+          sendText={sendText}
+          resendText={resendText}
+          intervalSeconds={intervalSeconds}
+          onSend={onSend}
+        />
+      }
     />,
   );
 };
