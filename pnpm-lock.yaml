@@ -49,13 +49,13 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       dumi:
-        specifier: ^2.4.13
+        specifier: ^2.4.20
         version: 2.4.20(@babel/core@7.27.1)(@swc/helpers@0.5.1)(@types/node@20.5.1)(@types/react@18.3.21)(eslint@8.57.1)(lightningcss@1.22.1)(prettier@2.8.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@3.29.5)(stylelint@14.16.1)(terser@5.39.0)(type-fest@1.4.0)(typescript@5.3.3)(webpack@5.99.8(@swc/core@1.9.2(@swc/helpers@0.5.1)))
       eslint:
         specifier: ^8.23.0
         version: 8.57.1
       father:
-        specifier: ^4.1.0
+        specifier: ^4.5.2
         version: 4.5.2(@babel/core@7.27.1)(@types/node@20.5.1)(styled-components@6.1.18(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(type-fest@1.4.0)(webpack@5.99.8(@swc/core@1.9.2(@swc/helpers@0.5.1)))
       husky:
         specifier: ^8.0.1
@@ -8678,7 +8678,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 22.15.17
 
   '@types/semver@7.7.0': {}
 
