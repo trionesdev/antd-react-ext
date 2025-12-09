@@ -256,11 +256,11 @@ const FieldsMapping: FC<FieldsMappingProps> = ({
     };
   }, []);
 
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genFieldsMappingStyle,
   });
-  return wrapSSR(
+  return (
     <div
       ref={rootRef}
       className={classNames(prefixCls, { drawing: drawing }, hashId)}
@@ -401,7 +401,7 @@ const FieldsMapping: FC<FieldsMappingProps> = ({
           ))}
         </svg>
       </div>
-    </div>,
+    </div>
   );
 };
 

@@ -138,12 +138,12 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   useEffect(() => {}, [scopeExpanded]);
 
   const prefixCls = 'triones-ant-search-toolbar';
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genSearchToolbarStyle,
   });
 
-  return wrapSSR(
+  return (
     <div className={classNames(className, prefixCls, hashId)} style={style}>
       <Form
         form={form}
@@ -204,7 +204,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
           </Col>
         </Row>
       </Form>
-    </div>,
+    </div>
   );
 };
 export default SearchToolbar;

@@ -69,12 +69,12 @@ const PageHeader: FC<PageHeaderProps> = ({
 }) => {
   const prefixCls = 'triones-ant-page-header';
 
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genPageHeaderStyle,
   });
 
-  return wrapSSR(
+  return (
     <div style={style} className={classNames(prefixCls, className, hashId)}>
       {breadcrumb && (
         <div className={classNames(`${prefixCls}-breadcrumb`, hashId)}>
@@ -110,7 +110,7 @@ const PageHeader: FC<PageHeaderProps> = ({
       </div>
       {children && <div>{children}</div>}
       {footer && <div>{footer}</div>}
-    </div>,
+    </div>
   );
 };
 export default PageHeader;

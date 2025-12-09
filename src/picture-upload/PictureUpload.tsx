@@ -94,11 +94,11 @@ export const PictureUpload: FC<PictureUploadProps> = ({
   }, [scopeValue]);
 
   const prefixCls = `triones-picture-upload`;
-  const { wrapSSR, hashId } = useCssInJs({
+  const {  hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genPictureUploadStyle,
   });
-  return wrapSSR(
+  return (
     <div
       className={classNames(className, prefixCls, hashId)}
       style={{ width: width, height: height, ...style }}
@@ -114,7 +114,7 @@ export const PictureUpload: FC<PictureUploadProps> = ({
                 height={height}
               />
               <div className={classNames(`${prefixCls}-image-tooltip`, hashId)}>
-                <Space split={<Divider type="vertical" />}>
+                <Space separator={<Divider orientation="vertical" />}>
                   <Upload
                     customRequest={handleUpload}
                     showUploadList={false}
@@ -144,6 +144,6 @@ export const PictureUpload: FC<PictureUploadProps> = ({
           )}
         </div>
       </Spin>
-    </div>,
+    </div>
   );
 };

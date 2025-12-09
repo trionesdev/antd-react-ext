@@ -36,40 +36,38 @@ const AppToolbar: FC<AppToolbarProps> = ({
   selectedKeys,
 }) => {
   const prefixCls = 'triones-ant-app-toolbar';
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genAppToolbarStyle,
   });
 
-  return wrapSSR(
-    <div style={style} className={classNames(prefixCls, hashId)}>
-      <div className={classNames(`${prefixCls}-heading`, hashId, className)}>
-        <div className={classNames(`${prefixCls}-heading-left`, hashId)}>
-          <Space>
-            {avatar && (
-              <Avatar
-                {...Object.assign({ size: 40, shape: 'square' }, avatar)}
-              />
-            )}
-            <div
-              className={classNames(`${prefixCls}-heading-left-title`, hashId)}
-            >
-              {title}
-            </div>
-          </Space>
-        </div>
-        {!isEmpty(navItems) && (
-          <Menu
-            mode="horizontal"
-            items={navItems}
-            selectedKeys={selectedKeys}
-          />
-        )}
-        <div className={classNames(`${prefixCls}-heading-right`, hashId)}>
-          <Space>{extra}</Space>
-        </div>
+  return <div style={style} className={classNames(prefixCls, hashId)}>
+    <div className={classNames(`${prefixCls}-heading`, hashId, className)}>
+      <div className={classNames(`${prefixCls}-heading-left`, hashId)}>
+        <Space>
+          {avatar && (
+            <Avatar
+              {...Object.assign({ size: 40, shape: 'square' }, avatar)}
+            />
+          )}
+          <div
+            className={classNames(`${prefixCls}-heading-left-title`, hashId)}
+          >
+            {title}
+          </div>
+        </Space>
       </div>
-    </div>,
-  );
+      {!isEmpty(navItems) && (
+        <Menu
+          mode="horizontal"
+          items={navItems}
+          selectedKeys={selectedKeys}
+        />
+      )}
+      <div className={classNames(`${prefixCls}-heading-right`, hashId)}>
+        <Space>{extra}</Space>
+      </div>
+    </div>
+  </div>
 };
 export default AppToolbar;

@@ -27,12 +27,12 @@ const TableToolbar: FC<TableToolbarProps> = ({
 }) => {
   const prefixCls = 'triones-ant-table-toolbar';
 
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genTableToolbarStyle,
   });
 
-  return wrapSSR(
+  return (
     <div style={style} className={classNames(prefixCls, hashId, className)}>
       <Space className={classNames(`${prefixCls}-title`, hashId)}>
         <span>{title}</span>
@@ -40,7 +40,7 @@ const TableToolbar: FC<TableToolbarProps> = ({
       <Space className={classNames(`${prefixCls}-extra`, hashId)}>
         {extra}
       </Space>
-    </div>,
+    </div>
   );
 };
 export default TableToolbar;

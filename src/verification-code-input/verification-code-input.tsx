@@ -55,7 +55,7 @@ const SendSuffix: FC<ValidationCodeInputProps> = ({
     };
   }, []);
 
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genValidationCodeInputStyle,
   });
@@ -88,7 +88,7 @@ const SendSuffix: FC<ValidationCodeInputProps> = ({
       </div>
     );
   };
-  return wrapSSR(handleSuffix());
+  return (handleSuffix());
 };
 
 const VerificationCodeInput: FC<ValidationCodeInputProps> = ({
@@ -98,12 +98,12 @@ const VerificationCodeInput: FC<ValidationCodeInputProps> = ({
   onSend,
   ...props
 }) => {
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genValidationCodeInputStyle,
   });
 
-  return wrapSSR(
+  return (
     <Input
       {...props}
       className={classNames(prefixCls, props.className, hashId)}
@@ -115,7 +115,7 @@ const VerificationCodeInput: FC<ValidationCodeInputProps> = ({
           onSend={onSend}
         />
       }
-    />,
+    />
   );
 };
 export default VerificationCodeInput;

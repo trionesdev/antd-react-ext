@@ -95,11 +95,11 @@ export const VideoUpload: FC<VideoUploadProps> = ({
   }, [value]);
 
   const prefixCls = `triones-video-upload`;
-  const { wrapSSR, hashId } = useCssInJs({
+  const {  hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genVideoUploadStyle,
   });
-  return wrapSSR(
+  return (
     <div className={classNames(className, prefixCls, hashId)} style={style}>
       <Row style={{ height: '100%' }} gutter={[8, 8]} wrap={false}>
         <Col
@@ -168,6 +168,6 @@ export const VideoUpload: FC<VideoUploadProps> = ({
           </div>
         </Col>
       </Row>
-    </div>,
+    </div>
   );
 };

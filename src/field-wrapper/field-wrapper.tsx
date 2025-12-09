@@ -32,7 +32,7 @@ export const FieldWrapper: FC<FieldWrapperProps> = ({
   ...props
 }) => {
   const prefixCls = 'triones-ant-field-wrapper';
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genFieldWrapperStyle,
   });
@@ -48,13 +48,13 @@ export const FieldWrapper: FC<FieldWrapperProps> = ({
     }
   }, [size]);
 
-  return wrapSSR(
+  return (
     <div
       {...props}
       style={{ ...style, minHeight: 31 }}
       className={classNames(prefixCls, className, sizeCls, hashId)}
     >
       {children}
-    </div>,
+    </div>
   );
 };

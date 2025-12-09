@@ -221,19 +221,16 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
   }, []);
 
   const prefixCls = 'triones-avatar-crop-modal';
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genAvatarCropModalStyle,
   });
 
-  return wrapSSR(
+  return (
     <Modal
       open={open}
       className={classNames(prefixCls, hashId)}
       styles={{
-        content: {
-          padding: '10px',
-        },
       }}
       closable={false}
       onCancel={onCancel}
@@ -336,6 +333,6 @@ export const AvatarCropModal: FC<AvatarCropModalProps> = ({
           />
         </Flex>
       </Space>
-    </Modal>,
+    </Modal>
   );
 };

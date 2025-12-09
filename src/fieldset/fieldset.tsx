@@ -10,11 +10,11 @@ export type FieldsetProps = {
 };
 export const Fieldset: FC<FieldsetProps> = ({ children, title, legend }) => {
   const prefixCls = 'triones-ant-fieldset';
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genFieldsetStyle,
   });
-  return wrapSSR(
+  return (
     <div className={classNames(prefixCls, hashId)}>
       {(title || legend) && (
         <div className={classNames(`${prefixCls}-title`, hashId)}>
@@ -22,6 +22,6 @@ export const Fieldset: FC<FieldsetProps> = ({ children, title, legend }) => {
         </div>
       )}
       {children}
-    </div>,
+    </div>
   );
 };

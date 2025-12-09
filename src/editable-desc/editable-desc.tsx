@@ -84,7 +84,7 @@ export const EditableDesc: FC<EditableDescProps> = ({
   const [scopeEditing, setScopeEditing] = useState(editing);
   const [scopeValue, setScopeValue] = useState(value);
   const prefixCls = 'triones-ant-editable-desc';
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genEditableDescStyle,
   });
@@ -147,7 +147,7 @@ export const EditableDesc: FC<EditableDescProps> = ({
       : valueRender
     : scopeValue;
 
-  return wrapSSR(
+  return (
     <div
       className={classNames(prefixCls, hashId)}
       style={{ width: block ? '100%' : 'inherit' }}
@@ -199,6 +199,6 @@ export const EditableDesc: FC<EditableDescProps> = ({
           />
         </Space>
       )}
-    </div>,
+    </div>
   );
 };

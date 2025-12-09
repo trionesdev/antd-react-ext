@@ -105,11 +105,11 @@ export const AvatarEditor: FC<AvatarEditorProps> = ({
   }, [value]);
 
   const prefixCls = 'triones-avatar-editor';
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genAvatarEditorStyle,
   });
-  return wrapSSR(
+  return (
     <div
       className={classNames(prefixCls, className, hashId)}
       style={{ width: size, height: size, ...style }}
@@ -148,6 +148,6 @@ export const AvatarEditor: FC<AvatarEditorProps> = ({
         }}
         onOk={handleUpload}
       />
-    </div>,
+    </div>
   );
 };
