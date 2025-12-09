@@ -28,6 +28,9 @@ export type {ExtRadioProps, ExtRadioGroupProps} from "./ext-radio"
 export { default as ExtSelect } from './ext-select';
 export type { ExtSelectProps } from './ext-select';
 
+ export { default as ExtSwitch } from './ext-switch';
+ export type { ExtSwitchProps } from './ext-switch';
+
 export { default as ExtTreeSelect } from './ext-tree-select';
 export type { ExtTreeSelectProps } from './ext-tree-select';
 

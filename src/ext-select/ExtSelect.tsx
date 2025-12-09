@@ -4,14 +4,14 @@ import React, {FC} from 'react';
 import ExtFormField from '../ext-form-field';
 
 export type ExtSelectProps = SelectProps & {
-    readOnly?: boolean;
+    readonly?: boolean;
     valueRender?:
         | ((value?: any, option?: any) => React.ReactNode)
         | React.ReactNode;
     defaultRender?: React.ReactNode;
 };
 export const ExtSelect: FC<ExtSelectProps> = ({
-                                                  readOnly = false,
+                                                  readonly = false,
                                                   valueRender,
                                                   defaultRender,
                                                   ...rest
@@ -41,8 +41,7 @@ export const ExtSelect: FC<ExtSelectProps> = ({
         <ExtFormField
             value={rest.value}
             defaultValue={rest.defaultValue}
-            onChange={rest.onChange}
-            readOnly={readOnly}
+            readonly={readonly}
             valueRender={valueRender}
             defaultRender={defaultRender}
             options={handleValueOptions}

@@ -13,7 +13,7 @@ export default () => {
         ]);
       }}
       fieldNames={{ label: 'name', value: 'id' }}
-      initialValueOption={[{ id: 2, name: '小红' }]}
+      initialValueOptions={[{ id: 2, name: '小红' }]}
       value={value}
       onChange={setValue}
     />

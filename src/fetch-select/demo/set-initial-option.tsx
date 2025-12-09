@@ -16,14 +16,14 @@ export default () => {
         }}
         fieldNames={{ label: 'name', value: 'id' }}
         dropdownFetch={true}
-        initialValueOption={initialValueOption}
+        initialValueOptions={initialValueOption}
         fixedOptions={[{ id: 4, name: '小蓝' }]}
         value={value}
         onChange={setValue}
       />
       <Button
         onClick={() => {
-          setInitialValueOption({ id: 3, name: '小红' });
+          setInitialValueOption([{ id: 3, name: '小红' }]);
         }}
       >
         设置初始选项

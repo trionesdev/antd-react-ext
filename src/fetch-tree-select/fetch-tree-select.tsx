@@ -1,14 +1,14 @@
-import { concat, debounce, find, get, isEmpty } from 'lodash-es';
-import React, { FC, useCallback, useEffect, useState } from 'react';
-import { SessionStorageUtils } from '../util/SessionStorageUtils';
-import ExtTreeSelect, { ExtTreeSelectProps } from "../ext-tree-select";
+import React, {FC, memo, useCallback, useEffect, useMemo, useState} from 'react';
+import ExtTreeSelect, {ExtTreeSelectProps} from "../ext-tree-select";
+import {SessionStorageUtils} from "@trionesdev/antd-react-ext";
+import {concat, debounce, isEmpty} from "lodash-es";
 
 export type FetchTreeSelectProps = {
   /**
    * @description 初始化值选项,用于列表等场景的时候，Select 组件可以展示，不需要去请求选项
    * @default
    */
-  initialValueOption?: any;
+  initialValueOptions?: any[];
   /**
    * @description 固定选项
    * @default
@@ -45,23 +45,29 @@ export type FetchTreeSelectProps = {
    */
   cacheExpire?: number;
 } & Omit<ExtTreeSelectProps, 'treeData'>;
-export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
-  initialValueOption=[],
-  fixedOptions,
-  dropdownFetch = false,
-  fetchEnable = true,
-  fetchAlways,
-  fetchRequest,
-  cacheKey,
-  cacheExpire = 0,
-  ...props
-}) => {
+export const FetchTreeSelect: FC<FetchTreeSelectProps> = memo(({
+                                                                 initialValueOptions = [],
+                                                                 fixedOptions,
+                                                                 dropdownFetch = false,
+                                                                 fetchEnable = true,
+                                                                 fetchAlways,
+                                                                 fetchRequest,
+                                                                 cacheKey,
+                                                                 cacheExpire = 0,
+                                                                 ...props
+                                                               }) => {
+
   const [fetched, setFetched] = useState(false);
-  const [options, setOptions] = useState(
-    concat([], fixedOptions || [], initialValueOption || []),
-  );
-  const valueFiled = props.fieldNames?.value ?? 'value';
-  const labelFiled = props.fieldNames?.label ?? 'label';
+  const [fetchedOptions, setFetchedOptions] = useState([])
+
+
+  const options = useMemo(() => {
+    if (isEmpty(fetchedOptions)) {
+      return concat([], fixedOptions || [], initialValueOptions || [])
+    } else {
+      return concat([], fixedOptions || [], fetchedOptions || [])
+    }
+  }, [fixedOptions, initialValueOptions, fetchedOptions])
 
   const handleQuery = useCallback(
     (searchValue?: string) => {
@@ -70,41 +76,22 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
         : Promise.resolve([]);
       const data = SessionStorageUtils.getExpireItem(cacheKey, true);
       if (!isEmpty(data) && cacheExpire) {
-        setOptions([...(fixedOptions || []), ...(data || [])]);
+        setFetchedOptions(data || [])
         setFetched(true);
         return;
       }
       request
         .then((data) => {
-          setOptions([...(fixedOptions || []), ...(data || [])]);
+          setFetchedOptions(data || [])
           SessionStorageUtils.setExpireItem(cacheKey, data, cacheExpire);
         })
         .finally(() => {
           setFetched(true);
         });
     },
-    [fetchRequest],
+    [fetchRequest, cacheKey],
   );
 
-  useEffect(() => {
-
-    if (initialValueOption) {
-      if (isEmpty(options)) {
-        setOptions(concat([], fixedOptions || [], initialValueOption || []));
-      } else {
-        const missOptions: any[] = []
-        initialValueOption?.forEach((initialOption:any) => {
-          if (!find(options, (option) => {
-            return get(option, valueFiled) === get(initialOption, valueFiled);
-          })) {
-            missOptions.push(initialOption);
-          }
-        });
-        setOptions(concat(options, missOptions));
-
-      }
-    }
-  }, [initialValueOption]);
 
   useEffect(() => {
     if (!dropdownFetch) {
@@ -112,11 +99,12 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
     }
   }, []);
 
+
   return (
     <ExtTreeSelect
       {...props}
       treeData={options}
-      onSearch={props.showSearch ? debounce(handleQuery, 500) : undefined}
+      showSearch={{onSearch: (props.showSearch ? debounce(handleQuery, 500) : undefined)}}
       onOpenChange={(open) => {
         if (open && dropdownFetch && fetchEnable && (fetchAlways || !fetched)) {
           handleQuery();
@@ -125,4 +113,4 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = ({
       }}
     />
   );
-};
+});

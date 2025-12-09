@@ -10,10 +10,10 @@ export default () => {
       <Switch value={readOnly} onChange={setReadOnly}/>
     </div>
     <div>
-      <ExtInputNumber readOnly={readOnly} value={value} onChange={(v) => {
+      <ExtInputNumber readonly={readOnly} value={value} onChange={(v) => {
         setValue(v)
       }}/>
-      <ExtInputNumber readOnly={readOnly} value={1} onChange={(v) => {
+      <ExtInputNumber readonly={readOnly} value={1} onChange={(v) => {
         setValue(v)
       }}/>
     </div>

@@ -19,14 +19,14 @@ export default ()=>{
       <div>
         <ExtTreeSelect
           style={{width: 200}}
-          readOnly={readOnly}
+          readonly={readOnly}
           value={value}
           onChange={setValue}
           treeData={options}
         />
         <ExtTreeSelect
           style={{width: 200}}
-          readOnly={readOnly}
+          readonly={readOnly}
           value={value2}
           onChange={setValue2}
           treeData={options}

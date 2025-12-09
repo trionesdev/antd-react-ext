@@ -1,10 +1,9 @@
 import {Radio, RadioGroupProps} from "antd";
 import React, {FC} from "react";
-import ExtFormField from '../ext-form-field';
-
+import ExtFormField from "../ext-form-field";
 
 export type ExtRadioGroupProps = RadioGroupProps & {
-    readOnly?: boolean;
+    readonly?: boolean;
     valueRender?:
         | ((value?: any, option?: any) => React.ReactNode)
         | React.ReactNode;
@@ -12,7 +11,7 @@ export type ExtRadioGroupProps = RadioGroupProps & {
 };
 
 export const ExtRadioGroup: FC<ExtRadioGroupProps> = ({
-                                                          readOnly = false,
+                                                          readonly = false,
                                                           valueRender,
                                                           defaultRender,
                                                           ...rest
@@ -27,8 +26,7 @@ export const ExtRadioGroup: FC<ExtRadioGroupProps> = ({
         value={rest.value}
         defaultValue={rest.defaultValue}
         options={rest.options}
-        onChange={rest.onChange}
-        readOnly={readOnly}
+        readonly={readonly}
         valueRender={valueRender}
         defaultRender={defaultRender}
         fieldRender={(value, options) => {
