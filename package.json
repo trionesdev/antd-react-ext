@@ -1,32 +1,29 @@
 {
   "name": "@trionesdev/antd-react-ext",
-  "version": "0.0.7-beta.19",
-  "description": "A react library developed with dumi",
+  "version": "6.0.0-beta.0",
+  "description": "Antd Ext",
+  "license": "MIT",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "start": "npm run dev",
-    "start-dev": "cross-env API_PARSER=true npm run dev",
-    "dev": "dumi dev",
     "build": "father build",
     "build:watch": "father dev",
+    "dev": "dumi dev",
     "docs:build": "dumi build",
     "docs:preview": "dumi preview",
-    "prepare": "husky install && dumi setup",
     "doctor": "father doctor",
     "lint": "npm run lint:es && npm run lint:css",
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
+    "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
-    "publish": "npm publish --tag latest --registry=https://registry.npmjs.org/"
+    "publish": "npm publish --tag latest --registry=https://registry.npmjs.org/",
+    "start": "npm run dev",
+    "start-dev": "cross-env API_PARSER=true npm run dev"
   },
-  "authors": [
-    "fengxiaotx@163.com"
-  ],
-  "license": "MIT",
-  "files": [
-    "dist"
-  ],
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -49,21 +46,12 @@
       "prettier --parser=typescript --write"
     ]
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "peerDependencies": {
-    "@ant-design/cssinjs": "^1.21.1",
-    "@ant-design/icons": "^5.3.6",
-    "antd": "^5.17.0",
-    "classnames": "^2.5.1",
-    "cropperjs": "^2.0.0",
-    "lodash-es": "^4.17.21",
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
+  "dependencies": {
+    "dayjs": "^1.11.19",
+    "lodash-es": "^4.17.21"
   },
   "devDependencies": {
-    "@ant-design/cssinjs": "^1.21.1",
+    "@ant-design/cssinjs": "^2.0.1",
     "@ant-design/icons": "^5.3.7",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
@@ -71,9 +59,9 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.0",
-    "antd": "^5.17.0",
+    "antd": "^6.1.0",
     "cropperjs": "^2.0.0",
-    "dumi": "^2.4.20",
+    "dumi": "^2.4.21",
     "eslint": "^8.23.0",
     "father": "^4.5.2",
     "husky": "^8.0.1",
@@ -86,8 +74,19 @@
     "react-dom": "^18.0.0",
     "stylelint": "^14.9.1"
   },
-  "dependencies": {
-    "@trionesdev/antd-react-ext": "file:",
-    "dayjs": "^1.11.13"
-  }
+  "peerDependencies": {
+    "@ant-design/cssinjs": "^2.0.1",
+    "@ant-design/icons": "^6.1.0",
+    "antd": "^6.1.0",
+    "classnames": "^2.5.1",
+    "cropperjs": "^2.0.0",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "fengxiaotx@163.com"
+  ]
 }
