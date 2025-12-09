@@ -31,7 +31,7 @@ export const LayoutSider: FC<LayoutSiderProps> = ({
   const [scopeCollapsed, setScopeCollapsed] = useState(collapsed);
   const prefixCls = 'triones-ant-layout-sider';
 
-  const {hashId, wrapSSR} = useCssInJs({
+  const {hashId} = useCssInJs({
     prefix: prefixCls,
     styleFun: (prefix, token) => genSiderStyle(prefixCls, token, collapsedWidth),
   });
@@ -56,7 +56,7 @@ export const LayoutSider: FC<LayoutSiderProps> = ({
     });
   }
 
-  return wrapSSR(
+  return (
     <LayoutItem
       className={classNames(prefixCls, className, hashId)}
       style={{
@@ -87,6 +87,6 @@ export const LayoutSider: FC<LayoutSiderProps> = ({
           )}
         </div>
       )}
-    </LayoutItem>,
+    </LayoutItem>
   );
 };

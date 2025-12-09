@@ -20,12 +20,12 @@ export const Layout: FC<LayoutProps> = ({
 }) => {
   const prefixCls = 'triones-ant-layout';
 
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genLayoutStyle,
   });
 
-  return wrapSSR(
+  return (
     <div
       className={classNames(
         prefixCls,
@@ -36,6 +36,6 @@ export const Layout: FC<LayoutProps> = ({
       style={{ gap: gap, ...style }}
     >
       {children}
-    </div>,
+    </div>
   );
 };

@@ -16,11 +16,11 @@ export const LayoutItem: FC<LayoutItemProps> = ({
   auto,
 }) => {
   const prefixCls = 'triones-ant-layout-item';
-  const { hashId, wrapSSR } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genItemStyle,
   });
-  return wrapSSR(
+  return (
     <div
       className={classNames(
         prefixCls,
@@ -31,6 +31,6 @@ export const LayoutItem: FC<LayoutItemProps> = ({
       style={style}
     >
       {children}
-    </div>,
+    </div>
   );
 };
