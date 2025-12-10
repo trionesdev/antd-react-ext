@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_trionesdev_antd_react_ext=self.webpackChunk_trionesdev_antd_react_ext||[]).push([[7780],{68225:function(d,n,t){t.r(n);var s=t(67294),_=t(65567),e=t(85893);n.default=function(){return(0,e.jsx)("div",{children:(0,e.jsx)(_.Fieldset,{title:"\u57FA\u672C\u4FE1\u606F",children:(0,e.jsx)("div",{children:"Fieldset Content"})})})}}}]);
