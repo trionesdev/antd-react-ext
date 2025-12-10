@@ -1,5 +1,5 @@
 import { EditableDesc } from '@trionesdev/antd-react-ext';
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 export default () => {
@@ -17,6 +17,7 @@ export default () => {
     form.setFieldsValue({
       name: '小明',
       gender: 'MALE',
+      description: '描述',
     });
   }, []);
 
@@ -37,7 +38,8 @@ export default () => {
             }
           }}
           clickEdit={true}
-          actionControl={true}
+          manualChange={true}
+          editIcon={false}
           editing={editing}
         >
           <Select>
@@ -46,10 +48,36 @@ export default () => {
           </Select>
         </EditableDesc>
       </Form.Item>
+      <Form.Item label={`年龄`} name={`age`}>
+        <EditableDesc editing={editing} editIcon={true} manualChange={true}>
+          <Input />
+        </EditableDesc>
+      </Form.Item>
+      <Form.Item label={`描述`} name={`description`}>
+        <EditableDesc block={true} editing={editing}>
+          <Input.TextArea />
+        </EditableDesc>
+      </Form.Item>
       <Form.Item>
-        <Button type={`primary`} onClick={handleSave}>
-          保存
-        </Button>
+        <Space>
+          <Button
+            onClick={() => {
+              setEditing(true);
+            }}
+          >
+            编辑
+          </Button>
+          <Button
+            onClick={() => {
+              setEditing(false);
+            }}
+          >
+            取消
+          </Button>
+          <Button type={`primary`} onClick={handleSave}>
+            保存
+          </Button>
+        </Space>
       </Form.Item>
     </Form>
   );

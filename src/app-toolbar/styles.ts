@@ -26,7 +26,7 @@ export const genAppToolbarStyle = (
             display: 'flex',
           },
           [`&-title`]: {
-            color: '#000000d9',
+            color: token.colorTextBase,
             fontWeight: 600,
             fontSize: '20px',
             lineHeight: '32px',

@@ -1,4 +1,13 @@
-import Layout, {LayoutProps} from "./layout";
+import { LayoutItem } from './item';
+import { Layout as InternalLayout, LayoutProps } from './layout';
+import { LayoutSider } from './sider';
 
-export type {LayoutProps}
-export default Layout
+type CompoundedComponent = typeof InternalLayout & {
+  Item: typeof LayoutItem;
+  Sider: typeof LayoutSider;
+};
+const Layout = InternalLayout as CompoundedComponent;
+Layout.Item = LayoutItem;
+Layout.Sider = LayoutSider;
+export type { LayoutProps };
+export default Layout;

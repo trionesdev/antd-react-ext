@@ -1,10 +1,7 @@
 {
   "name": "@trionesdev/antd-react-ext",
-  "version": "0.0.1-beta.3",
-  "description": "A react library developed with dumi",
-  "repository": {
-    "url": "https://github.com/trionesdev/antd-react-ext.git"
-  },
+  "version": "6.0.0-beta.0",
+  "description": "Antd Ext",
   "license": "MIT",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,17 +11,18 @@
   "scripts": {
     "build": "father build",
     "build:watch": "father dev",
-    "codingPublish": "npm publish --registry=https://moensun-npm.pkg.coding.net/npm/moensun/",
-    "deploy": "gh-pages -d dist",
     "dev": "dumi dev",
     "docs:build": "dumi build",
+    "docs:preview": "dumi preview",
     "doctor": "father doctor",
     "lint": "npm run lint:es && npm run lint:css",
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
-    "start": "npm run dev"
+    "publish": "npm publish --tag latest --registry=https://registry.npmjs.org/",
+    "start": "npm run dev",
+    "start-dev": "cross-env API_PARSER=true npm run dev"
   },
   "commitlint": {
     "extends": [
@@ -49,24 +47,26 @@
     ]
   },
   "dependencies": {
-    "@babel/runtime": "^7.21.0"
+    "dayjs": "^1.11.19",
+    "lodash-es": "^4.17.21"
   },
   "devDependencies": {
-    "@ant-design/cssinjs": "^1.17.0",
-    "@ant-design/icons": "^5.2.5",
+    "@ant-design/cssinjs": "^2.0.1",
+    "@ant-design/icons": "^5.3.7",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
-    "@types/lodash": "^4.14.191",
+    "@types/lodash-es": "^4.17.12",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.0",
-    "antd": "^5.7.0",
-    "dumi": "^2.0.2",
+    "antd": "^6.1.0",
+    "cropperjs": "^2.0.0",
+    "dumi": "^2.4.21",
     "eslint": "^8.23.0",
-    "father": "^4.3.1",
+    "father": "^4.5.2",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.0.0",
     "prettier-plugin-packagejson": "^2.2.18",
@@ -75,11 +75,11 @@
     "stylelint": "^14.9.1"
   },
   "peerDependencies": {
-    "@ant-design/cssinjs": "^1.6.1",
-    "@ant-design/icons": "^5.0.1",
-    "antd": "^5.7.0",
-    "classnames": "^2.3.2",
-    "lodash": "^4.17.21",
+    "@ant-design/cssinjs": "^2.0.1",
+    "@ant-design/icons": "^6.1.0",
+    "antd": "^6.1.0",
+    "classnames": "^2.5.1",
+    "cropperjs": "^2.0.0",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },

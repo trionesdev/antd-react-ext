@@ -1,10 +1,16 @@
-import {ArrowLeftOutlined} from '@ant-design/icons';
-import {Avatar, AvatarProps, Breadcrumb, BreadcrumbProps, Button, Space,} from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import {
+  Avatar,
+  AvatarProps,
+  Breadcrumb,
+  BreadcrumbProps,
+  Button,
+  Space,
+} from 'antd';
 import classNames from 'classnames';
-import React, {FC} from 'react';
-import {useCssInJs} from "../hooks";
-import {genPageHeaderStyle} from "./styles";
-
+import React, { FC } from 'react';
+import { useCssInJs } from '../hooks';
+import { genPageHeaderStyle } from './styles';
 
 export type PageHeaderProps = {
   className?: string;
@@ -49,23 +55,26 @@ export type PageHeaderProps = {
 };
 
 const PageHeader: FC<PageHeaderProps> = ({
-                                                  className,
-                                                  style,
-                                                  children,
-                                                  backIcon = true,
-                                                  avatar,
-                                                  title,
-                                                  subTitle,
-                                                  breadcrumb,
-                                                  extra,
-                                                  onBack,
-                                                  footer,
-                                                }) => {
-  const prefixCls = 'ant-page-header';
+  className,
+  style,
+  children,
+  backIcon = true,
+  avatar,
+  title,
+  subTitle,
+  breadcrumb,
+  extra,
+  onBack,
+  footer,
+}) => {
+  const prefixCls = 'triones-ant-page-header';
 
-  const {hashId, wrapSSR} = useCssInJs({prefix: prefixCls, styleFun: genPageHeaderStyle})
+  const { hashId } = useCssInJs({
+    prefix: prefixCls,
+    styleFun: genPageHeaderStyle,
+  });
 
-  return wrapSSR(
+  return (
     <div style={style} className={classNames(prefixCls, className, hashId)}>
       {breadcrumb && (
         <div className={classNames(`${prefixCls}-breadcrumb`, hashId)}>
@@ -80,7 +89,7 @@ const PageHeader: FC<PageHeaderProps> = ({
           {backIcon && (
             <Button
               type={`text`}
-              icon={<ArrowLeftOutlined rev={undefined}/>}
+              icon={<ArrowLeftOutlined rev={undefined} />}
               onClick={onBack}
             />
           )}
@@ -101,7 +110,7 @@ const PageHeader: FC<PageHeaderProps> = ({
       </div>
       {children && <div>{children}</div>}
       {footer && <div>{footer}</div>}
-    </div>,
+    </div>
   );
 };
-export default PageHeader
+export default PageHeader;

@@ -1,3 +1,4 @@
-import {EditableDesc} from "./editable-desc";
+import { EditableDesc, EditableDescProps } from './editable-desc';
 
-export default EditableDesc
+export type { EditableDescProps };
+export default EditableDesc;

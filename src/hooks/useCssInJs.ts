@@ -11,9 +11,9 @@ export const useCssInJs = (params?: CssInJsProps) => {
   const { theme, token, hashId } = useToken();
   // @ts-ignore
   const ss: Theme<any, any> = theme;
-  const wrapSSR = useStyleRegister(
+    useStyleRegister(
     { theme: ss, token, hashId, path: [`${params?.prefix}`] },
     () => [params?.styleFun?.(params?.prefix, token)],
   );
-  return { hashId, wrapSSR };
+  return { hashId };
 };

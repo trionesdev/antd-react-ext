@@ -1,9 +1,9 @@
-import { SearchToolbar, SearchToolbarItem } from '@trionesdev/antd-react-ext';
+import { SearchToolbar } from '@trionesdev/antd-react-ext';
 import { Input } from 'antd';
 import React from 'react';
 
 export default () => {
-  const items: SearchToolbarItem[] = [
+  const items: any[] = [
     {
       label: '年龄',
       name: 'age',

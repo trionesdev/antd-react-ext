@@ -1,28 +1,29 @@
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Grid, Row, Space } from 'antd';
+import { Button, Col, Form, FormItemProps, Grid, Row, Space } from 'antd';
 import classNames from 'classnames';
-import _ from 'lodash';
+import { size as _size } from 'lodash-es';
 import React, { FC, useEffect, useState } from 'react';
 import { useCssInJs } from '../hooks';
 import { genSearchToolbarStyle } from './styled';
 
 const { useBreakpoint } = Grid;
 
-export type SearchToolbarItem = {
-  label?: React.ReactNode;
-  name?: string | string[];
-  children?: React.ReactNode;
-};
-
 export type SearchToolbarProps = {
   style?: React.CSSProperties;
   className?: string;
-  items?: SearchToolbarItem[];
+  expanded?: boolean;
+  items?: FormItemProps[];
   layout?: 'horizontal' | 'inline' | 'vertical';
   labelCol?: { span?: number; offset?: number };
   labelAlign?: 'left' | 'right';
   size?: 'large' | 'middle' | 'small';
   initialValues?: any;
+  afterExpandChange?: (expanded: boolean) => void;
+  /**
+   * @description 查询参数改变后回调
+   * @default
+   */
+  onSearchParamsChange?: (values: any) => void;
   onSearch?: (values: any) => void;
   onReset?: () => void;
   span?: number;
@@ -36,13 +37,16 @@ export type SearchToolbarProps = {
 const SearchToolbar: FC<SearchToolbarProps> = ({
   style,
   className,
+  expanded = true,
   items,
   layout,
   labelCol,
   labelAlign,
   size,
   initialValues,
+  afterExpandChange,
   onSearch,
+  onSearchParamsChange,
   onReset,
   span = 6,
   xs,
@@ -52,11 +56,9 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   xl,
   xxl,
 }) => {
-  const prefixCls = 'ant-search-toolbar';
-
   const [form] = Form.useForm();
   const screens = useBreakpoint();
-  const [expanded, setExpanded] = useState(true);
+  const [scopeExpanded, setScopeExpanded] = useState(expanded);
   const [colSpan, setColSpan] = useState(span);
   const [rowColSize, setRowColSize] = useState(4);
   const [offsetSpan, setOffsetSpan] = useState(0);
@@ -67,7 +69,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
     rowColSize: number,
     itemSize: number,
   ) => {
-    if (expanded) {
+    if (scopeExpanded) {
       const remainder = (itemSize + 1) % rowColSize;
       return remainder === 0 ? 0 : rowColSize - (remainder % rowColSize);
     } else {
@@ -76,18 +78,13 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   };
 
   const handleCompute = () => {
-    const itemSize = _.size(items);
+    const itemSize = _size(items);
     const rowColSize = 24 / colSpan;
     const compensateColCount = handleCompleteCompensateColCount(
       rowColSize,
       itemSize,
     ); //需要补偿列数
     const offsetSpan = colSpan * compensateColCount;
-
-    // console.log(colSpan);
-    // console.log(rowColSize);
-    // console.log(compensateColCount);
-    // console.log(offsetSpan);
 
     setRowColSize(rowColSize);
     setOffsetSpan(offsetSpan);
@@ -102,6 +99,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
 
   const handleReset = () => {
     form.resetFields();
+    onSearchParamsChange?.({});
     onReset?.();
   };
 
@@ -125,7 +123,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
 
   useEffect(() => {
     handleCompute();
-  }, [items, colSpan, expanded]);
+  }, [items, colSpan, scopeExpanded]);
 
   const colSpanProps = {
     span,
@@ -137,12 +135,15 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
     xxl,
   };
 
-  const { hashId, wrapSSR } = useCssInJs({
+  useEffect(() => {}, [scopeExpanded]);
+
+  const prefixCls = 'triones-ant-search-toolbar';
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genSearchToolbarStyle,
   });
 
-  return wrapSSR(
+  return (
     <div className={classNames(className, prefixCls, hashId)} style={style}>
       <Form
         form={form}
@@ -150,6 +151,9 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
         labelCol={labelCol}
         labelAlign={labelAlign}
         size={size}
+        onValuesChange={(_, allValues) => {
+          onSearchParamsChange?.(allValues);
+        }}
         initialValues={initialValues}
       >
         <Row gutter={[8, 8]}>
@@ -159,12 +163,10 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
               {...colSpanProps}
               className={classNames({
                 [`${prefixCls}-col-hidden`]:
-                  index > rowColSize - 2 && !expanded,
+                  index > rowColSize - 2 && !scopeExpanded,
               })}
             >
-              <Form.Item label={item.label} name={item.name}>
-                {item.children}
-              </Form.Item>
+              <Form.Item {...item} />
             </Col>
           ))}
           <Col
@@ -179,9 +181,12 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
                   查询
                 </Button>
                 {expandable && (
-                  <Button type={`link`} onClick={() => setExpanded(!expanded)}>
+                  <Button
+                    type={`link`}
+                    onClick={() => setScopeExpanded(!scopeExpanded)}
+                  >
                     {' '}
-                    {expanded ? (
+                    {scopeExpanded ? (
                       <>
                         收起
                         <UpOutlined rev={undefined} />
@@ -199,7 +204,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
           </Col>
         </Row>
       </Form>
-    </div>,
+    </div>
   );
 };
 export default SearchToolbar;

@@ -1,54 +1,49 @@
 import { Form, FormProps } from 'antd';
-import { NamePath } from 'rc-field-form/es/interface';
 import React, { forwardRef, useEffect, useImperativeHandle } from 'react';
 
 export interface ModalInnerFormHandle {
   submit: () => void;
-  resetFields: (fields?: NamePath[]) => void;
+  resetFields: (fields?: any[]) => void;
 }
 
 type ModalInnerFormProps = {
-  children?: React.ReactElement | React.ReactNode;
+  children: React.ReactElement | React.ReactNode;
   formValues?: any;
   onSubmit?: (values: any) => Promise<any> | void;
-} & FormProps;
+} & Omit<FormProps, 'children'>;
 export const ModalInnerForm = forwardRef<
   ModalInnerFormHandle,
   ModalInnerFormProps
 >(({ children, formValues, onSubmit, ...rest }, componentRef) => {
   const [form] = Form.useForm();
+  /**支持自己传入form，外部传入form的话使用外部传入的form */
+  const finalFrom = rest.form ? rest.form : form;
   useImperativeHandle(componentRef, () => {
     return {
       submit: () => {
-        form
+        finalFrom
           .validateFields()
           .then((values: any) => {
-            if (onSubmit) {
-              return onSubmit(values);
-            } else {
-              return Promise.resolve();
-            }
+            onSubmit?.(values);
           })
           .catch((ex: any) => {
-            console.log(ex);
+            console.error(ex.message);
           });
       },
-      resetFields: (fields?: NamePath[]) => {
-        form.resetFields(fields);
+      resetFields: (fields?: any[]) => {
+        finalFrom.resetFields(fields);
       },
     };
   });
 
   useEffect(() => {
     if (formValues) {
-      form.setFieldsValue(formValues);
-    } else {
-      form.resetFields();
+      finalFrom.setFieldsValue(formValues);
     }
   }, [formValues]);
 
   return (
-    <Form form={form} {...rest}>
+    <Form {...rest} form={finalFrom}>
       {children}
     </Form>
   );

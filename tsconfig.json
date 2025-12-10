@@ -8,9 +8,9 @@
     "baseUrl": "./",
     "paths": {
       "@@/*": [".dumi/tmp/*"],
-      "@trionesdev/antd-react-ext": ["src"]
-      //      "@trionesdev/antd-react-ext/*": ["src/*", "*"]
+      "@trionesdev/antd-react-ext": ["src"],
+      "@trionesdev/antd-react-ext/*": ["src/*", "*"]
     }
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*"]
+  "include": [".dumirc.ts", "src/**/*"]
 }

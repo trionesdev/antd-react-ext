@@ -4,4 +4,6 @@
 
 <code src="./demo/base.tsx"></code>
 
+<code src="./demo/form.tsx"></code>
+
 <API id="EditableDesc"></API>
