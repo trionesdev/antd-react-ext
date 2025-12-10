@@ -54,7 +54,6 @@ const show = (options?: ModalFormShowProps) => {
     <InternalModalForm
       {...options}
       open={true}
-      onClose={handleClose}
       onCancel={handleCancel}
     />,
   );

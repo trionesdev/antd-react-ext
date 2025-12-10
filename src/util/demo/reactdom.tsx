@@ -25,7 +25,6 @@ const ModalEl = ({
     <Modal
       title={`确定删除？`}
       open={open}
-      onClose={handleClose}
       onCancel={handleClose}
       getContainer={container}
     >

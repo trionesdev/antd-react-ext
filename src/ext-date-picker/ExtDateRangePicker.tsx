@@ -5,12 +5,13 @@ import dayjs from "dayjs";
 import {ExtFormField} from '@trionesdev/antd-react-ext';
 
 export type ExtDateRangePickerProps = RangePickerProps & {
-    readOnly?: boolean;
-    valueRender?: ((value?: any) => React.ReactNode) | React.ReactNode;
-    defaultRender?: React.ReactNode;
-}
+  readonly?: boolean;
+  valueRender?: ((value?: any) => React.ReactNode) | React.ReactNode;
+  defaultRender?: React.ReactNode;
+  emptyPlaceholder?: React.ReactNode;
+};
 
-export const ExtDateRangePicker: FC<ExtDateRangePickerProps> = ({readOnly, valueRender,defaultRender, ...rest}) => {
+export const ExtDateRangePicker: FC<ExtDateRangePickerProps> = ({readonly, valueRender,defaultRender,emptyPlaceholder, ...rest}) => {
 
     const handleFiledRender = (value: any, valueOptions: any) => {
         if (!value) {
@@ -26,7 +27,7 @@ export const ExtDateRangePicker: FC<ExtDateRangePickerProps> = ({readOnly, value
             case 'year':
                 return `${value?.[0] ? dayjs(value?.[0]).format('YYYY') : ''}~${value?.[1] ? dayjs(value?.[1]).format('YYYY') : ''}`;
             default: {
-                const format = (rest.format as any)?.format || rest.format || 'YYYY-MM-DD HH:mm:ss';
+                const format = (rest.format as any)?.format || rest.format || 'YYYY-MM-DD';
                 return `${value?.[0] ? dayjs(value?.[0]).format(format) : ''}~${value?.[1] ? dayjs(value?.[1]).format(format) : ''}`;
             }
         }
@@ -34,12 +35,13 @@ export const ExtDateRangePicker: FC<ExtDateRangePickerProps> = ({readOnly, value
 
     return (
         <ExtFormField
-            readOnly={readOnly}
+            readonly={readonly}
             value={rest.value}
             defaultValue={rest.defaultValue}
             valueRender={valueRender}
             defaultRender={defaultRender}
             fieldRender={handleFiledRender}
+            emptyPlaceholder={emptyPlaceholder}
         >
             <DatePicker.RangePicker {...rest}  />
         </ExtFormField>

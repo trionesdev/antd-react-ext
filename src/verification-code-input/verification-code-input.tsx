@@ -6,7 +6,7 @@ import { genValidationCodeInputStyle } from './styles';
 
 const prefixCls = 'triones-validation-code-input';
 
-type ValidationCodeInputProps = Omit<InputProps, 'suffix'> & {
+export type VerificationCodeInputProps = Omit<InputProps, 'suffix'> & {
   /**
    * @description 发送按钮文案
    * @default '获取验证码'
@@ -29,7 +29,7 @@ type ValidationCodeInputProps = Omit<InputProps, 'suffix'> & {
   onSend?: () => Promise<boolean>;
 };
 
-const SendSuffix: FC<ValidationCodeInputProps> = ({
+const SendSuffix: FC<VerificationCodeInputProps> = ({
   sendText,
   resendText,
   intervalSeconds = 60,
@@ -88,10 +88,10 @@ const SendSuffix: FC<ValidationCodeInputProps> = ({
       </div>
     );
   };
-  return (handleSuffix());
+  return handleSuffix();
 };
 
-const VerificationCodeInput: FC<ValidationCodeInputProps> = ({
+const VerificationCodeInput: FC<VerificationCodeInputProps> = ({
   sendText = '获取验证码',
   resendText = '重新发送',
   intervalSeconds = 60,

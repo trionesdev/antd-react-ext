@@ -12,7 +12,7 @@ export default () => {
         onTriggerClick={() => {
           setOpen(true);
         }}
-        onClose={() => setOpen(false)}
+
         onCancel={() => setOpen(false)}
         title={`表单`}
       >
