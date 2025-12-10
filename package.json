@@ -47,12 +47,13 @@
     ]
   },
   "dependencies": {
+    "cropperjs": "^2.1.0",
     "dayjs": "^1.11.19",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
     "@ant-design/cssinjs": "^2.0.1",
-    "@ant-design/icons": "^5.3.7",
+    "@ant-design/icons": "^6.1.0",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@types/lodash-es": "^4.17.12",
@@ -60,7 +61,6 @@
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.0",
     "antd": "^6.1.0",
-    "cropperjs": "^2.0.0",
     "dumi": "^2.4.21",
     "eslint": "^8.23.0",
     "father": "^4.5.2",
