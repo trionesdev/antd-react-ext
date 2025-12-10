@@ -6,12 +6,16 @@ export type ExtInputNumberProps = InputNumberProps & {
   readonly?: boolean;
   valueRender?: ((value?: any) => React.ReactNode) | React.ReactNode;
   defaultRender?: React.ReactNode;
+  emptyPlaceholder?: React.ReactNode;
 };
 
-export const ExtInputNumber: FC<ExtInputNumberProps> = ({readonly, valueRender, defaultRender, ...rest}) => {
+export const ExtInputNumber: FC<ExtInputNumberProps> = ({readonly, valueRender, defaultRender,emptyPlaceholder, ...rest}) => {
 
   const handleRender = (value: any, options: any) => {
-    return <>{value}{rest.suffix}</>
+    if (value){
+      return <> {value}{rest.suffix}</>
+    }
+    return emptyPlaceholder
   };
 
   return (
@@ -22,6 +26,7 @@ export const ExtInputNumber: FC<ExtInputNumberProps> = ({readonly, valueRender, 
       valueRender={valueRender}
       defaultRender={defaultRender}
       fieldRender={handleRender}
+      emptyPlaceholder={emptyPlaceholder}
     >
       <InputNumber {...rest} />
     </ExtFormField>

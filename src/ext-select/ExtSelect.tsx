@@ -3,12 +3,12 @@ import { includes } from 'lodash-es';
 import React, {FC} from 'react';
 import ExtFormField from '../ext-form-field';
 
-export type ExtSelectProps = SelectProps & {
-    readonly?: boolean;
-    valueRender?:
-        | ((value?: any, option?: any) => React.ReactNode)
-        | React.ReactNode;
-    defaultRender?: React.ReactNode;
+export type ExtSelectProps = Omit<SelectProps, 'children'> & {
+  readonly?: boolean;
+  valueRender?:
+    | ((value?: any, option?: any) => React.ReactNode)
+    | React.ReactNode;
+  defaultRender?: React.ReactNode;
 };
 export const ExtSelect: FC<ExtSelectProps> = ({
                                                   readonly = false,

@@ -1,11 +1,21 @@
 import { UploadOutlined } from '@ant-design/icons';
 import { useCssInJs } from '@trionesdev/antd-react-ext';
-import { Button, Divider, Image, Space, Spin, Upload, message } from 'antd';
+import {
+  Button,
+  Divider,
+  Image,
+  Space,
+  Spin,
+  Upload,
+  message,
+  Empty,
+} from 'antd';
 import classNames from 'classnames';
 import React, { CSSProperties, FC, useEffect, useState } from 'react';
 import { genPictureUploadStyle } from './styles';
 
 export type PictureUploadProps = {
+  readonly?: boolean;
   value?: string;
   onChange?: (value: string) => void;
   style?: CSSProperties;
@@ -30,6 +40,7 @@ export type PictureUploadProps = {
   uploadRequest?: (file: File) => Promise<string>;
 };
 export const PictureUpload: FC<PictureUploadProps> = ({
+  readonly,
   value,
   onChange,
   style,
@@ -94,7 +105,7 @@ export const PictureUpload: FC<PictureUploadProps> = ({
   }, [scopeValue]);
 
   const prefixCls = `triones-picture-upload`;
-  const {  hashId } = useCssInJs({
+  const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genPictureUploadStyle,
   });
@@ -105,7 +116,16 @@ export const PictureUpload: FC<PictureUploadProps> = ({
     >
       <Spin spinning={loading}>
         <div style={{ width: width, height: height, display: 'inline-block' }}>
-          {scopeValue ? (
+          {readonly ? (scopeValue ?
+            <div className={classNames(`${prefixCls}-image`, hashId)}>
+              <Image
+                preview={preview}
+                src={scopeValue}
+                width={width}
+                height={height}
+              />
+            </div>:<Empty description={'请上传图片'} image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          ) : scopeValue ? (
             <div className={classNames(`${prefixCls}-image`, hashId)}>
               <Image
                 preview={preview}

@@ -22,6 +22,9 @@ export type { ExtInputProps } from './ext-input';
 export { default as ExtInputNumber } from './ext-input-number';
 export type { ExtInputNumberProps } from './ext-input-number';
 
+export { default as ExtCheckbox } from './ext-checkbox';
+export  type { ExtCheckBoxProps, ExtCheckBoxGroupProps } from './ext-checkbox';
+
 export {default as ExtRadio} from "./ext-radio"
 export type {ExtRadioProps, ExtRadioGroupProps} from "./ext-radio"
 
