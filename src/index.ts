@@ -4,6 +4,9 @@ export type { AppToolbarProps } from './app-toolbar';
 export { default as AvatarEditor } from './avatar-editor';
 export type { AvatarEditorProps } from './avatar-editor';
 
+export { default as DataGrid } from './data-grid';
+export type { DataGridProps, DataGridColumnProps } from './data-grid';
+
 export { default as DrawerForm } from './drawer-form';
 export type { DrawerFormProps } from './drawer-form';
 
