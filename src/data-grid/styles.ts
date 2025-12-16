@@ -36,7 +36,7 @@ export const genDataGridStyle = (
         maxWidth: '100%',
         overflow: 'auto',
         position: 'relative',
-        ...Scrollbar,
+        // ...Scrollbar,
       },
       [`&-head`]: {
         display: 'table-header-group',
@@ -60,20 +60,25 @@ export const genDataGridStyle = (
       },
       [`&-cell`]: {
         borderBottom: '1px solid #f0f0f0',
+        backgroundColor: '#fff',
       },
       [`&-cell-head`]: {
         '.resizer': {
           position: 'absolute',
           top: 0,
           height: '100%',
-          width: 5,
+          width: 2,
           background: 'rgba(0, 0, 0, 0.5)',
           cursor: 'col-resize',
           userSelect: 'none',
           touchAction: 'none',
+          '&.rtl': {
+            left: 0,
+          },
           '&.ltr': {
             right: 0,
           },
+
         },
       },
 

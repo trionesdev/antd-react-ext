@@ -10,6 +10,7 @@ export default ()=>{
       title: 'First Name',
       dataIndex: 'firstName',
       width: 150,
+      fixed: 'left',
     },
     {
       title: 'Last Name',
@@ -24,17 +25,19 @@ export default ()=>{
     {
       title: 'Visits',
       dataIndex: 'visits',
-      width: 150,
+      // width: 150,
     },
     {
       title: 'Status',
       dataIndex: 'status',
       width: 150,
+      fixed: 'right',
     },
     {
       title: 'Progress',
       dataIndex: 'progress',
       width: 150,
+      fixed: 'right',
     },
   ];
 

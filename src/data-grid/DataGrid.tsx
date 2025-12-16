@@ -1,4 +1,5 @@
 import {
+  Column,
   ColumnResizeDirection,
   ColumnResizeMode,
   createColumnHelper,
@@ -6,10 +7,10 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useCssInJs } from '@trionesdev/antd-react-ext';
+import {useCssInJs} from '@trionesdev/antd-react-ext';
 import classNames from 'classnames';
-import React, { FC, PropsWithChildren } from 'react';
-import { genDataGridStyle } from './styles';
+import React, {CSSProperties, FC, PropsWithChildren} from 'react';
+import {genDataGridStyle} from './styles';
 
 export type DataGridColumnProps = {
   title?: string;
@@ -25,11 +26,33 @@ export type DataGridProps = {
   columns: DataGridColumnProps[];
 };
 const prefixCls = 'triones-data-grid';
+
+const getCommonPinningStyles = (column: Column<any>): CSSProperties => {
+  const isPinned = column.getIsPinned()
+  const isLastLeftPinnedColumn =
+    isPinned === 'left' && column.getIsLastColumn('left')
+  const isFirstRightPinnedColumn =
+    isPinned === 'right' && column.getIsFirstColumn('right')
+
+  return {
+    boxShadow: isLastLeftPinnedColumn
+      ? '-4px 0 4px -4px gray inset'
+      : isFirstRightPinnedColumn
+        ? '4px 0 4px -4px gray inset'
+        : undefined,
+    left: isPinned === 'left' ? `${column.getStart('left')}px` : undefined,
+    right: isPinned === 'right' ? `${column.getAfter('right')}px` : undefined,
+    position: isPinned ? 'sticky' : 'relative',
+    width: column.getSize(),
+    zIndex: isPinned ? 1 : 0,
+  }
+}
+
 export const DataGrid: FC<PropsWithChildren<DataGridProps>> = ({
-  children,
-  dataSource,
-  columns,
-}) => {
+                                                                 children,
+                                                                 dataSource,
+                                                                 columns,
+                                                               }) => {
   const [columnResizeMode, setColumnResizeMode] =
     React.useState<ColumnResizeMode>('onChange');
   const [columnResizeDirection, setColumnResizeDirection] =
@@ -40,7 +63,8 @@ export const DataGrid: FC<PropsWithChildren<DataGridProps>> = ({
       cell: (info) =>
         column.render?.(info.getValue(), info.row.original, info.row.index) ||
         info.getValue(),
-      size: column.width || 100,
+      size: column.width,
+
     });
   });
   const table = useReactTable({
@@ -52,9 +76,15 @@ export const DataGrid: FC<PropsWithChildren<DataGridProps>> = ({
     debugTable: true,
     debugHeaders: true,
     debugColumns: true,
+    initialState: {
+      columnPinning: {
+        left: columns.filter(column => column.fixed === 'left').map(column => column.dataIndex),
+        right: columns.filter(column => column.fixed === 'right').map(column => column.dataIndex)
+      }
+    }
   });
 
-  const { hashId } = useCssInJs({
+  const {hashId} = useCssInJs({
     prefix: prefixCls,
     styleFun: genDataGridStyle,
   });
@@ -64,118 +94,139 @@ export const DataGrid: FC<PropsWithChildren<DataGridProps>> = ({
       <div className={classNames(`${prefixCls}-container`, hashId)}>
         <table
           className={classNames(`${prefixCls}`, hashId)}
-          style={{ width: table.getTotalSize() }}
+          style={{
+            tableLayout: 'fixed',
+            width: table.getTotalSize()
+          }}
         >
-          <colgroup>
-            {table.getHeaderGroups().map((headerGroup) => {
-              return (
-                <React.Fragment key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <col key={header.id} width={header.getSize()} />
-                  ))}
-                </React.Fragment>
-              );
-            })}
-          </colgroup>
           <thead className={classNames(`${prefixCls}-head`, hashId)}>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr
-                key={headerGroup.id}
-                className={classNames(
-                  `${prefixCls}-row`,
-                  `${prefixCls}-row-head`,
-                  hashId,
-                )}
-              >
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr
+              key={headerGroup.id}
+              className={classNames(
+                `${prefixCls}-row`,
+                `${prefixCls}-row-head`,
+                hashId,
+              )}
+            >
+              {headerGroup.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className={classNames(
+                    `${prefixCls}-cell`,
+                    `${prefixCls}-cell-head`,
+                    `${prefixCls}-cell-sticky-header`,
+                    hashId,
+                  )}
+                  {...{
+                    colSpan: header.colSpan,
+                    style: {
+                      width: header.getSize(),
+                      ...getCommonPinningStyles(header.column),
+                    },
+                  }}
+                >
+                  <div
                     className={classNames(
-                      `${prefixCls}-cell`,
-                      `${prefixCls}-cell-head`,
-                      `${prefixCls}-cell-sticky-header`,
+                      `${prefixCls}-cell-wrapper`,
                       hashId,
                     )}
-                    {...{
-                      colSpan: header.colSpan,
-                      style: {
-                        width: header.getSize(),
-                      },
-                    }}
                   >
-                    <div
-                      className={classNames(
-                        `${prefixCls}-cell-wrapper`,
-                        hashId,
+                    {header.column.getIsPinned() === 'right' && <div
+                      {...{
+                        onMouseDown: (e) => {
+                          setColumnResizeDirection('rtl')
+                          header.getResizeHandler()(e)
+                        },
+                        onTouchStart: header.getResizeHandler(),
+                        className: `resizer rtl ${
+                          header.column.getIsResizing() ? 'isResizing' : ''
+                        }`,
+                        style: {
+                          transform:
+                            columnResizeMode === 'onEnd' &&
+                            header.column.getIsResizing()
+                              ? `translateX(${
+                                (table.options.columnResizeDirection ===
+                                'rtl'
+                                  ? -1
+                                  : 1) *
+                                (table.getState().columnSizingInfo
+                                  .deltaOffset ?? 0)
+                              }px)`
+                              : '',
+                        },
+                      }}
+                    />}
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
                       )}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                      <div
-                        {...{
-                          onMouseDown: header.getResizeHandler(),
-                          onTouchStart: header.getResizeHandler(),
-                          className: `resizer ${
-                            table.options.columnResizeDirection
-                          } ${
-                            header.column.getIsResizing() ? 'isResizing' : ''
-                          }`,
-                          style: {
-                            transform:
-                              columnResizeMode === 'onEnd' &&
-                              header.column.getIsResizing()
-                                ? `translateX(${
-                                    (table.options.columnResizeDirection ===
-                                    'rtl'
-                                      ? -1
-                                      : 1) *
-                                    (table.getState().columnSizingInfo
-                                      .deltaOffset ?? 0)
-                                  }px)`
-                                : '',
-                          },
-                        }}
-                      />
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            ))}
+                    {(header.column.getIsPinned() !== 'right') && <div
+                      {...{
+                        onMouseDown: (e) => {
+                          setColumnResizeDirection('ltr')
+                          header.getResizeHandler()(e)
+                        },
+                        onTouchStart: header.getResizeHandler(),
+                        className: `resizer ltr ${
+                          header.column.getIsResizing() ? 'isResizing' : ''
+                        }`,
+                        style: {
+                          transform:
+                            columnResizeMode === 'onEnd' &&
+                            header.column.getIsResizing()
+                              ? `translateX(${
+                                (table.options.columnResizeDirection ===
+                                'rtl'
+                                  ? -1
+                                  : 1) *
+                                (table.getState().columnSizingInfo
+                                  .deltaOffset ?? 0)
+                              }px)`
+                              : '',
+                        },
+                      }}
+                    />}
+                  </div>
+                </th>
+              ))}
+            </tr>
+          ))}
           </thead>
           <tbody className={classNames(`${prefixCls}-body`, hashId)}>
-            {table.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                className={classNames(`${prefixCls}-row`, hashId)}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className={classNames(
-                      `${prefixCls}-cell`,
-                      `${prefixCls}-cell-body`,
-                      hashId,
+          {table.getRowModel().rows.map((row) => (
+            <tr
+              key={row.id}
+              className={classNames(`${prefixCls}-row`, hashId)}
+            >
+              {row.getVisibleCells().map((cell) => (
+                <td
+                  key={cell.id}
+                  className={classNames(
+                    `${prefixCls}-cell`,
+                    `${prefixCls}-cell-body`,
+                    hashId,
+                  )}
+                  {...{
+                    style: {
+                      // width: cell.column.getSize(),
+                      ...getCommonPinningStyles(cell.column),
+                    },
+                  }}
+                >
+                  <div style={{overflow: 'hidden'}}>
+                    {flexRender(
+                      cell.column.columnDef.cell,
+                      cell.getContext(),
                     )}
-                    {...{
-                      style: {
-                        // width: cell.column.getSize(),
-                      },
-                    }}
-                  >
-                    <div style={{ overflow: 'hidden' }}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </div>
-                  </td>
-                ))}
-              </tr>
-            ))}
+                  </div>
+                </td>
+              ))}
+            </tr>
+          ))}
           </tbody>
         </table>
       </div>
