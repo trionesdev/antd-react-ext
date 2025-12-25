@@ -5,7 +5,7 @@ import ExtFormField, { CommonExtFormFieldProps } from '../ext-form-field';
 export type ExtInputProps = InputProps & CommonExtFormFieldProps;
 
 export const ExtInput: FC<ExtInputProps> = ({
-  readonly,
+  readOnly,
   valueRender,
   defaultRender,
   emptyPlaceholder,
@@ -15,7 +15,7 @@ export const ExtInput: FC<ExtInputProps> = ({
     <ExtFormField
       value={rest.value}
       defaultValue={rest.defaultValue}
-      readonly={readonly}
+      readOnly={readOnly}
       valueRender={valueRender}
       defaultRender={defaultRender}
       emptyPlaceholder={emptyPlaceholder}

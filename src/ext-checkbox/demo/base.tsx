@@ -13,11 +13,11 @@ export default ()=>{
         <Switch value={readOnly} onChange={setReadOnly} />
       </div>
       <div>
-        <ExtCheckbox readonly={readOnly} value={1}>
+        <ExtCheckbox readOnly={readOnly} value={1}>
           是
         </ExtCheckbox>
         <ExtCheckbox.Group
-          readonly={readOnly}
+          readOnly={readOnly}
           value={value}
           onChange={(v) => {
             setValue(v);

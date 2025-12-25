@@ -4,13 +4,13 @@ import dayjs from 'dayjs';
 import React, {FC} from 'react';
 
 export type ExtDatePickerProps = DatePickerProps & {
-  readonly?: boolean;
+  readOnly?: boolean;
   valueRender?: ((value?: any) => React.ReactNode) | React.ReactNode;
   defaultRender?: React.ReactNode;
   emptyPlaceholder?: React.ReactNode;
 };
 export const ExtDatePicker: FC<ExtDatePickerProps> = ({
-  readonly,
+  readOnly,
   valueRender,
   defaultRender,
   emptyPlaceholder,
@@ -39,7 +39,7 @@ export const ExtDatePicker: FC<ExtDatePickerProps> = ({
 
   return (
     <ExtFormField
-      readonly={readonly}
+      readOnly={readOnly}
       value={rest.value}
       defaultValue={rest.defaultValue}
       valueRender={valueRender}

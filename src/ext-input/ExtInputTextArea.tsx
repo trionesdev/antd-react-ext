@@ -4,13 +4,13 @@ import React, { FC } from 'react';
 import ExtFormField from '../ext-form-field';
 
 export type ExtInputTextAreaProps = TextAreaProps & {
-  readonly?: boolean;
+  readOnly?: boolean;
   valueRender?: ((value?: any) => React.ReactNode) | React.ReactNode;
   defaultRender?: React.ReactNode;
   emptyPlaceholder?: React.ReactNode;
 };
 export const ExtInputTextArea: FC<ExtInputTextAreaProps> = ({
-  readonly,
+  readOnly,
   valueRender,
   defaultRender,
   emptyPlaceholder,
@@ -20,7 +20,7 @@ export const ExtInputTextArea: FC<ExtInputTextAreaProps> = ({
     <ExtFormField
       value={rest.value}
       defaultValue={rest.defaultValue}
-      readonly={readonly}
+      readOnly={readOnly}
       valueRender={valueRender}
       defaultRender={defaultRender}
       emptyPlaceholder={emptyPlaceholder}
