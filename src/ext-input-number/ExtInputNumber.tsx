@@ -1,4 +1,4 @@
-import {InputNumber, InputNumberProps} from "antd";
+import { InputNumber, InputNumberProps, Space } from 'antd';
 import React, {FC} from "react";
 import ExtFormField from "../ext-form-field";
 
@@ -7,6 +7,8 @@ export type ExtInputNumberProps = InputNumberProps & {
   valueRender?: ((value?: any) => React.ReactNode) | React.ReactNode;
   defaultRender?: React.ReactNode;
   emptyPlaceholder?: React.ReactNode;
+  addonBefore?: React.ReactNode;
+  addonAfter?: React.ReactNode;
 };
 
 export const ExtInputNumber: FC<ExtInputNumberProps> = ({
@@ -14,15 +16,16 @@ export const ExtInputNumber: FC<ExtInputNumberProps> = ({
   valueRender,
   defaultRender,
   emptyPlaceholder,
+  addonBefore,
+  addonAfter,
   ...rest
 }) => {
   const handleRender = (value: any, options: any) => {
     if (value) {
       return (
         <>
-          {' '}
           {value}
-          {rest.suffix}
+          {rest.suffix || addonAfter}
         </>
       );
     }
@@ -39,7 +42,11 @@ export const ExtInputNumber: FC<ExtInputNumberProps> = ({
       fieldRender={handleRender}
       emptyPlaceholder={emptyPlaceholder}
     >
-      <InputNumber {...rest} />
+      <Space.Compact>
+        {addonBefore && <Space.Compact>{addonBefore}</Space.Compact>}
+        <InputNumber {...rest} />
+        {addonAfter && <Space.Compact>{addonAfter}</Space.Compact>}
+      </Space.Compact>
     </ExtFormField>
   );
 };

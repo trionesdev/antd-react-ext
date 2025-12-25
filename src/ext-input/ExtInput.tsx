@@ -1,14 +1,20 @@
-import { Input, InputProps } from 'antd';
+import { Input, InputProps, Space } from 'antd';
 import React, { FC } from 'react';
 import ExtFormField, { CommonExtFormFieldProps } from '../ext-form-field';
 
-export type ExtInputProps = InputProps & CommonExtFormFieldProps;
+export type ExtInputProps = InputProps &
+  CommonExtFormFieldProps & {
+    addonBefore?: React.ReactNode;
+    addonAfter?: React.ReactNode;
+  };
 
 export const ExtInput: FC<ExtInputProps> = ({
   readOnly,
   valueRender,
   defaultRender,
   emptyPlaceholder,
+  addonAfter,
+  addonBefore,
   ...rest
 }) => {
   return (
@@ -20,7 +26,11 @@ export const ExtInput: FC<ExtInputProps> = ({
       defaultRender={defaultRender}
       emptyPlaceholder={emptyPlaceholder}
     >
-      <Input {...rest} />
+      <Space.Compact>
+        {addonBefore && <Space.Compact>{addonBefore}</Space.Compact>}
+        <Input {...rest} />
+        {addonAfter && <Space.Compact>{addonAfter}</Space.Compact>}
+      </Space.Compact>
     </ExtFormField>
   );
 };
