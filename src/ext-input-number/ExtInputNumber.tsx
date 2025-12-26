@@ -2,14 +2,14 @@ import { InputNumber, InputNumberProps, Space } from 'antd';
 import React, {FC} from "react";
 import ExtFormField from "../ext-form-field";
 
-export type ExtInputNumberProps = InputNumberProps & {
+export type ExtInputNumberProps = {
   readOnly?: boolean;
   valueRender?: ((value?: any) => React.ReactNode) | React.ReactNode;
   defaultRender?: React.ReactNode;
   emptyPlaceholder?: React.ReactNode;
   addonBefore?: React.ReactNode;
   addonAfter?: React.ReactNode;
-};
+} & Omit<InputNumberProps<number>, 'addonBefore' | 'addonAfter'>;
 
 export const ExtInputNumber: FC<ExtInputNumberProps> = ({
   readOnly,
@@ -43,9 +43,9 @@ export const ExtInputNumber: FC<ExtInputNumberProps> = ({
       emptyPlaceholder={emptyPlaceholder}
     >
       <Space.Compact>
-        {addonBefore && <Space.Compact>{addonBefore}</Space.Compact>}
+        {addonBefore && <Space.Addon>{addonBefore}</Space.Addon>}
         <InputNumber {...rest} />
-        {addonAfter && <Space.Compact>{addonAfter}</Space.Compact>}
+        {addonAfter && <Space.Addon>{addonAfter}</Space.Addon>}
       </Space.Compact>
     </ExtFormField>
   );

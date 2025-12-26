@@ -1,6 +1,6 @@
-import {Select, SelectProps} from 'antd';
+import { Select, SelectProps, Tag } from 'antd';
 import { includes } from 'lodash-es';
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import ExtFormField from '../ext-form-field';
 
 export type ExtSelectProps = Omit<SelectProps, 'children'> & {
@@ -31,8 +31,27 @@ export const ExtSelect: FC<ExtSelectProps> = ({
 
   const handleRender = (value: any, options: any) => {
     if (rest.mode === 'multiple' || rest.mode === 'tags') {
-      return options?.map((option: any) => option[labelField]).join(', ');
+      if (rest.labelInValue) {
+        if (rest.mode === 'multiple') {
+          return value.map((item: any) => item.label).join(', ');
+        } else if (rest.mode === 'tags') {
+          return value.map((item: any, index: number) => (
+            <Tag key={index}>{item.label}</Tag>
+          ));
+        }
+      } else {
+        if (rest.mode === 'multiple') {
+          return options?.map((option: any) => option[labelField]).join(', ');
+        } else if (rest.mode === 'tags') {
+          return options?.map((option: any, index: number) => (
+            <Tag key={index}>{option[labelField]}</Tag>
+          ));
+        }
+      }
     } else {
+      if (rest.labelInValue) {
+        return value?.label;
+      }
       return options?.[labelField];
     }
   };
