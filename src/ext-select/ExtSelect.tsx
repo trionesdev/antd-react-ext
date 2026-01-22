@@ -68,7 +68,7 @@ export const ExtSelect: FC<ExtSelectProps> = ({
         return handleRender(value, options);
       }}
     >
-      <Select {...rest} />
+      <Select {...rest}  />
     </ExtFormField>
   );
 };
