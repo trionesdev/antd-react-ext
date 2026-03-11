@@ -1,5 +1,5 @@
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
-import { Button, Col, Form, FormItemProps, Grid, Row, Space } from 'antd';
+import { Button, Col, Form, FormInstance, FormItemProps, Grid, Row, Space } from 'antd';
 import classNames from 'classnames';
 import { size as _size } from 'lodash-es';
 import React, { FC, useEffect, useState } from 'react';
@@ -27,6 +27,7 @@ export type SearchToolbarProps = {
   onSearch?: (values: any) => void;
   onReset?: () => void;
   span?: number;
+  form?: FormInstance;
   xs?: number;
   sm?: number;
   md?: number;
@@ -49,6 +50,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   onSearchParamsChange,
   onReset,
   span = 6,
+  form,
   xs,
   sm,
   md,
@@ -56,7 +58,8 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   xl,
   xxl,
 }) => {
-  const [form] = Form.useForm();
+  const [internalForm] = Form.useForm();
+  const usedForm = form || internalForm;
   const screens = useBreakpoint();
   const [scopeExpanded, setScopeExpanded] = useState(expanded);
   const [colSpan, setColSpan] = useState(span);
@@ -92,13 +95,13 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   };
 
   const handleSearch = () => {
-    form.validateFields().then((values: any) => {
+    usedForm.validateFields().then((values: any) => {
       onSearch?.(values);
     });
   };
 
   const handleReset = () => {
-    form.resetFields();
+    usedForm.resetFields();
     onSearchParamsChange?.({});
     onReset?.();
   };
@@ -146,7 +149,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   return (
     <div className={classNames(className, prefixCls, hashId)} style={style}>
       <Form
-        form={form}
+        form={usedForm}
         layout={layout}
         labelCol={labelCol}
         labelAlign={labelAlign}

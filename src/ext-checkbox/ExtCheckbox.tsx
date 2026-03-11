@@ -3,7 +3,7 @@ import React, { FC, memo } from 'react';
 import ExtFormField from '../ext-form-field';
 
 export type ExtCheckBoxProps = CheckboxProps & {
-  readonly?: boolean;
+  readOnly?: boolean;
   valueRender?:
     | ((value?: any, options?: any) => React.ReactNode)
     | React.ReactNode;
@@ -13,7 +13,7 @@ export type ExtCheckBoxProps = CheckboxProps & {
 
 export const ExtCheckBox: FC<ExtCheckBoxProps> = memo(
   ({
-    readonly = false,
+    readOnly = false,
     valueRender,
     defaultRender,
     emptyPlaceholder,
@@ -24,7 +24,7 @@ export const ExtCheckBox: FC<ExtCheckBoxProps> = memo(
     };
     return (
       <ExtFormField
-        readonly={readonly}
+        readOnly={readOnly}
         value={rest.value}
         valueRender={valueRender}
         defaultRender={defaultRender}

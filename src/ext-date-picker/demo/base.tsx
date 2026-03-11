@@ -11,8 +11,8 @@ export default () => {
         <Switch value={readOnly} onChange={setReadOnly} />
       </div>
       <div>
-        <ExtDatePicker readonly={readOnly} />
-        <ExtDatePicker.RangePicker readonly={readOnly} />
+        <ExtDatePicker readOnly={readOnly} />
+        <ExtDatePicker.RangePicker readOnly={readOnly} />
       </div>
     </div>
   );

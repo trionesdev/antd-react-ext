@@ -12,11 +12,11 @@ export default ()=>{
         <Switch value={readOnly} onChange={setReadOnly} />
       </div>
       <div>
-        <ExtRadio readonly={readOnly} value={1}>
+        <ExtRadio readOnly={readOnly} value={1}>
           是
         </ExtRadio>
         <ExtRadio.Group
-          readonly={readOnly}
+          readOnly={readOnly}
           value={value}
           onChange={(v) => {
             setValue(v.target.value);
@@ -31,8 +31,7 @@ export default ()=>{
               value: 2,
             },
           ]}
-        >
-        </ExtRadio.Group>
+        ></ExtRadio.Group>
       </div>
     </>
   );

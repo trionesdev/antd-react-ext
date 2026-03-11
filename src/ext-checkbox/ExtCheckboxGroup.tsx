@@ -5,7 +5,7 @@ import ExtFormField from '../ext-form-field';
 import { includes } from 'lodash-es';
 
 export type ExtCheckBoxGroupProps = Omit<CheckboxGroupProps, 'children'> & {
-  readonly?: boolean;
+  readOnly?: boolean;
   valueRender?:
     | ((value?: any, options?: any) => React.ReactNode)
     | React.ReactNode;
@@ -15,28 +15,27 @@ export type ExtCheckBoxGroupProps = Omit<CheckboxGroupProps, 'children'> & {
 
 export const ExtCheckboxGroup: FC<ExtCheckBoxGroupProps> = memo(
   ({
-    readonly = false,
+    readOnly = false,
     valueRender,
     defaultRender,
     emptyPlaceholder,
     ...rest
   }) => {
-
     const handleValueOptions = (value: any) => {
-      return rest.options?.filter((option:any) => {
+      return rest.options?.filter((option: any) => {
         return includes(value, option['value']);
       });
     };
 
     const handleRender = (value: any, options: any) => {
-      return  options?.map((option: any) => option['label']).join(', ');
+      return options?.map((option: any) => option['label']).join(', ');
     };
 
     return (
       <ExtFormField
         value={rest.value}
         defaultValue={rest.defaultValue}
-        readonly={readonly}
+        readOnly={readOnly}
         valueRender={valueRender}
         defaultRender={defaultRender}
         options={handleValueOptions}

@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import ExtFormField from '../ext-form-field';
 
 export type ExtRadioGroupProps = Omit<RadioGroupProps, 'children'> & {
-  readonly?: boolean;
+  readOnly?: boolean;
   valueRender?:
     | ((value?: any, option?: any) => React.ReactNode)
     | React.ReactNode;
@@ -12,7 +12,7 @@ export type ExtRadioGroupProps = Omit<RadioGroupProps, 'children'> & {
 };
 
 export const ExtRadioGroup: FC<ExtRadioGroupProps> = ({
-  readonly = false,
+  readOnly = false,
   valueRender,
   defaultRender,
   emptyPlaceholder,
@@ -27,14 +27,13 @@ export const ExtRadioGroup: FC<ExtRadioGroupProps> = ({
       value={rest.value}
       defaultValue={rest.defaultValue}
       options={rest.options}
-      readonly={readonly}
+      readOnly={readOnly}
       valueRender={valueRender}
       defaultRender={defaultRender}
       fieldRender={handleRender}
       emptyPlaceholder={emptyPlaceholder}
     >
-      <Radio.Group {...rest}  />
+      <Radio.Group {...rest} />
     </ExtFormField>
   );
-
 };

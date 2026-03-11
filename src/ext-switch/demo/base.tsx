@@ -10,7 +10,13 @@ export default ()=>{
       <div>
         <Switch value={readOnly} onChange={setReadOnly} />
       </div>
-      <ExtSwitch value={ value} checkedChildren={'是'} unCheckedChildren={'否'} readonly={readOnly} onChange={setValue}/>
+      <ExtSwitch
+        value={value}
+        checkedChildren={'是'}
+        unCheckedChildren={'否'}
+        readOnly={readOnly}
+        onChange={setValue}
+      />
     </>
   );
 }

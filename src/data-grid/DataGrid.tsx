@@ -11,19 +11,14 @@ import {useCssInJs} from '@trionesdev/antd-react-ext';
 import classNames from 'classnames';
 import React, {CSSProperties, FC, PropsWithChildren} from 'react';
 import {genDataGridStyle} from './styles';
+import {ColumnsType} from "antd/es/table";
+import {TableProps} from "antd/es/table/InternalTable";
+import type {AnyObject} from "antd/es/_util/type";
 
-export type DataGridColumnProps = {
-  title?: string;
-  dataIndex: string;
-  key?: string;
-  width?: number;
-  fixed?: 'left' | 'right' | boolean;
-  render?: (text: any, record: any, index: number) => React.ReactNode;
-};
+export type DataGridColumnProps<RecordType> = ColumnsType<RecordType>;
 
-export type DataGridProps = {
-  dataSource: any[];
-  columns: DataGridColumnProps[];
+export type DataGridProps<RecordType = AnyObject> = Omit<TableProps<RecordType>, 'columns'> & {
+  columns: DataGridColumnProps<RecordType>;
 };
 const prefixCls = 'triones-data-grid';
 
@@ -78,8 +73,8 @@ export const DataGrid: FC<PropsWithChildren<DataGridProps>> = ({
     debugColumns: true,
     initialState: {
       columnPinning: {
-        left: columns.filter(column => column.fixed === 'left').map(column => column.dataIndex),
-        right: columns.filter(column => column.fixed === 'right').map(column => column.dataIndex)
+        left: columns.filter(column => column.fixed === 'start').map(column => column.dataIndex),
+        right: columns.filter(column => column.fixed === 'end').map(column => column.dataIndex)
       }
     }
   });
