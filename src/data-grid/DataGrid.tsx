@@ -11,14 +11,18 @@ import {useCssInJs} from '@trionesdev/antd-react-ext';
 import classNames from 'classnames';
 import React, {CSSProperties, FC, PropsWithChildren} from 'react';
 import {genDataGridStyle} from './styles';
-import {ColumnsType} from "antd/es/table";
-import {TableProps} from "antd/es/table/InternalTable";
 import type {AnyObject} from "antd/es/_util/type";
+import {TableProps} from "antd/es/table/InternalTable";
+import {ColumnType} from "antd/lib/table/interface";
 
-export type DataGridColumnProps<RecordType> = ColumnsType<RecordType>;
+export type DataGridColumnType<RecordType = AnyObject> = Omit<ColumnType<RecordType>, 'width' | 'dataIndex'> & {
+  width?: number;
+  dataIndex?: string;
+};
 
 export type DataGridProps<RecordType = AnyObject> = Omit<TableProps<RecordType>, 'columns'> & {
-  columns: DataGridColumnProps<RecordType>;
+  dataSource: any[];
+  columns: DataGridColumnType<RecordType>[];
 };
 const prefixCls = 'triones-data-grid';
 
@@ -53,8 +57,9 @@ export const DataGrid: FC<PropsWithChildren<DataGridProps>> = ({
   const [columnResizeDirection, setColumnResizeDirection] =
     React.useState<ColumnResizeDirection>('ltr');
   const columnHelper = createColumnHelper<any>();
-  const columnsDefs = columns.map((column) => {
-    return columnHelper.accessor(column.dataIndex, {
+  const columnsDefs = columns.map((column: DataGridColumnType<any>) => {
+
+    return columnHelper.accessor(column.dataIndex!, {
       cell: (info) =>
         column.render?.(info.getValue(), info.row.original, info.row.index) ||
         info.getValue(),
@@ -73,8 +78,8 @@ export const DataGrid: FC<PropsWithChildren<DataGridProps>> = ({
     debugColumns: true,
     initialState: {
       columnPinning: {
-        left: columns.filter(column => column.fixed === 'start').map(column => column.dataIndex),
-        right: columns.filter(column => column.fixed === 'end').map(column => column.dataIndex)
+        left: columns.filter(column => column.fixed === 'start').map(column => column.dataIndex!),
+        right: columns.filter(column => column.fixed === 'end').map(column => column.dataIndex!)
       }
     }
   });
