@@ -63,6 +63,16 @@ export const genGridTableStyle = (
                 backgroundColor: token.colorBgContainer,
                 ...Scrollbar,
               },
+              '.ant-table-thead': {
+                '.react-resizable-handle': {
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  width: 4,
+                  cursor: 'col-resize',
+                },
+              },
               '& > .ant-table-body': {
                 overflowY: 'auto !important',
                 ...Scrollbar,
@@ -82,6 +92,16 @@ export const genGridTableStyle = (
             '& > .ant-table-content': {
               backgroundColor: token.colorBgContainer,
               ...Scrollbar,
+            },
+            '.ant-table-thead': {
+              '.react-resizable-handle': {
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: 4,
+                cursor: 'col-resize',
+              },
             },
             '& > .ant-table-body': {
               overflowY: 'auto !important',

@@ -39,8 +39,18 @@ export default () => {
   ];
 
   return (
-    <div style={{ height: 300 }}>
-      <GridTable fit={true} columns={columns} dataSource={dataScore} />
+    <div>
+      <div style={{ height: 300 }}>
+        <GridTable fit={true} columns={columns} dataSource={dataScore} />
+      </div>
+      <div style={{ height: 300 }}>
+        <GridTable
+          fit={true}
+          resizable={true}
+          columns={columns}
+          dataSource={dataScore}
+        />
+      </div>
     </div>
   );
 };
