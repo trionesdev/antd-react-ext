@@ -39,8 +39,26 @@ export const genDataGridStyle = (
         width: '100%',
         flex: '1 auto',
         minHeight: 0,
-        overflow: 'auto',
+        overflow: 'hidden',
         position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      [`&-head-container`]: {
+        width: '100%',
+        overflow: 'hidden',
+        borderBottom: `1px solid ${token.colorBorderSecondary}`,
+        flexShrink: 0,
+      },
+      [`&-body-container`]: {
+        width: '100%',
+        overflow: 'overlay',
+        flex: '1 1 auto',
+        minHeight: 0,
+        scrollbarWidth: 'thin',
+        '@supports not (overflow: overlay)': {
+          overflow: 'auto',
+        },
         ...scrollbar,
       },
       [`&-table`]: {
@@ -49,8 +67,6 @@ export const genDataGridStyle = (
         tableLayout: 'fixed',
       },
       [`&-head`]: {
-        position: 'sticky',
-        top: 0,
         zIndex: 5,
       },
       [`&-row`]: {
@@ -72,6 +88,7 @@ export const genDataGridStyle = (
         padding: 0,
         backgroundColor: token.colorFillAlter,
         fontWeight: token.fontWeightStrong,
+        borderBottom: 'none',
       },
       [`&-cell-body`]: {
         padding: '12px 16px',

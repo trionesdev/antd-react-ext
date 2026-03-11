@@ -1,7 +1,7 @@
-import { Empty, Pagination, Spin } from 'antd';
-import type { AnyObject } from 'antd/es/_util/type';
-import type { TableProps } from 'antd/es/table/InternalTable';
-import type { ColumnType } from 'antd/lib/table/interface';
+import {Empty, Pagination, Spin} from 'antd';
+import type {AnyObject} from 'antd/es/_util/type';
+import type {TableProps} from 'antd/es/table/InternalTable';
+import type {ColumnType} from 'antd/lib/table/interface';
 import {
   ColumnDef,
   ColumnResizeDirection,
@@ -16,12 +16,14 @@ import React, {
   CSSProperties,
   FC,
   PropsWithChildren,
+  UIEvent,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
-import { useCssInJs } from '../hooks';
-import { genDataGridStyle } from './styles';
+import {useCssInJs} from '../hooks';
+import {genDataGridStyle} from './styles';
 
 export type DataGridColumnProps<RecordType = AnyObject> = Omit<
   ColumnType<RecordType>,
@@ -231,21 +233,21 @@ const getPaginationConfig = (
 };
 
 const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
-  className,
-  style,
-  columns,
-  dataSource = [],
-  height,
-  minColumnWidth = 80,
-  loading,
-  rowClassName,
-  rowKey,
-  onRow,
-  locale,
-  pagination,
-  scroll,
-  children,
-}) => {
+                                                                  className,
+                                                                  style,
+                                                                  columns,
+                                                                  dataSource = [],
+                                                                  height,
+                                                                  minColumnWidth = 80,
+                                                                  loading,
+                                                                  rowClassName,
+                                                                  rowKey,
+                                                                  onRow,
+                                                                  locale,
+                                                                  pagination,
+                                                                  scroll,
+                                                                  children,
+                                                                }) => {
   const [columnResizeMode] = useState<ColumnResizeMode>('onChange');
   const [columnResizeDirection, setColumnResizeDirection] =
     useState<ColumnResizeDirection>('ltr');
@@ -253,8 +255,9 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
     current: 1,
     pageSize: 10,
   });
+  const headContainerRef = useRef<HTMLDivElement>(null);
 
-  const { hashId } = useCssInJs({
+  const {hashId} = useCssInJs({
     prefix: prefixCls,
     styleFun: genDataGridStyle,
   });
@@ -277,7 +280,7 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
     });
   }, [paginationConfig]);
 
-  const { defs, leftPinned, rightPinned, defaultColumnSizing } = useMemo(
+  const {defs, leftPinned, rightPinned, defaultColumnSizing} = useMemo(
     () => toColumnDefs(columns, minColumnWidth),
     [columns, minColumnWidth],
   );
@@ -320,6 +323,17 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
 
     if (height !== undefined && height !== null) {
       nextStyle.height = '100%';
+    }
+
+    return nextStyle;
+  }, [height]);
+
+  const bodyContainerStyle = useMemo(() => {
+    const nextStyle: CSSProperties = {};
+
+    if (height !== undefined && height !== null) {
+      nextStyle.flex = '1 1 auto';
+      nextStyle.minHeight = 0;
     } else if (scroll?.y) {
       nextStyle.maxHeight =
         typeof scroll.y === 'number' || typeof scroll.y === 'string'
@@ -359,7 +373,7 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
     if (typeof locale?.emptyText === 'function') {
       return locale.emptyText();
     }
-    return locale?.emptyText ?? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
+    return locale?.emptyText ?? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>;
   }, [locale?.emptyText]);
 
   const onPaginationChange = (nextCurrent: number, nextPageSize: number) => {
@@ -428,6 +442,13 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
     );
   };
 
+  const onBodyScroll = (event: UIEvent<HTMLDivElement>) => {
+    const scrollLeft = event.currentTarget.scrollLeft;
+    if (headContainerRef.current) {
+      headContainerRef.current.scrollLeft = scrollLeft;
+    }
+  };
+
   return (
     <div
       className={classNames(
@@ -438,129 +459,142 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
       )}
       style={wrapperStyle}
     >
-      <Spin spinning={Boolean(loading)}>
-        <div className={classNames(`${prefixCls}-container`, hashId)} style={containerStyle}>
+      <div className={classNames(`${prefixCls}-container`, hashId)} style={containerStyle}>
+        <div
+          ref={headContainerRef}
+          className={classNames(`${prefixCls}-head-container`, hashId)}
+        >
           <table className={classNames(`${prefixCls}-table`, hashId)} style={tableStyle}>
             <thead className={classNames(`${prefixCls}-head`, hashId)}>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr
-                  key={headerGroup.id}
-                  className={classNames(
-                    `${prefixCls}-row`,
-                    `${prefixCls}-row-head`,
-                    hashId,
-                  )}
-                >
-                  {headerGroup.headers.map((header) => {
-                    const meta = header.column.columnDef.meta as any;
-                    const align = meta?.align;
-                    const originHeaderProps = meta?.onHeaderCell?.({
-                      key: header.column.id,
-                    });
-                    const canResize = header.column.getCanResize();
-                    const pinned = header.column.getIsPinned();
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr
+                key={headerGroup.id}
+                className={classNames(
+                  `${prefixCls}-row`,
+                  `${prefixCls}-row-head`,
+                  hashId,
+                )}
+              >
+                {headerGroup.headers.map((header) => {
+                  const meta = header.column.columnDef.meta as any;
+                  const align = meta?.align;
+                  const originHeaderProps = meta?.onHeaderCell?.({
+                    key: header.column.id,
+                  });
+                  const canResize = header.column.getCanResize();
+                  const pinned = header.column.getIsPinned();
 
-                    return (
-                      <th
-                        key={header.id}
-                        colSpan={header.colSpan}
-                        {...originHeaderProps}
-                        className={classNames(
-                          `${prefixCls}-cell`,
-                          `${prefixCls}-cell-head`,
-                          `${prefixCls}-cell-sticky-header`,
-                          align ? `${prefixCls}-cell-align-${align}` : null,
-                          pinned ? `${prefixCls}-cell-pinned` : null,
-                          originHeaderProps?.className,
-                          hashId,
-                        )}
-                        style={{
-                          width: header.getSize(),
-                          ...getCommonPinningStyles(header.column),
-                          ...originHeaderProps?.style,
-                        }}
-                      >
-                        <div className={classNames(`${prefixCls}-cell-wrapper`, hashId)}>
-                          <span className={classNames(`${prefixCls}-cell-title`, hashId)}>
-                            {header.isPlaceholder
-                              ? null
-                              : flexRender(
+                  return (
+                    <th
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      {...originHeaderProps}
+                      className={classNames(
+                        `${prefixCls}-cell`,
+                        `${prefixCls}-cell-head`,
+                        `${prefixCls}-cell-sticky-header`,
+                        align ? `${prefixCls}-cell-align-${align}` : null,
+                        pinned ? `${prefixCls}-cell-pinned` : null,
+                        originHeaderProps?.className,
+                        hashId,
+                      )}
+                      style={{
+                        width: header.getSize(),
+                        ...getCommonPinningStyles(header.column),
+                        ...originHeaderProps?.style,
+                      }}
+                    >
+                      <div className={classNames(`${prefixCls}-cell-wrapper`, hashId)}>
+                            <span className={classNames(`${prefixCls}-cell-title`, hashId)}>
+                              {header.isPlaceholder
+                                ? null
+                                : flexRender(
                                   header.column.columnDef.header,
                                   header.getContext(),
                                 )}
-                          </span>
-                          {canResize ? (
-                            <span
-                              className={classNames(
-                                `${prefixCls}-resizer`,
-                                pinned === 'right'
-                                  ? `${prefixCls}-resizer-rtl`
-                                  : `${prefixCls}-resizer-ltr`,
+                            </span>
+                        {canResize ? (
+                          <span
+                            className={classNames(
+                              `${prefixCls}-resizer`,
+                              pinned === 'right'
+                                ? `${prefixCls}-resizer-rtl`
+                                : `${prefixCls}-resizer-ltr`,
+                              header.column.getIsResizing()
+                                ? `${prefixCls}-resizer-active`
+                                : null,
+                              hashId,
+                            )}
+                            onMouseDown={(event) => {
+                              setColumnResizeDirection(
+                                pinned === 'right' ? 'rtl' : 'ltr',
+                              );
+                              header.getResizeHandler()(event);
+                            }}
+                            onTouchStart={header.getResizeHandler()}
+                            style={{
+                              transform:
+                                columnResizeMode === 'onEnd' &&
                                 header.column.getIsResizing()
-                                  ? `${prefixCls}-resizer-active`
-                                  : null,
-                                hashId,
-                              )}
-                              onMouseDown={(event) => {
-                                setColumnResizeDirection(pinned === 'right' ? 'rtl' : 'ltr');
-                                header.getResizeHandler()(event);
-                              }}
-                              onTouchStart={header.getResizeHandler()}
-                              style={{
-                                transform:
-                                  columnResizeMode === 'onEnd' &&
-                                  header.column.getIsResizing()
-                                    ? `translateX(${
-                                        (table.options.columnResizeDirection === 'rtl'
-                                          ? -1
-                                          : 1) *
-                                        (table.getState().columnSizingInfo
-                                          .deltaOffset ?? 0)
-                                      }px)`
-                                    : undefined,
-                              }}
-                            />
-                          ) : null}
-                        </div>
-                      </th>
-                    );
-                  })}
-                </tr>
-              ))}
+                                  ? `translateX(${
+                                    (table.options.columnResizeDirection === 'rtl'
+                                      ? -1
+                                      : 1) *
+                                    (table.getState().columnSizingInfo
+                                      .deltaOffset ?? 0)
+                                  }px)`
+                                  : undefined,
+                            }}
+                          />
+                        ) : null}
+                      </div>
+                    </th>
+                  );
+                })}
+              </tr>
+            ))}
             </thead>
+          </table>
+        </div>
+        <div
+          className={classNames(`${prefixCls}-body-container`, hashId)}
+          style={bodyContainerStyle}
+          onScroll={onBodyScroll}
+        >
+          <table className={classNames(`${prefixCls}-table`, hashId)} style={tableStyle}>
             <tbody className={classNames(`${prefixCls}-body`, hashId)}>
-              {hasData ? (
-                table.getRowModel().rows.map((row) => renderRow(row))
-              ) : (
-                <tr className={classNames(`${prefixCls}-row`, hashId)}>
-                  <td
-                    className={classNames(
-                      `${prefixCls}-cell`,
-                      `${prefixCls}-cell-empty`,
-                      hashId,
-                    )}
-                    colSpan={Math.max(columns.length, 1)}
-                  >
-                    {emptyNode}
-                  </td>
-                </tr>
-              )}
+            {hasData ? (
+              table.getRowModel().rows.map((row) => renderRow(row))
+            ) : (
+              <tr className={classNames(`${prefixCls}-row`, hashId)}>
+                <td
+                  className={classNames(
+                    `${prefixCls}-cell`,
+                    `${prefixCls}-cell-empty`,
+                    hashId,
+                  )}
+                  colSpan={Math.max(columns.length, 1)}
+                >
+                  {emptyNode}
+                </td>
+              </tr>
+            )}
             </tbody>
           </table>
         </div>
-        {children}
-        {paginationConfig === false ? null : (
-          <div className={classNames(`${prefixCls}-pagination`, hashId)}>
-            <Pagination
-              {...paginationConfig}
-              current={controlledPagination?.current ?? innerPagination.current}
-              pageSize={controlledPagination?.pageSize ?? innerPagination.pageSize}
-              total={paginationConfig.total}
-              onChange={onPaginationChange}
-            />
-          </div>
-        )}
-      </Spin>
+      </div>
+      {children}
+      {paginationConfig === false ? null : (
+        <div className={classNames(`${prefixCls}-pagination`, hashId)}>
+          <Pagination
+            {...paginationConfig}
+            current={controlledPagination?.current ?? innerPagination.current}
+            pageSize={controlledPagination?.pageSize ?? innerPagination.pageSize}
+            total={paginationConfig.total}
+            onChange={onPaginationChange}
+          />
+        </div>
+      )}
     </div>
   );
 };
