@@ -42,6 +42,7 @@ export default ()=>{
   ];
 
   return <div>
-    <DataGrid dataSource={data2} columns={columns}/>
+    <DataGrid dataSource={data} columns={columns}/>
+    <DataGrid dataSource={data} columns={columns} height={300}/>
   </div>
 }

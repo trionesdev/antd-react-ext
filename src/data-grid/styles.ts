@@ -5,96 +5,149 @@ export const genDataGridStyle = (
   prefixCls: string,
   token: GlobalToken,
 ): CSSInterpolation => {
-  const Scrollbar: any = {
+  const scrollbar: any = {
     '&::-webkit-scrollbar-track': {
       backgroundColor: 'transparent',
     },
     '&::-webkit-scrollbar': {
       right: 0,
-      width: 12,
-      height: 12,
+      width: 10,
+      height: 10,
     },
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: '#999',
-      borderRadius: 8,
-      width: 12,
-      height: 12,
+      backgroundColor: 'rgba(0,0,0,0.25)',
+      borderRadius: 10,
+      width: 10,
+      height: 10,
     },
   };
 
   return {
     [`.${prefixCls}`]: {
-      display: 'table',
-      // width: '100%',
-      borderSpacing: 0,
-      borderCollapse: 'separate',
-      position: 'relative',
-      width: 'fit-content',
-      [`&-wrapper`]: {},
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      boxSizing: 'border-box',
+      background: token.colorBgContainer,
+      border: `1px solid ${token.colorBorderSecondary}`,
+      borderRadius: token.borderRadiusLG,
+      overflow: 'hidden',
+      [`&-has-height`]: {
+        height: '100%',
+      },
       [`&-container`]: {
         width: '100%',
-        maxWidth: '100%',
+        flex: '1 auto',
+        minHeight: 0,
         overflow: 'auto',
         position: 'relative',
-        // ...Scrollbar,
+        ...scrollbar,
+      },
+      [`&-table`]: {
+        borderSpacing: 0,
+        borderCollapse: 'separate',
+        tableLayout: 'fixed',
       },
       [`&-head`]: {
-        display: 'table-header-group',
-        opacity: 0.97,
-        position: 'sticky',
-        zIndex: 2,
-      },
-      [`&-row`]: {
-        // display: 'flex',
-        width: 'fit-content',
-      },
-      [`&-row-head`]: {
-        color: 'inherit',
-        display: 'table-row',
-        verticalAlign: 'middle',
-        outline: 0,
-        backgroundColor: '#fafafa',
-        boxShadow: 'rgba(0, 0, 0, 0.1) 4px 0px 8px',
         position: 'sticky',
         top: 0,
+        zIndex: 5,
+      },
+      [`&-row`]: {
+      },
+      [`&-row-head`]: {
+        backgroundColor: token.colorFillAlter,
       },
       [`&-cell`]: {
-        borderBottom: '1px solid #f0f0f0',
-        backgroundColor: '#fff',
+        boxSizing: 'border-box',
+        borderBottom: `1px solid ${token.colorBorderSecondary}`,
+        borderRight: `1px solid ${token.colorBorderSecondary}`,
+        backgroundColor: token.colorBgContainer,
+        '&:last-child': {
+          borderRight: 'none',
+        },
       },
       [`&-cell-head`]: {
-        '.resizer': {
+        position: 'relative',
+        padding: 0,
+        backgroundColor: token.colorFillAlter,
+        fontWeight: token.fontWeightStrong,
+      },
+      [`&-cell-body`]: {
+        padding: '12px 16px',
+      },
+      [`&-cell-content`]: {
+        overflow: 'hidden',
+      },
+      [`&-cell-empty`]: {
+        textAlign: 'center',
+        padding: '24px 16px',
+      },
+      [`&-cell-ellipsis`]: {
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+      },
+      [`&-cell-align-left`]: {
+        textAlign: 'left',
+      },
+      [`&-cell-align-center`]: {
+        textAlign: 'center',
+      },
+      [`&-cell-align-right`]: {
+        textAlign: 'right',
+      },
+      [`&-cell-sticky-header`]: {
+        zIndex: 6,
+      },
+      [`&-cell-wrapper`]: {
+        padding: '12px 16px',
+        position: 'relative',
+        minHeight: 22,
+        display: 'flex',
+        alignItems: 'center',
+      },
+      [`&-cell-title`]: {
+        display: 'inline-flex',
+        alignItems: 'center',
+      },
+      [`&-resizer`]: {
+        position: 'absolute',
+        top: 0,
+        height: '100%',
+        width: 8,
+        cursor: 'col-resize',
+        userSelect: 'none',
+        touchAction: 'none',
+        '&:before': {
+          content: '""',
           position: 'absolute',
+          left: 3,
           top: 0,
           height: '100%',
           width: 2,
-          background: 'rgba(0, 0, 0, 0.5)',
-          cursor: 'col-resize',
-          userSelect: 'none',
-          touchAction: 'none',
-          '&.rtl': {
-            left: 0,
-          },
-          '&.ltr': {
-            right: 0,
-          },
-
+          background: token.colorPrimaryBorder,
+          opacity: 0.2,
+          transition: 'opacity .2s',
         },
       },
-
-      [`&-cell-sticky-header`]: {
-        display: 'table-cell',
+      [`&-resizer:hover:before`]: {
+        opacity: 0.75,
       },
-      [`&-cell-body`]: {
-        padding: '16px',
+      [`&-resizer-active:before`]: {
+        opacity: 1,
       },
-      [`&-cell-wrapper`]: {
-        padding: '16px',
-        position: 'relative',
+      [`&-resizer-ltr`]: {
+        right: -4,
       },
-      [`&-body`]: {
-        display: 'table-row-group',
-        position: 'relative',
+      [`&-resizer-rtl`]: {
+        left: -4,
+      },
+      [`&-pagination`]: {
+        borderTop: `1px solid ${token.colorBorderSecondary}`,
+        padding: '12px 16px',
+        display: 'flex',
+        justifyContent: 'flex-end',
       },
     },
   };
