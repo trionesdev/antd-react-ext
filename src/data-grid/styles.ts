@@ -69,8 +69,7 @@ export const genDataGridStyle = (
       [`&-head`]: {
         zIndex: 5,
       },
-      [`&-row`]: {
-      },
+      [`&-row`]: {},
       [`&-row-head`]: {
         backgroundColor: token.colorFillAlter,
       },
@@ -81,6 +80,34 @@ export const genDataGridStyle = (
         backgroundColor: token.colorBgContainer,
         '&:last-child': {
           borderRight: 'none',
+        },
+        [`&-fix-start-shadow-show`]: {
+          '&::after': {
+            boxShadow:
+              'inset 10px 0 8px -8px var(--ant-color-split,rgba(5,5,5,0.06))',
+            insetInlineStart: '100%',
+            position: 'absolute',
+            top: 0,
+            bottom: `calc(-1 * var(--ant-line-width,1px))`,
+            width: 30,
+            transition: 'box-shadow var(--ant-motion-duration-slow,0.3s)',
+            content: '""',
+            pointerEvents: 'none',
+          },
+        },
+        [`&-fix-end-shadow-show`]: {
+          '&::after': {
+            boxShadow:
+              'inset -10px 0 8px -8px var(--ant-color-split,rgba(5,5,5,0.06))',
+            insetInlineEnd: '100%',
+            position: 'absolute',
+            top: 0,
+            bottom: `calc(-1 * var(--ant-line-width,1px))`,
+            width: 30,
+            transition: 'box-shadow var(--ant-motion-duration-slow,0.3s)',
+            content: '""',
+            pointerEvents: 'none',
+          },
         },
       },
       [`&-cell-head`]: {
@@ -127,6 +154,12 @@ export const genDataGridStyle = (
       [`&-cell-title`]: {
         display: 'inline-flex',
         alignItems: 'center',
+      },
+      [`&-cell-scrollbar`]: {
+        position: 'sticky',
+        right: 0,
+        backgroundColor: token.colorFillAlter,
+        zIndex: 10,
       },
       [`&-resizer`]: {
         position: 'absolute',

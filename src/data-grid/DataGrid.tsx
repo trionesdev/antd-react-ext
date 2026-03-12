@@ -24,6 +24,7 @@ import React, {
 } from 'react';
 import {useCssInJs} from '../hooks';
 import {genDataGridStyle} from './styles';
+import { CSSInterpolation } from '@ant-design/cssinjs';
 
 export type DataGridColumnProps<RecordType = AnyObject> = Omit<
   ColumnType<RecordType>,
@@ -145,7 +146,9 @@ const toColumnDefs = (
         return value as React.ReactNode;
       },
       size:
-        typeof column.width === 'number' ? column.width : Math.max(minColumnWidth, 120),
+        typeof column.width === 'number'
+          ? column.width
+          : Math.max(minColumnWidth, 120),
       minSize: Math.max(minColumnWidth, column.minWidth ?? 0),
       maxSize: column.maxWidth ?? Number.MAX_SAFE_INTEGER,
       meta: {
@@ -166,23 +169,38 @@ const toColumnDefs = (
   };
 };
 
-const getCommonPinningStyles = (column: any): CSSProperties => {
+const getIsLastLeftPinnedColumn = (column: any) => {
+  return column.getIsPinned() === 'left' && column.getIsLastColumn('left');
+};
+
+const getIsFirstRightPinnedColumn = (column: any) => {
+  return column.getIsPinned() === 'right' && column.getIsFirstColumn('right');
+};
+
+
+const getCommonPinningStyles = (
+  column: any,
+  offset: number = 0,
+  pinged: { left: boolean; right: boolean } = { left: false, right: false },
+): CSSProperties => {
   const isPinned = column.getIsPinned();
   const isLastLeftPinnedColumn = isPinned === 'left' && column.getIsLastColumn('left');
   const isFirstRightPinnedColumn =
     isPinned === 'right' && column.getIsFirstColumn('right');
 
   return {
-    boxShadow: isLastLeftPinnedColumn
-      ? '-4px 0 4px -4px rgba(0, 0, 0, 0.16) inset'
-      : isFirstRightPinnedColumn
-        ? '4px 0 4px -4px rgba(0, 0, 0, 0.16) inset'
-        : undefined,
+    // boxShadow:
+    //   isLastLeftPinnedColumn && pinged.left
+    //     ? '-4px 0 4px -4px rgba(0, 0, 0, 0.16) inset'
+    //     : isFirstRightPinnedColumn && pinged.right
+    //       ? '4px 0 4px -4px rgba(0, 0, 0, 0.16) inset'
+    //       : undefined,
     left: isPinned === 'left' ? `${column.getStart('left')}px` : undefined,
-    right: isPinned === 'right' ? `${column.getAfter('right')}px` : undefined,
+    right: isPinned === 'right' ? `${column.getAfter('right') + offset}px` : undefined,
     position: isPinned ? 'sticky' : 'relative',
     zIndex: isPinned ? 2 : 1,
     background: '#fff',
+
   };
 };
 
@@ -256,6 +274,9 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
     pageSize: 10,
   });
   const headContainerRef = useRef<HTMLDivElement>(null);
+  const bodyContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollbarWidth, setScrollbarWidth] = useState(0);
+  const [pinged, setPinged] = useState({ left: false, right: true });
 
   const {hashId} = useCssInJs({
     prefix: prefixCls,
@@ -279,6 +300,24 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
       pageSize: paginationConfig.pageSize ?? 10,
     });
   }, [paginationConfig]);
+
+  useEffect(() => {
+    const bodyContainer = bodyContainerRef.current;
+    if (!bodyContainer) {
+      return;
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      const width = bodyContainer.offsetWidth - bodyContainer.clientWidth;
+      setScrollbarWidth(width);
+    });
+
+    resizeObserver.observe(bodyContainer);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   const {defs, leftPinned, rightPinned, defaultColumnSizing} = useMemo(
     () => toColumnDefs(columns, minColumnWidth),
@@ -424,11 +463,21 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
                 ellipsis ? `${prefixCls}-cell-ellipsis` : null,
                 columnMeta?.className,
                 originCellProps.className,
+                {
+                  [`${prefixCls}-cell-fix-start-shadow-show`]:
+                    getIsLastLeftPinnedColumn(cell.column) && pinged.left,
+                  [`${prefixCls}-cell-fix-end-shadow-show`]:
+                    getIsFirstRightPinnedColumn(cell.column) && pinged.right,
+                },
                 hashId,
               )}
               style={{
                 width: cell.column.getSize(),
-                ...getCommonPinningStyles(cell.column),
+                ...(getCommonPinningStyles(
+                  cell.column,
+                  0,
+                  pinged,
+                ) as CSSProperties),
                 ...originCellProps.style,
               }}
             >
@@ -444,9 +493,17 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
 
   const onBodyScroll = (event: UIEvent<HTMLDivElement>) => {
     const scrollLeft = event.currentTarget.scrollLeft;
+    const scrollWidth = event.currentTarget.scrollWidth;
+    const clientWidth = event.currentTarget.clientWidth;
+
     if (headContainerRef.current) {
       headContainerRef.current.scrollLeft = scrollLeft;
     }
+
+    setPinged({
+      left: scrollLeft > 0,
+      right: Math.ceil(scrollLeft + clientWidth) < scrollWidth,
+    });
   };
 
   return (
@@ -466,7 +523,7 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
         >
           <table className={classNames(`${prefixCls}-table`, hashId)} style={tableStyle}>
             <thead className={classNames(`${prefixCls}-head`, hashId)}>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map((headerGroup, index) => (
               <tr
                 key={headerGroup.id}
                 className={classNames(
@@ -495,24 +552,47 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
                         `${prefixCls}-cell-sticky-header`,
                         align ? `${prefixCls}-cell-align-${align}` : null,
                         pinned ? `${prefixCls}-cell-pinned` : null,
+                        {
+                          [`${prefixCls}-cell-fix-start-shadow-show`]:
+                            getIsLastLeftPinnedColumn(header.column) &&
+                            pinged.left,
+                          [`${prefixCls}-cell-fix-end-shadow-show`]:
+                            getIsFirstRightPinnedColumn(header.column) &&
+                            pinged.right,
+                        },
                         originHeaderProps?.className,
+
                         hashId,
                       )}
                       style={{
                         width: header.getSize(),
-                        ...getCommonPinningStyles(header.column),
+                        ...getCommonPinningStyles(
+                          header.column,
+                          scrollbarWidth,
+                          pinged,
+                        ),
                         ...originHeaderProps?.style,
                       }}
                     >
-                      <div className={classNames(`${prefixCls}-cell-wrapper`, hashId)}>
-                            <span className={classNames(`${prefixCls}-cell-title`, hashId)}>
-                              {header.isPlaceholder
-                                ? null
-                                : flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext(),
-                                )}
-                            </span>
+                      <div
+                        className={classNames(
+                          `${prefixCls}-cell-wrapper`,
+                          hashId,
+                        )}
+                      >
+                        <span
+                          className={classNames(
+                            `${prefixCls}-cell-title`,
+                            hashId,
+                          )}
+                        >
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                        </span>
                         {canResize ? (
                           <span
                             className={classNames(
@@ -537,12 +617,13 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
                                 columnResizeMode === 'onEnd' &&
                                 header.column.getIsResizing()
                                   ? `translateX(${
-                                    (table.options.columnResizeDirection === 'rtl'
-                                      ? -1
-                                      : 1) *
-                                    (table.getState().columnSizingInfo
-                                      .deltaOffset ?? 0)
-                                  }px)`
+                                      (table.options.columnResizeDirection ===
+                                      'rtl'
+                                        ? -1
+                                        : 1) *
+                                      (table.getState().columnSizingInfo
+                                        .deltaOffset ?? 0)
+                                    }px)`
                                   : undefined,
                             }}
                           />
@@ -551,12 +632,29 @@ const DataGridInternal: FC<PropsWithChildren<DataGridProps>> = ({
                     </th>
                   );
                 })}
+                {index === 0 && scrollbarWidth > 0 ? (
+                  <th
+                    key="scrollbar"
+                    rowSpan={table.getHeaderGroups().length}
+                    className={classNames(
+                      `${prefixCls}-cell`,
+                      `${prefixCls}-cell-head`,
+                      `${prefixCls}-cell-scrollbar`,
+                      hashId,
+                    )}
+                    style={{
+                       width: scrollbarWidth,
+                       padding: 0,
+                     }}
+                  />
+                ) : null}
               </tr>
             ))}
             </thead>
           </table>
         </div>
         <div
+          ref={bodyContainerRef}
           className={classNames(`${prefixCls}-body-container`, hashId)}
           style={bodyContainerStyle}
           onScroll={onBodyScroll}
