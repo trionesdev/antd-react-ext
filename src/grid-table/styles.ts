@@ -100,12 +100,6 @@ export const genGridTableStyle = (
                 ...Scrollbar,
               },
               '.ant-table-thead': {
-                'th': {
-                  position: 'relative',
-                },
-                '.react-resizable': {
-                  position: 'relative',
-                },
                 '.react-resizable-handle': {
                   position: 'absolute',
                   top: 0,
@@ -131,12 +125,6 @@ export const genGridTableStyle = (
             },
             '.ant-table-thead': {
               position: 'relative',
-              'th': {
-                position: 'relative',
-              },
-              '.react-resizable': {
-                position: 'relative',
-              },
               '.react-resizable-handle': {
                 position: 'absolute',
                 top: 0,

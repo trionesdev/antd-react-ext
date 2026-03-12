@@ -1,6 +1,7 @@
 import { GridTable } from '@trionesdev/antd-react-ext';
 import { ColumnGroupType, ColumnType } from 'antd/es/table';
 import React from 'react';
+import { data200 } from './data';
 
 export default () => {
   const columns = [
@@ -104,21 +105,29 @@ export default () => {
       <GridTable
         columns={columns2}
         dataSource={dataScore}
-        scroll={{ x: 'max-content' }}
+
       />
       <GridTable
         columns={columns3 as (ColumnGroupType<any> | ColumnType<any>)[]}
         dataSource={dataScore}
         resizable={true}
-        scroll={{ x: 'max-content' }}
+
       />
       <GridTable
         bordered={true}
         columns={columns3 as (ColumnGroupType<any> | ColumnType<any>)[]}
         dataSource={dataScore}
         resizable={true}
-        scroll={{ x: 'max-content' }}
+
       />
+      <div style={{height:300}}>
+        <GridTable
+          fit={true}
+          columns={columns3 as (ColumnGroupType<any> | ColumnType<any>)[]}
+          dataSource={data200}
+          resizable={true}
+        />
+      </div>
     </div>
   );
 };

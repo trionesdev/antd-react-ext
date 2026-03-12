@@ -3,8 +3,6 @@ import classNames from 'classnames';
 import { assign, debounce, isEqual } from 'lodash-es';
 import React, { FC, useEffect, useReducer, useState } from 'react';
 import { Resizable } from 'react-resizable';
-
-// import 'react-resizable/css/styles.css';
 import { useCssInJs } from '../hooks';
 import { genGridTableStyle } from './styles';
 
@@ -201,7 +199,6 @@ const GridTable: FC<GridTableProps> = (
   const handleResize =
     (index: number) =>
     (e: any, { size }: any) => {
-      console.log('handleResize', index, e, size);
       dispatchColumns({
         type: ColumnsOperation.SET_COLUMN_WIDTH,
         payload: {
@@ -334,7 +331,7 @@ const GridTable: FC<GridTableProps> = (
           scroll={
             fit
               ? assign({}, props.scroll, { y: '100%' })
-              : props.scroll
+              : assign({}, props.scroll, { x: 'max-content' })
           }
         />
       </>
