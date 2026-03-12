@@ -53,10 +53,18 @@ export type GridTableProps = TableProps<any> & {
    * @default true
    */
   resizable?: boolean;
+  columnMinWidth?: number;
 };
 
 const GridTable: FC<GridTableProps> = (
-  { fit = false, toolbar, resizable = false, style, ...props },
+  {
+    fit = false,
+    toolbar,
+    resizable = false,
+    columnMinWidth = 20,
+    style,
+    ...props
+  },
   context,
 ) => {
   const [columns, dispatchColumns] = useReducer(
@@ -199,6 +207,10 @@ const GridTable: FC<GridTableProps> = (
   const handleResize =
     (index: number) =>
     (e: any, { size }: any) => {
+      const column = columns[index];
+      if (column.width === size.width) return;
+      const minWidth = column.minWidth || columnMinWidth;
+      if (size.width <= minWidth) return;
       dispatchColumns({
         type: ColumnsOperation.SET_COLUMN_WIDTH,
         payload: {
@@ -208,10 +220,7 @@ const GridTable: FC<GridTableProps> = (
       });
     };
 
-  console.log('columns', columns);
-
   const mergedColumns = columns?.map((column: any, index: number) => {
-    console.log('col', column);
     return {
       ...column,
       onHeaderCell: (column: any) => ({
