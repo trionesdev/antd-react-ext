@@ -32,18 +32,40 @@ export const genGridTableStyle = (
       display: `flex`,
       flexDirection: 'column',
       boxSizing: 'border-box',
+      '&.has-scrollbar-y': {
+        '.ant-table-thead > tr': {
+          '&::after': {
+            content: '""',
+            display: 'table-cell',
+            width: '8px',
+            minWidth: '8px',
+          },
+        },
+      },
       '&.ant-table-fill': {
         height: '100%',
         '.ant-table-wrapper': {
-          flex: '1 auto',
+          flex: '1 1 auto',
           overflow: 'hidden',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
           '.ant-spin-nested-loading': {
             height: '100%',
+            flex: '1 1 auto',
+            display: 'flex',
+            flexDirection: 'column',
             '.ant-spin-container': {
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
-              flex: '1 auto',
+              flex: '1 1 auto',
+              '.ant-table': {
+                height: '100%',
+                flex: '1 1 auto',
+                display: 'flex',
+                flexDirection: 'column',
+              },
               '.ant-table-header': {
                 flexShrink: 0,
               },
@@ -53,29 +75,46 @@ export const genGridTableStyle = (
             },
           },
           '.ant-table': {
+            height: '100%',
             overflow: 'hidden',
             scrollbarColor: 'inherit !important',
             '.ant-table-container': {
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
+              '.ant-table-header': {
+                flexShrink: 0,
+                overflow: 'hidden',
+              },
+              '.ant-table-body': {
+                flex: '1 1 auto',
+                minHeight: 0,
+                overflow: 'auto !important',
+                ...Scrollbar,
+              },
               '& > .ant-table-content': {
+                flex: '1 1 auto',
+                minHeight: 0,
+                overflow: 'auto',
                 backgroundColor: token.colorBgContainer,
                 ...Scrollbar,
               },
               '.ant-table-thead': {
+                'th': {
+                  position: 'relative',
+                },
+                '.react-resizable': {
+                  position: 'relative',
+                },
                 '.react-resizable-handle': {
                   position: 'absolute',
                   top: 0,
-                  right: 0,
+                  right: '-2px',
                   bottom: 0,
-                  width: 4,
+                  width: '4px',
                   cursor: 'col-resize',
+                  zIndex: 1,
                 },
-              },
-              '& > .ant-table-body': {
-                overflowY: 'auto !important',
-                ...Scrollbar,
               },
             },
           },
@@ -86,21 +125,26 @@ export const genGridTableStyle = (
           overflow: 'hidden',
           scrollbarColor: 'inherit !important',
           '.ant-table-container': {
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
             '& > .ant-table-content': {
               backgroundColor: token.colorBgContainer,
               ...Scrollbar,
             },
             '.ant-table-thead': {
+              position: 'relative',
+              'th': {
+                position: 'relative',
+              },
+              '.react-resizable': {
+                position: 'relative',
+              },
               '.react-resizable-handle': {
                 position: 'absolute',
                 top: 0,
-                right: 0,
+                right: '-2px',
                 bottom: 0,
-                width: 4,
+                width: '4px',
                 cursor: 'col-resize',
+                zIndex: 1,
               },
             },
             '& > .ant-table-body': {

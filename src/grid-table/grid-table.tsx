@@ -14,19 +14,13 @@ enum ColumnsOperation {
 }
 
 const ResizableCell: FC<any> = ({ onResize, width, onWith, ...restProps }) => {
-  console.log('ResizableTitle', restProps);
-
-  const cellRef = React.useRef<HTMLTableCellElement>(width);
-
-  // if (!width) {
-  //   return <th {...restProps} />;
-  // }
+  const cellRef = React.useRef<HTMLTableCellElement>(null);
 
   useEffect(() => {
     if (cellRef.current && !width) {
       onWith?.(cellRef.current.offsetWidth);
     }
-  }, [cellRef.current]);
+  }, [cellRef.current, width, onWith]);
 
   if (!onResize || !width) {
     return <th ref={cellRef} {...restProps} />;
@@ -37,10 +31,7 @@ const ResizableCell: FC<any> = ({ onResize, width, onWith, ...restProps }) => {
       width={width}
       height={0}
       resizeHandles={['se']}
-      onResize={(e, data) => {
-        console.log('onResize', e, data);
-        onResize(e, data);
-      }}
+      onResize={onResize}
       draggableOpts={{ enableUserSelectHack: false }}
     >
       <th ref={cellRef} {...restProps} />
@@ -331,6 +322,7 @@ const GridTable: FC<GridTableProps> = (
         props.className,
         hashId,
         fit ? 'ant-table-fill' : null,
+        scrollY ? 'has-scrollbar-y' : null,
       )}
     >
       <>
@@ -341,12 +333,7 @@ const GridTable: FC<GridTableProps> = (
           columns={mergedColumns}
           scroll={
             fit
-              ? assign(
-                  {},
-                  props.scroll,
-                  scrollY ? { y: 'max-content' } : {},
-                  scrollX ? { x: true } : {},
-                )
+              ? assign({}, props.scroll, { y: '100%' })
               : props.scroll
           }
         />
