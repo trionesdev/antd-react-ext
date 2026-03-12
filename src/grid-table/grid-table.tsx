@@ -53,6 +53,10 @@ export type GridTableProps = TableProps<any> & {
    * @default true
    */
   resizable?: boolean;
+  /**
+   * @description 列最小宽度
+   * @default 20
+   */
   columnMinWidth?: number;
 };
 
