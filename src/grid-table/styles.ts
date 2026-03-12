@@ -26,6 +26,18 @@ export const genGridTableStyle = (
       borderRadius: 10,
     },
   };
+  const InvisibleScrollbar: any = {
+    '&::-webkit-scrollbar': {
+      width: 8,
+      height: 8,
+    },
+    '&::-webkit-scrollbar-track': {
+      background: 'transparent',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      background: 'transparent',
+    },
+  };
   return {
     [`.${prefixCls}`]: {
       width: '100%',
@@ -35,31 +47,39 @@ export const genGridTableStyle = (
       '&.ant-table-fill': {
         height: '100%',
         '.ant-table-wrapper': {
-          flex: '1 auto',
+          flex: '1 1 0',
           overflow: 'hidden',
+          minHeight: 0,
           '.ant-spin-nested-loading': {
             height: '100%',
             '.ant-spin-container': {
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
-              flex: '1 auto',
-              '.ant-table-header': {
-                flexShrink: 0,
-              },
-              '.ant-table-summary': {
-                flexShrink: 0,
-              },
             },
           },
           '.ant-table': {
+            flex: '1 1 0',
+            minHeight: 0,
             overflow: 'hidden',
             scrollbarColor: 'inherit !important',
             '.ant-table-container': {
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
+              minHeight: 0,
+              '.ant-table-header': {
+                flexShrink: 0,
+                overflowY: 'scroll !important',
+                ...InvisibleScrollbar,
+              },
+              '.ant-table-summary': {
+                flexShrink: 0,
+              },
               '& > .ant-table-content': {
+                flex: '1 1 0',
+                minHeight: 0,
+                overflow: 'auto',
                 backgroundColor: token.colorBgContainer,
                 ...Scrollbar,
               },
@@ -74,7 +94,10 @@ export const genGridTableStyle = (
                 },
               },
               '& > .ant-table-body': {
-                overflowY: 'auto !important',
+                flex: '1 1 0',
+                minHeight: 0,
+                maxHeight: 'none !important',
+                overflowY: 'scroll !important',
                 ...Scrollbar,
               },
             },
@@ -89,6 +112,10 @@ export const genGridTableStyle = (
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
+            '.ant-table-header': {
+              overflowY: 'scroll !important',
+              ...InvisibleScrollbar,
+            },
             '& > .ant-table-content': {
               backgroundColor: token.colorBgContainer,
               ...Scrollbar,
@@ -104,7 +131,7 @@ export const genGridTableStyle = (
               },
             },
             '& > .ant-table-body': {
-              overflowY: 'auto !important',
+              overflowY: 'scroll !important',
               ...Scrollbar,
             },
           },

@@ -14,13 +14,7 @@ enum ColumnsOperation {
 }
 
 const ResizableCell: FC<any> = ({ onResize, width, onWith, ...restProps }) => {
-  console.log('ResizableTitle', restProps);
-
   const cellRef = React.useRef<HTMLTableCellElement>(width);
-
-  // if (!width) {
-  //   return <th {...restProps} />;
-  // }
 
   useEffect(() => {
     if (cellRef.current && !width) {
@@ -38,7 +32,6 @@ const ResizableCell: FC<any> = ({ onResize, width, onWith, ...restProps }) => {
       height={0}
       resizeHandles={['se']}
       onResize={(e, data) => {
-        console.log('onResize', e, data);
         onResize(e, data);
       }}
       draggableOpts={{ enableUserSelectHack: false }}
@@ -210,7 +203,6 @@ const GridTable: FC<GridTableProps> = (
   const handleResize =
     (index: number) =>
     (e: any, { size }: any) => {
-      console.log('handleResize', index, e, size);
       dispatchColumns({
         type: ColumnsOperation.SET_COLUMN_WIDTH,
         payload: {
@@ -220,10 +212,7 @@ const GridTable: FC<GridTableProps> = (
       });
     };
 
-  console.log('columns', columns);
-
   const mergedColumns = columns?.map((column: any, index: number) => {
-    console.log('col', column);
     return {
       ...column,
       onHeaderCell: (column: any) => ({
@@ -344,7 +333,7 @@ const GridTable: FC<GridTableProps> = (
               ? assign(
                   {},
                   props.scroll,
-                  scrollY ? { y: 'max-content' } : {},
+                  { y: 'max-content' },
                   scrollX ? { x: true } : {},
                 )
               : props.scroll
