@@ -59,7 +59,7 @@ export default () => {
     },
   ];
 
-  const columns3 = [
+  const columns3:any[] = [
     {
       title: '姓名',
       dataIndex: 'name',
@@ -108,14 +108,14 @@ export default () => {
 
       />
       <GridTable
-        columns={columns3 as (ColumnGroupType<any> | ColumnType<any>)[]}
+        columns={columns3 }
         dataSource={dataScore}
         resizable={true}
 
       />
       <GridTable
         bordered={true}
-        columns={columns3 as (ColumnGroupType<any> | ColumnType<any>)[]}
+        columns={columns3 }
         dataSource={dataScore}
         resizable={true}
 
@@ -123,7 +123,7 @@ export default () => {
       <div style={{height:300}}>
         <GridTable
           fit={true}
-          columns={columns3 as (ColumnGroupType<any> | ColumnType<any>)[]}
+          columns={columns3}
           dataSource={data200}
           resizable={true}
         />
