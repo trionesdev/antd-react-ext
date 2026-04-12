@@ -1,10 +1,41 @@
 import { Table, TableProps } from 'antd';
 import classNames from 'classnames';
-import { assign, debounce } from 'lodash-es';
-import React, { FC, useEffect, useState } from 'react';
-
+import { assign, debounce, isEqual } from 'lodash-es';
+import React, { FC, useEffect, useReducer, useState } from 'react';
+import { Resizable } from 'react-resizable';
 import { useCssInJs } from '../hooks';
 import { genGridTableStyle } from './styles';
+
+enum ColumnsOperation {
+  SET_COLUMN_WIDTH = 'setColumnWidth',
+  SET_COLUMNS = 'setColumns',
+}
+
+const ResizableCell: FC<any> = ({ onResize, width, onWith, ...restProps }) => {
+  const cellRef = React.useRef<HTMLTableCellElement>(null);
+
+  useEffect(() => {
+    if (cellRef.current && !width) {
+      onWith?.(cellRef.current.offsetWidth);
+    }
+  }, [cellRef.current, width, onWith]);
+
+  if (!onResize || !width) {
+    return <th ref={cellRef} {...restProps} />;
+  }
+
+  return (
+    <Resizable
+      width={width}
+      height={0}
+      resizeHandles={['se']}
+      onResize={onResize}
+      draggableOpts={{ enableUserSelectHack: false }}
+    >
+      <th ref={cellRef} {...restProps} />
+    </Resizable>
+  );
+};
 
 export type GridTableProps = TableProps<any> & {
   /**
@@ -17,12 +48,51 @@ export type GridTableProps = TableProps<any> & {
    * @default
    */
   toolbar?: React.ReactNode;
+  /**
+   * @description 是否可拖拽列宽
+   * @default true
+   */
+  resizable?: boolean;
+  /**
+   * @description 列最小宽度
+   * @default 20
+   */
+  columnMinWidth?: number;
 };
 
 const GridTable: FC<GridTableProps> = (
-  { fit = false, toolbar, style, ...props },
+  {
+    fit = false,
+    toolbar,
+    resizable = false,
+    columnMinWidth = 20,
+    style,
+    ...props
+  },
   context,
 ) => {
+  const [columns, dispatchColumns] = useReducer(
+    (preState: any[], action: { type: string; payload: any }) => {
+      switch (action.type) {
+        case ColumnsOperation.SET_COLUMN_WIDTH: {
+          return preState.map((col, index) => {
+            if (index === action.payload.index) {
+              return {
+                ...col,
+                width: action.payload.width,
+              };
+            }
+            return col;
+          });
+        }
+        case ColumnsOperation.SET_COLUMNS: {
+          return action.payload;
+        }
+      }
+      return [...preState];
+    },
+    props.columns || [],
+  );
   const gridTableRef = React.useRef<HTMLDivElement>(null);
 
   const [containerHeight, setContainerHeight] = useState(0);
@@ -138,6 +208,41 @@ const GridTable: FC<GridTableProps> = (
     });
   });
 
+  const handleResize =
+    (index: number) =>
+    (e: any, { size }: any) => {
+      const column = columns[index];
+      if (column.width === size.width) return;
+      const minWidth = column.minWidth || columnMinWidth;
+      if (size.width <= minWidth) return;
+      dispatchColumns({
+        type: ColumnsOperation.SET_COLUMN_WIDTH,
+        payload: {
+          index,
+          width: size.width,
+        },
+      });
+    };
+
+  const mergedColumns = columns?.map((column: any, index: number) => {
+    return {
+      ...column,
+      onHeaderCell: (column: any) => ({
+        width: column.width,
+        onResize: handleResize(index),
+        onWith: (width: number) => {
+          dispatchColumns({
+            type: ColumnsOperation.SET_COLUMN_WIDTH,
+            payload: {
+              index: index,
+              width: width,
+            },
+          });
+        },
+      }),
+    };
+  });
+
   useEffect(
     debounce(() => {
       if (containerWidth < bodyWidth) {
@@ -196,6 +301,28 @@ const GridTable: FC<GridTableProps> = (
     };
   }, []);
 
+  useEffect(() => {
+    if (!isEqual(props.columns, columns)) {
+      dispatchColumns({
+        type: ColumnsOperation.SET_COLUMNS,
+        payload: props.columns,
+      });
+    }
+  }, [props.columns]);
+
+  const handleComponents = () => {
+    if (resizable) {
+      return {
+        ...props.components,
+        header: Object.assign({}, props.components?.header, {
+          cell: ResizableCell,
+        }),
+      };
+    } else {
+      return props.components;
+    }
+  };
+
   return (
     <div
       ref={gridTableRef}
@@ -205,21 +332,19 @@ const GridTable: FC<GridTableProps> = (
         props.className,
         hashId,
         fit ? 'ant-table-fill' : null,
+        scrollY ? 'has-scrollbar-y' : null,
       )}
     >
       <>
         {toolbar}
         <Table
           {...props}
+          components={handleComponents()}
+          columns={mergedColumns}
           scroll={
             fit
-              ? assign(
-                  {},
-                  props.scroll,
-                  scrollY ? { y: true } : {},
-                  scrollX ? { x: true } : {},
-                )
-              : props.scroll
+              ? assign({}, props.scroll, { y: '100%' })
+              : assign({}, props.scroll, { x: 'max-content' })
           }
         />
       </>

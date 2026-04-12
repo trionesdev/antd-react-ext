@@ -11,6 +11,10 @@ export default defineConfig({
     // 配置入口文件路径，API 解析将从这里开始
     entryFile: './src/index.ts',
   },
+  theme: {
+    '@s-content-width': '1800px',
+    '@s-sidebar-width': '284px',
+  },
   themeConfig: {
     editLink: true,
     name: 'Antd Extensions',
@@ -26,5 +30,4 @@ export default defineConfig({
     footer:
       '<div><div>Copyright © 2015-present TrionesDev</div><div>友情链接： <a href="https://www.ithere.net/" target="_blank">书阙</a>  <a href="https://www.trionesdev.com/" target="_blank">TrionesDev</a> </div></div>',
   },
-
 });

@@ -1,5 +1,6 @@
 import { GridTable } from '@trionesdev/antd-react-ext';
 import React from 'react';
+import { data } from './data';
 
 export default () => {
   const columns = [
@@ -13,34 +14,21 @@ export default () => {
     },
   ];
 
-  const dataScore = [
-    { name: '小明', age: 19 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-    { name: '小王', age: 38 },
-  ];
+ 
 
   return (
-    <div style={{ height: 300 }}>
-      <GridTable fit={true} columns={columns} dataSource={dataScore} />
+    <div>
+      <div style={{ height: 300 }}>
+        <GridTable fit={true} columns={columns} dataSource={data} />
+      </div>
+      <div style={{ height: 300 }}>
+        <GridTable
+          fit={true}
+          resizable={true}
+          columns={columns}
+          dataSource={data}
+        />
+      </div>
     </div>
   );
 };
