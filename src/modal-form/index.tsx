@@ -1,6 +1,9 @@
+import { ModalProps } from 'antd';
 import React, { type SyntheticEvent } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ModalForm as InternalModalForm, ModalFormProps } from './modal-form';
+
+type ModalCancelEvent = Parameters<NonNullable<ModalProps['onCancel']>>[0];
 
 type ModalFormShowProps = Omit<
   ModalFormProps,
@@ -15,7 +18,7 @@ type ModalFormShowProps = Omit<
    * @description 取消回调
    * @default
    */
-  onCancel?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<any>;
+  onCancel?: (e: ModalCancelEvent) => Promise<any>;
 };
 const show = (options?: ModalFormShowProps) => {
   const div = document.createElement('div');
@@ -40,7 +43,7 @@ const show = (options?: ModalFormShowProps) => {
     }
   };
 
-  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCancel: NonNullable<ModalProps['onCancel']> = (e) => {
     if (options?.onCancel) {
       options?.onCancel?.(e).then((res) => {
         destroy();

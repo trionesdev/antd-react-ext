@@ -1,9 +1,12 @@
+import { DrawerProps } from 'antd';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   DrawerFormProps,
   DrawerForm as InternalDrawerForm,
 } from './drawer-form';
+
+type DrawerCloseEvent = Parameters<NonNullable<DrawerProps['onClose']>>[0];
 
 type DrawerFormShowProps = Omit<
   DrawerFormProps,
@@ -13,7 +16,7 @@ type DrawerFormShowProps = Omit<
    * @description 关闭回调，如果有回调函数，返回结果是 Promise.resolve(true) 的时候关闭。如果没有回调函数，直接关闭
    * @default
    */
-  onClose?: (e: React.MouseEvent | React.KeyboardEvent) => Promise<any>;
+  onClose?: (e: DrawerCloseEvent) => Promise<any>;
   /**
    * @description 取消回调
    * @default
@@ -34,7 +37,7 @@ const show = (options?: DrawerFormShowProps) => {
     }
   }
 
-  const handleClose = (e: React.MouseEvent | React.KeyboardEvent) => {
+  const handleClose: NonNullable<DrawerProps['onClose']> = (e) => {
     if (options?.onClose) {
       options?.onClose(e).then((result) => {
         destroy();
