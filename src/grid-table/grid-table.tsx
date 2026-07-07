@@ -11,14 +11,14 @@ enum ColumnsOperation {
   SET_COLUMNS = 'setColumns',
 }
 
-const ResizableCell: FC<any> = ({ onResize, width, onWith, ...restProps }) => {
+const ResizableCell: FC<any> = ({ onResize, width, reportWidth, ...restProps }) => {
   const cellRef = React.useRef<HTMLTableCellElement>(null);
 
   useEffect(() => {
     if (cellRef.current && !width) {
-      onWith?.(cellRef.current.offsetWidth);
+      reportWidth?.(cellRef.current.offsetWidth);
     }
-  }, [cellRef.current, width, onWith]);
+  }, [width, reportWidth]);
 
   if (!onResize || !width) {
     return <th ref={cellRef} {...restProps} />;
@@ -135,24 +135,24 @@ const GridTable: FC<GridTableProps> = (
       });
     };
 
-  const mergedColumns = columns?.map((column: any, index: number) => {
-    return {
-      ...column,
-      onHeaderCell: (column: any) => ({
-        width: column.width,
-        onResize: handleResize(index),
-        onWith: (width: number) => {
-          dispatchColumns({
-            type: ColumnsOperation.SET_COLUMN_WIDTH,
-            payload: {
-              index: index,
-              width: width,
-            },
-          });
-        },
-      }),
-    };
-  });
+  const mergedColumns = resizable
+    ? columns?.map((column: any, index: number) => ({
+        ...column,
+        onHeaderCell: (column: any) => ({
+          width: column.width,
+          onResize: handleResize(index),
+          reportWidth: (width: number) => {
+            dispatchColumns({
+              type: ColumnsOperation.SET_COLUMN_WIDTH,
+              payload: {
+                index,
+                width,
+              },
+            });
+          },
+        }),
+      }))
+    : columns;
 
   useEffect(() => {
     if (!isEqual(props.columns, columns)) {
