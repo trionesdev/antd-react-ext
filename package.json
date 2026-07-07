@@ -1,6 +1,6 @@
 {
   "name": "@trionesdev/antd-react-ext",
-  "version": "6.0.0-beta.5",
+  "version": "6.0.0-beta.6",
   "description": "Antd Ext",
   "license": "MIT",
   "module": "dist/index.js",
