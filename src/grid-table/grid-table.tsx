@@ -231,6 +231,29 @@ const GridTable: FC<GridTableProps> = (
     styleFun: genGridTableStyle,
   });
 
+  const incomingStyles = props.styles;
+
+  const tableStyles: TableProps<any>['styles'] = fit
+    ? typeof incomingStyles === 'function'
+      ? (info) => {
+          const resolvedStyles = incomingStyles(info);
+          return {
+            ...resolvedStyles,
+            section: {
+              ...resolvedStyles?.section,
+              height: sectionHeight,
+            },
+          };
+        }
+      : {
+          ...incomingStyles,
+          section: {
+            ...incomingStyles?.section,
+            height: sectionHeight,
+          },
+        }
+    : incomingStyles;
+
   return (
     <Table
       {...props}
@@ -242,17 +265,7 @@ const GridTable: FC<GridTableProps> = (
       style={fit ? { ...style, height: '100%' } : style}
       classNames={tableClassNames}
       scroll={fit ? { ...props.scroll, y: scrollY } : props.scroll}
-      styles={
-        fit
-          ? {
-              ...props.styles,
-              section: {
-                ...props.styles?.section,
-                height: fit ? sectionHeight : undefined,
-              },
-            }
-          : props.styles
-      }
+      styles={tableStyles}
     />
   );
 };
