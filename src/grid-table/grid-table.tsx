@@ -40,6 +40,7 @@ const ResizableCell: FC<any> = ({ onResize, width, onWith, ...restProps }) => {
 const measureClassNames = {
   title: 'measure-title',
   header: 'measure-header',
+  body: 'measure-body',
   pagination: 'measure-pagination',
 };
 
@@ -47,6 +48,9 @@ const tableClassNames = {
   title: measureClassNames.title,
   header: {
     wrapper: measureClassNames.header,
+  },
+  body: {
+    wrapper: measureClassNames.body,
   },
   pagination: {
     root: measureClassNames.pagination,
@@ -189,13 +193,16 @@ const GridTable: FC<GridTableProps> = (
       const totalHeight = getHeight(element);
       const titleHeight = getHeight(measureClassNames.title);
       const headerHeight = getHeight(measureClassNames.header);
+      const bodyHeight = getHeight(measureClassNames.body);
+      const summaryHeight = getHeight('ant-table-summary');
       const paginationHeight = getHeight(measureClassNames.pagination);
 
+      console.log(totalHeight, titleHeight, headerHeight, bodyHeight,summaryHeight, paginationHeight);
       setScrollY(
         Math.max(
           0,
           Math.floor(
-            totalHeight - titleHeight - headerHeight - paginationHeight,
+            totalHeight - titleHeight - headerHeight -summaryHeight- paginationHeight,
           ),
         ),
       );
