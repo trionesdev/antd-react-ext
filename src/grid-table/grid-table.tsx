@@ -202,14 +202,14 @@ const GridTable: FC<GridTableProps> = (
       const summaryHeight = getHeight('ant-table-summary');
       const paginationHeight = getHeight(measureClassNames.pagination);
 
-      console.log(
-        totalHeight,
-        titleHeight,
-        headerHeight,
-        bodyHeight,
-        summaryHeight,
-        paginationHeight,
-      );
+      // console.log(
+      //   totalHeight,
+      //   titleHeight,
+      //   headerHeight,
+      //   bodyHeight,
+      //   summaryHeight,
+      //   paginationHeight,
+      // );
       const scrollYValue = Math.max(
         0,
         Math.floor(
