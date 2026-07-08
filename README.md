@@ -5,6 +5,8 @@
 
 > 基于And Design 组件库的扩展组件库。需要依赖 [ant-design](https://github.com/ant-design/ant-design)
 
+* antd >= 6.5.0
+
 [文档网站](https://trionesdev.github.io/antd-react-ext/components/table-toolbar)
 
 ---
