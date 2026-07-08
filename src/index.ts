@@ -64,6 +64,9 @@ export type { GridTableProps } from './grid-table';
 export { default as Layout } from './layout';
 export type { LayoutProps } from './layout';
 
+export { default as ImageUpload } from './image-upload';
+export type { ImageUploadProps } from './image-upload';
+
 export { default as ModalForm } from './modal-form';
 export type { ModalFormProps } from './modal-form';
 
