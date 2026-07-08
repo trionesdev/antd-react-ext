@@ -19,6 +19,7 @@
 - [x] FetchTreeSelect 远程数据的TreeSelect
 - [x] FieldsMapping 字段映射
 - [x] FileWrapper 字段包装器
+- [x] FormCell 表单项
 - [x] GridTable 表格
 - [x] Layout 布局
 - [x] ModalForm 模态框表单
