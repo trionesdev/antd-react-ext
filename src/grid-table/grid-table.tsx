@@ -11,7 +11,12 @@ enum ColumnsOperation {
   SET_COLUMNS = 'setColumns',
 }
 
-const ResizableCell: FC<any> = ({ onResize, width, reportWidth, ...restProps }) => {
+const ResizableCell: FC<any> = ({
+  onResize,
+  width,
+  reportWidth,
+  ...restProps
+}) => {
   const cellRef = React.useRef<HTMLTableCellElement>(null);
 
   useEffect(() => {
@@ -117,7 +122,7 @@ const GridTable: FC<GridTableProps> = (
   );
   const rootRef = useRef<GetRef<typeof Table>>(null);
 
-  const [scrollY, setScrollY] = useState(0);
+  const [scrollY, setScrollY] = useState<any>();
   const [sectionHeight, setSectionHeight] = useState(0);
   const handleResize =
     (index: number) =>
@@ -197,15 +202,29 @@ const GridTable: FC<GridTableProps> = (
       const summaryHeight = getHeight('ant-table-summary');
       const paginationHeight = getHeight(measureClassNames.pagination);
 
-      // console.log(totalHeight, titleHeight, headerHeight, bodyHeight,summaryHeight, paginationHeight);
-      setScrollY(
-        Math.max(
-          0,
-          Math.floor(
-            totalHeight - titleHeight - headerHeight -summaryHeight- paginationHeight,
-          ),
+      console.log(
+        totalHeight,
+        titleHeight,
+        headerHeight,
+        bodyHeight,
+        summaryHeight,
+        paginationHeight,
+      );
+      const scrollYValue = Math.max(
+        0,
+        Math.floor(
+          totalHeight -
+            titleHeight -
+            headerHeight -
+            summaryHeight -
+            paginationHeight,
         ),
       );
+      if (bodyHeight < scrollYValue) {
+        setScrollY(undefined);
+      } else {
+        setScrollY(scrollYValue);
+      }
       setSectionHeight(totalHeight - titleHeight - paginationHeight);
     };
 
@@ -248,7 +267,7 @@ const GridTable: FC<GridTableProps> = (
             ...resolvedStyles,
             section: {
               ...resolvedStyles?.section,
-              height: sectionHeight,
+              maxHeight: sectionHeight,
             },
           };
         }
@@ -256,7 +275,7 @@ const GridTable: FC<GridTableProps> = (
           ...incomingStyles,
           section: {
             ...incomingStyles?.section,
-            height: sectionHeight,
+            maxHeight: sectionHeight,
           },
         }
     : incomingStyles;

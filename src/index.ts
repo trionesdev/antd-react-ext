@@ -10,8 +10,11 @@ export type { DrawerFormProps } from './drawer-form';
 export { default as EditableDesc } from './editable-desc';
 export type { EditableDescProps } from './editable-desc';
 
-export { default as ExtDatePicker} from "./ext-date-picker"
-export type { ExtDatePickerProps,ExtDateRangePickerProps } from "./ext-date-picker"
+export { default as ExtDatePicker } from './ext-date-picker';
+export type {
+  ExtDatePickerProps,
+  ExtDateRangePickerProps,
+} from './ext-date-picker';
 
 export { default as ExtFormField } from './ext-form-field';
 export type { ExtFormFieldProps } from './ext-form-field';
@@ -23,16 +26,16 @@ export { default as ExtInputNumber } from './ext-input-number';
 export type { ExtInputNumberProps } from './ext-input-number';
 
 export { default as ExtCheckbox } from './ext-checkbox';
-export  type { ExtCheckBoxProps, ExtCheckBoxGroupProps } from './ext-checkbox';
+export type { ExtCheckBoxProps, ExtCheckBoxGroupProps } from './ext-checkbox';
 
-export {default as ExtRadio} from "./ext-radio"
-export type {ExtRadioProps, ExtRadioGroupProps} from "./ext-radio"
+export { default as ExtRadio } from './ext-radio';
+export type { ExtRadioProps, ExtRadioGroupProps } from './ext-radio';
 
 export { default as ExtSelect } from './ext-select';
 export type { ExtSelectProps } from './ext-select';
 
- export { default as ExtSwitch } from './ext-switch';
- export type { ExtSwitchProps } from './ext-switch';
+export { default as ExtSwitch } from './ext-switch';
+export type { ExtSwitchProps } from './ext-switch';
 
 export { default as ExtTreeSelect } from './ext-tree-select';
 export type { ExtTreeSelectProps } from './ext-tree-select';
@@ -46,11 +49,14 @@ export type { FetchTreeSelectProps } from './fetch-tree-select';
 export { default as Fieldset } from './fieldset';
 export type { FieldsetProps } from './fieldset';
 
+export { default as FieldWrapper } from './field-wrapper';
+export type { FieldWrapperProps } from './field-wrapper';
+
 export { default as FieldsMapping } from './fields-mapping';
 export type { FieldsMappingProps } from './fields-mapping';
 
-export { default as FieldWrapper } from './field-wrapper';
-export type { FieldWrapperProps } from './field-wrapper';
+export { default as FormCell } from './form-cell';
+export type { FormCellProps } from './form-cell';
 
 export { default as GridTable } from './grid-table';
 export type { GridTableProps } from './grid-table';
