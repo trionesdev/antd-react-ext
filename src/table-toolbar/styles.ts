@@ -9,7 +9,6 @@ export const genTableToolbarStyle = (
     [`.${prefixCls}`]: {
       display: 'flex',
       justifyContent: 'space-between',
-      padding: '8px',
       boxSizing: 'border-box',
       [`&-title`]: {
         display: 'flex',
