@@ -80,14 +80,14 @@ export const FetchSelect: FC<FetchSelectProps> = memo(({
                     setFetched(true);
                 });
         },
-        [fetchRequest],
+      [cacheExpire, cacheKey, fetchEnable, fetchRequest],
     );
 
     useEffect(() => {
       if (!dropdownFetch) {
         handleQuery();
       }
-    }, []);
+    }, [dropdownFetch,handleQuery]);
 
     return (
       <ExtSelect
