@@ -49,7 +49,7 @@
   "dependencies": {
     "cropperjs": "^2.1.0",
     "dayjs": "^1.11.21",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "4.18.1",
     "react-resizable": "^4.0.2"
   },
   "devDependencies": {
@@ -68,7 +68,6 @@
     "father": "^4.5.2",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "lodash-es": "^4.17.21",
     "prettier": "^3.9.4",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-packagejson": "^3.0.2",
