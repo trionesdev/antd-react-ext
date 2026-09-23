@@ -13,20 +13,33 @@ export default () => {
   return (
     <div>
       <div>
-        <Switch value={readOnly} onChange={setReadOnly}/>
+        <Switch value={readOnly} onChange={setReadOnly} />
       </div>
       <div>
-        <ExtSelect style={{width: 200}} placeholder="请选择" readonly={readOnly} options={options}
-                   value={value}
-                   onChange={setValue}
+        <ExtSelect
+          style={{ width: 200 }}
+          placeholder="请选择"
+          readOnly={readOnly}
+          options={options}
+          value={value}
+          onChange={setValue}
         />
-        <ExtSelect style={{width: 200}} placeholder="请选择" readonly={readOnly} options={options}
-                   mode="multiple"
-                   value={value2} onChange={setValue2}
+        <ExtSelect
+          style={{ width: 200 }}
+          placeholder="请选择"
+          readOnly={readOnly}
+          options={options}
+          mode="multiple"
+          value={value2}
+          onChange={setValue2}
         />
-        <ExtSelect style={{width: 200}} placeholder="请选择" readonly={true} options={options}
-                   value={1}
-                   onChange={setValue}
+        <ExtSelect
+          style={{ width: 200 }}
+          placeholder="请选择"
+          readOnly={true}
+          options={options}
+          value={1}
+          onChange={setValue}
         />
       </div>
     </div>

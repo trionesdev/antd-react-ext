@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import ExtFormField from '../ext-form-field';
 
 export type ExtRadioProps = RadioProps & {
-  readonly?: boolean;
+  readOnly?: boolean;
   valueRender?:
     | ((value?: any, options?: any) => React.ReactNode)
     | React.ReactNode;
@@ -11,7 +11,7 @@ export type ExtRadioProps = RadioProps & {
   emptyPlaceholder?: React.ReactNode;
 };
 export const ExtRadio: FC<ExtRadioProps> = ({
-  readonly = false,
+  readOnly = false,
   valueRender,
   defaultRender,
   emptyPlaceholder,
@@ -25,7 +25,7 @@ export const ExtRadio: FC<ExtRadioProps> = ({
 
   return (
     <ExtFormField
-      readonly={readonly}
+      readOnly={readOnly}
       value={rest.value}
       valueRender={valueRender}
       defaultRender={defaultRender}

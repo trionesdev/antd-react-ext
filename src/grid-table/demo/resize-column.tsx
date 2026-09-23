@@ -1,0 +1,172 @@
+import { GridTable } from '@trionesdev/antd-react-ext';
+import React from 'react';
+import { data200 } from './data';
+
+export default () => {
+  const columns = [
+    {
+      title: '姓名',
+      dataIndex: 'name',
+      width: 100,
+    },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+    },
+  ];
+
+  const dataScore = [
+    { name: '小明', age: 19 },
+    { name: '小王', age: 38 },
+  ];
+
+  const columns2 = [
+    {
+      title: '姓名',
+      dataIndex: 'name',
+    },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+      width: 100,
+    },
+    {
+      title: '地址',
+      dataIndex: 'address',
+    },
+    {
+      title: '电话',
+      dataIndex: 'phone',
+    },
+    {
+      title: '邮箱',
+      dataIndex: 'email',
+    },
+    {
+      title: '网站',
+      dataIndex: 'website',
+    },
+    {
+      title: 'QQ',
+      dataIndex: 'qq',
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      width: 100,
+    },
+  ];
+
+  const columns3: any[] = [
+    {
+      title: '姓名',
+      dataIndex: 'name',
+      fixed: 'start',
+    },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+      width: 100,
+    },
+    {
+      title: '地址',
+      dataIndex: 'address',
+      width: 200,
+    },
+    {
+      title: '电话',
+      dataIndex: 'phone',
+    },
+    {
+      title: '邮箱',
+      dataIndex: 'email',
+    },
+    {
+      title: '网站',
+      dataIndex: 'website',
+    },
+    {
+      title: 'QQ',
+      dataIndex: 'qq',
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      width: 100,
+      fixed: 'end',
+    },
+  ];
+
+  const columns4: any[] = [
+    {
+      title: '姓名',
+      dataIndex: 'name',
+      fixed: 'start',
+      minWidth: 180,
+    },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+      width: 100,
+    },
+    {
+      title: '地址',
+      dataIndex: 'address',
+      width: 200,
+    },
+    {
+      title: '电话',
+      dataIndex: 'phone',
+    },
+    {
+      title: '邮箱',
+      dataIndex: 'email',
+    },
+    {
+      title: '网站',
+      dataIndex: 'website',
+    },
+    {
+      title: 'QQ',
+      dataIndex: 'qq',
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      width: 100,
+      fixed: 'end',
+    },
+  ];
+
+  return (
+    <div>
+      <GridTable columns={columns} dataSource={dataScore} />
+      <GridTable columns={columns2} dataSource={dataScore} />
+      <GridTable
+        columns={columns3}
+        dataSource={dataScore}
+        resizable={true}
+        scroll={{ x: 1000 }}
+      />
+      <GridTable
+        bordered={true}
+        columns={columns3}
+        dataSource={dataScore}
+        resizable={true}
+      />
+      <div>flex布局</div>
+      <div style={{ height: 300 }}>
+        <div style={{ height: '100%', display: 'flex', minWidth: 0 }}>
+          <div style={{ flex: 'auto', minWidth: 0, overflow: 'hidden' }}>
+            <GridTable
+              fit={true}
+              columns={columns4}
+              dataSource={data200}
+              resizable={true}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

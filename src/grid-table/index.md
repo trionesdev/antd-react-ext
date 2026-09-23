@@ -3,6 +3,8 @@
 > 表格
 
 <code src="./demo/base.tsx"></code>
+### 可拖动列宽
+<code src="./demo/resize-column.tsx"></code>
 
 > 撑满一个高度为300px的容器，内部高度滚动
 

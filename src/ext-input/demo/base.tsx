@@ -17,7 +17,7 @@ export default () => {
             console.log(e.target.value);
             setValue(e.target.value);
           }}
-          readonly={readOnly}
+          readOnly={readOnly}
         />
       </div>
     </div>

@@ -97,7 +97,7 @@ export const FetchTreeSelect: FC<FetchTreeSelectProps> = memo(({
     if (!dropdownFetch) {
       handleQuery();
     }
-  }, []);
+  }, [dropdownFetch,handleQuery]);
 
 
   return (

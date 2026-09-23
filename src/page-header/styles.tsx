@@ -1,5 +1,5 @@
-import {GlobalToken} from "antd";
-import {CSSInterpolation} from "@ant-design/cssinjs";
+import { CSSInterpolation } from '@ant-design/cssinjs';
+import { GlobalToken } from 'antd';
 
 export const genPageHeaderStyle = (
   prefixCls: string,
@@ -9,6 +9,9 @@ export const genPageHeaderStyle = (
     [`.${prefixCls}`]: {
       backgroundColor: 'white',
       padding: '8px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '8px',
       [`&-breadcrumb`]: {},
       [`&-heading`]: {
         display: 'flex',

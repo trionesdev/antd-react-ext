@@ -24,6 +24,16 @@ export type FieldWrapperProps = {
   [key: string]: any;
 };
 
+/**
+ * @deprecated 请使用 FormCell
+ * @param param0
+ * @param param0.className
+ * @param param0.style
+ * @param param0.size
+ * @param param0.children
+ * @param param0.props
+ * @constructor
+ */
 export const FieldWrapper: FC<FieldWrapperProps> = ({
   className,
   style,

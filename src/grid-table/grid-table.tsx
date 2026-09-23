@@ -1,10 +1,66 @@
-import { Table, TableProps } from 'antd';
+import { GetRef, Table, TableProps } from 'antd';
 import classNames from 'classnames';
-import { assign, debounce } from 'lodash-es';
-import React, { FC, useEffect, useState } from 'react';
-
+import { isEqual } from 'lodash-es';
+import React, { FC, useEffect, useReducer, useRef, useState } from 'react';
+import { Resizable } from 'react-resizable';
 import { useCssInJs } from '../hooks';
 import { genGridTableStyle } from './styles';
+
+enum ColumnsOperation {
+  SET_COLUMN_WIDTH = 'setColumnWidth',
+  SET_COLUMNS = 'setColumns',
+}
+
+const ResizableCell: FC<any> = ({
+  onResize,
+  width,
+  reportWidth,
+  ...restProps
+}) => {
+  const cellRef = React.useRef<HTMLTableCellElement>(null);
+
+  useEffect(() => {
+    if (cellRef.current && !width) {
+      reportWidth?.(cellRef.current.offsetWidth);
+    }
+  }, [width, reportWidth]);
+
+  if (!onResize || !width) {
+    return <th ref={cellRef} {...restProps} />;
+  }
+
+  return (
+    <Resizable
+      width={width}
+      height={0}
+      resizeHandles={['se']}
+      onResize={onResize}
+      draggableOpts={{ enableUserSelectHack: false }}
+    >
+      <th ref={cellRef} {...restProps} />
+    </Resizable>
+  );
+};
+
+const measureClassNames = {
+  title: 'measure-title',
+  header: 'measure-header',
+  body: 'measure-body',
+  pagination: 'measure-pagination',
+};
+
+const tableClassNames = {
+  title: measureClassNames.title,
+  header: {
+    wrapper: measureClassNames.header,
+  },
+  body: {
+    wrapper: measureClassNames.body,
+  },
+  pagination: {
+    root: measureClassNames.pagination,
+  },
+};
 
 export type GridTableProps = TableProps<any> & {
   /**
@@ -17,212 +73,268 @@ export type GridTableProps = TableProps<any> & {
    * @default
    */
   toolbar?: React.ReactNode;
+  /**
+   * @description 是否可拖拽列宽
+   * @default true
+   */
+  resizable?: boolean;
+  /**
+   * @description 列最小宽度
+   * @default 20
+   */
+  columnMinWidth?: number;
 };
 
+const prefixCls = 'triones-ant-grid-table';
+
 const GridTable: FC<GridTableProps> = (
-  { fit = false, toolbar, style, ...props },
+  {
+    fit = false,
+    toolbar,
+    resizable = false,
+    columnMinWidth = 20,
+    style,
+    ...props
+  },
   context,
 ) => {
-  const gridTableRef = React.useRef<HTMLDivElement>(null);
+  const [columns, dispatchColumns] = useReducer(
+    (preState: any[], action: { type: string; payload: any }) => {
+      switch (action.type) {
+        case ColumnsOperation.SET_COLUMN_WIDTH: {
+          return preState.map((col, index) => {
+            if (index === action.payload.index) {
+              return {
+                ...col,
+                width: action.payload.width,
+              };
+            }
+            return col;
+          });
+        }
+        case ColumnsOperation.SET_COLUMNS: {
+          return action.payload;
+        }
+      }
+      return [...preState];
+    },
+    props.columns || [],
+  );
+  const rootRef = useRef<GetRef<typeof Table>>(null);
 
-  const [containerHeight, setContainerHeight] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const [headerHeight, setHeaderHeight] = useState(0);
-  const [bodyHeight, setBodyHeight] = useState(0);
-  const [bodyWidth, setBodyWidth] = useState(0);
-  const [footerHeight, setFooterHeight] = useState(0);
+  const [scrollY, setScrollY] = useState<any>();
+  const [sectionHeight, setSectionHeight] = useState(0);
+  const fitWrapRef = useRef<HTMLDivElement>(null);
+  const handleResize =
+    (index: number) =>
+    (e: any, { size }: any) => {
+      const column = columns[index];
+      if (column.width === size.width) return;
+      const minWidth = column.minWidth || columnMinWidth;
+      if (size.width <= minWidth) return;
+      dispatchColumns({
+        type: ColumnsOperation.SET_COLUMN_WIDTH,
+        payload: {
+          index,
+          width: size.width,
+        },
+      });
+    };
 
-  const [scrollX, setScrollX] = useState(false);
-  const [scrollY, setScrollY] = useState(false);
+  const mergedColumns = resizable
+    ? columns?.map((column: any, index: number) => ({
+        ...column,
+        onHeaderCell: (column: any) => ({
+          width: column.width,
+          onResize: handleResize(index),
+          reportWidth: (width: number) => {
+            dispatchColumns({
+              type: ColumnsOperation.SET_COLUMN_WIDTH,
+              payload: {
+                index,
+                width,
+              },
+            });
+          },
+        }),
+      }))
+    : columns;
 
-  const prefixCls = 'triones-ant-grid-table';
+  useEffect(() => {
+    if (!isEqual(props.columns, columns)) {
+      dispatchColumns({
+        type: ColumnsOperation.SET_COLUMNS,
+        payload: props.columns,
+      });
+    }
+  }, [props.columns]);
+
+  const getHeight = (className: string | HTMLElement) => {
+    const ele =
+      typeof className === 'string'
+        ? rootRef.current?.nativeElement?.querySelector<HTMLElement>(
+            `.${className}`,
+          )
+        : className;
+
+    if (ele) {
+      const styles = getComputedStyle(ele);
+      const marginTop = Number.parseFloat(styles.marginTop) || 0;
+      const marginBottom = Number.parseFloat(styles.marginBottom) || 0;
+
+      return ele.getBoundingClientRect().height + marginTop + marginBottom;
+    }
+
+    return 0;
+  };
+
+  useEffect(() => {
+    const element = rootRef.current?.nativeElement;
+
+    if (!element) {
+      return;
+    }
+
+    const measure = () => {
+      const totalHeight = getHeight(fitWrapRef.current || element);
+      const titleHeight = getHeight(measureClassNames.title);
+      const headerHeight = getHeight(measureClassNames.header);
+      const bodyHeight = getHeight(measureClassNames.body);
+      const summaryHeight = getHeight('ant-table-summary');
+      const paginationHeight = getHeight(measureClassNames.pagination);
+
+      // console.log(
+      //   totalHeight,
+      //   titleHeight,
+      //   headerHeight,
+      //   bodyHeight,
+      //   summaryHeight,
+      //   paginationHeight,
+      // );
+      const scrollYValue = Math.max(
+        0,
+        Math.floor(
+          totalHeight -
+            titleHeight -
+            headerHeight -
+            summaryHeight -
+            paginationHeight,
+        ),
+      );
+      if (bodyHeight < scrollYValue) {
+        setScrollY(undefined);
+      } else {
+        setScrollY(scrollYValue);
+      }
+      setSectionHeight(totalHeight - titleHeight - paginationHeight);
+    };
+
+    measure();
+
+    const resizeObserver = new ResizeObserver(measure);
+
+    resizeObserver.observe(element);
+    if (fitWrapRef.current) {
+      resizeObserver.observe(fitWrapRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [fit]);
+
+  const handleComponents = () => {
+    if (resizable) {
+      return {
+        ...props.components,
+        header: Object.assign({}, props.components?.header, {
+          cell: ResizableCell,
+        }),
+      };
+    } else {
+      return props.components;
+    }
+  };
+
   const { hashId } = useCssInJs({
     prefix: prefixCls,
     styleFun: genGridTableStyle,
   });
 
-  const resizeObserverTableContainer = new ResizeObserver((entries) => {
-    for (let entry of entries) {
-      const { target, contentRect } = entry;
-      const { height, width } = contentRect;
-      if (height > 0) {
-        setContainerHeight(height);
-      }
-      if (width > 0) {
-        setContainerWidth(width);
-      }
-    }
-  });
+  const incomingStyles = props.styles;
 
-  const resizeObserverTableHeader = new ResizeObserver((entries) => {
-    for (let entry of entries) {
-      const { target, contentRect } = entry;
-      const { height } = contentRect;
-      if (height > 0) {
-        setHeaderHeight(height);
-      }
-    }
-  });
+  const tableStyles: TableProps<any>['styles'] = fit
+    ? typeof incomingStyles === 'function'
+      ? (info) => {
+          const resolvedStyles = incomingStyles(info);
+          return {
+            ...resolvedStyles,
+            section: {
+              ...resolvedStyles?.section,
+              maxHeight: sectionHeight,
+            },
+          };
+        }
+      : {
+          ...incomingStyles,
+          section: {
+            ...incomingStyles?.section,
+            maxHeight: sectionHeight,
+          },
+        }
+    : incomingStyles;
 
-  const resizeObserverTableBody = new ResizeObserver((entries) => {
-    for (let entry of entries) {
-      const { target, contentRect } = entry;
-      const { height, width } = contentRect;
-      if (height > 0) {
-        setBodyHeight(height);
-      }
-      if (width > 0) {
-        setBodyWidth(width);
-      }
-    }
-  });
-
-  const resizeObserverTableFooter = new ResizeObserver((entries) => {
-    for (let entry of entries) {
-      const { target, contentRect } = entry;
-      const { height } = contentRect;
-      if (height > 0) {
-        setFooterHeight(height);
-      }
-    }
-  });
-
-  const handleObserverTableContent = () => {
-    const hasFixedRight = gridTableRef.current?.querySelector(
-      '.ant-table-has-fix-right',
-    ) as HTMLDivElement;
-    if (hasFixedRight) {
-      const fixedHeader = gridTableRef.current?.querySelector(
-        '.ant-table-container .ant-table-thead',
-      ) as HTMLDivElement;
-      const fixedBody = gridTableRef.current?.querySelector(
-        '.ant-table-container .ant-table-tbody',
-      ) as HTMLDivElement;
-      const fixedFooter = gridTableRef.current?.querySelector(
-        '.ant-table-container .ant-table-summary',
-      ) as HTMLDivElement;
-      if (fixedHeader) {
-        resizeObserverTableHeader.observe(fixedHeader);
-      }
-      if (fixedBody) {
-        resizeObserverTableBody.observe(fixedBody);
-      }
-      if (fixedFooter) {
-        resizeObserverTableFooter.observe(fixedFooter);
-      }
-    } else {
-      const tableHeader = gridTableRef.current?.querySelector(
-        '.ant-table-container .ant-table-thead',
-      ) as HTMLDivElement;
-      const tableBody = gridTableRef.current?.querySelector(
-        '.ant-table-container .ant-table-tbody',
-      ) as HTMLDivElement;
-      const tableFooter = gridTableRef.current?.querySelector(
-        '.ant-table-container .ant-table-summary',
-      ) as HTMLDivElement;
-      if (tableHeader) {
-        resizeObserverTableHeader.observe(tableHeader);
-      }
-      if (tableBody) {
-        resizeObserverTableBody.observe(tableBody);
-      }
-      if (tableFooter) {
-        resizeObserverTableFooter.observe(tableFooter);
-      }
-    }
+  const mergedScroll: TableProps<any>['scroll'] = {
+    ...props.scroll,
+    ...(resizable && props.scroll?.x == null ? { x: 'max-content' } : null),
+    ...(fit ? { y: scrollY } : null),
   };
 
-  const mutationObserver = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      handleObserverTableContent();
-    });
-  });
-
-  useEffect(
-    debounce(() => {
-      if (containerWidth < bodyWidth) {
-        if (!props.scroll?.x) {
-          setScrollX(true);
-        }
-        if (
-          Math.ceil(containerHeight) <
-          Math.ceil(headerHeight + bodyHeight + footerHeight + 8)
-        ) {
-          setScrollY(true);
-        } else {
-          setScrollY(false);
-        }
-      } else {
-        if (!props.scroll?.x) {
-          setScrollX(false);
-        }
-        if (
-          Math.ceil(containerHeight) <
-          Math.ceil(headerHeight + bodyHeight + footerHeight)
-        ) {
-          setScrollY(true);
-        } else {
-          setScrollY(false);
-        }
+  const table = (
+    <Table
+      {...props}
+      ref={rootRef}
+      title={toolbar ? () => toolbar : props.title}
+      components={handleComponents()}
+      columns={mergedColumns}
+      className={classNames(hashId, prefixCls, props.className)}
+      style={
+        fit
+          ? {
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              minWidth: 0,
+              maxWidth: '100%',
+            }
+          : style
       }
-    }, 500),
-    [
-      containerHeight,
-      containerWidth,
-      headerHeight,
-      bodyHeight,
-      bodyWidth,
-      footerHeight,
-    ],
+      classNames={tableClassNames}
+      scroll={mergedScroll}
+      styles={tableStyles}
+    />
   );
 
-  useEffect(() => {
-    const containerEl = gridTableRef.current!.querySelector(
-      '.ant-table-container',
-    ) as HTMLDivElement;
-    resizeObserverTableContainer.observe(containerEl);
-    mutationObserver.observe(containerEl, {
-      childList: true,
-      subtree: true,
-    });
-    handleObserverTableContent();
-
-    return () => {
-      resizeObserverTableContainer.disconnect();
-      resizeObserverTableHeader.disconnect();
-      resizeObserverTableBody.disconnect();
-      resizeObserverTableFooter.disconnect();
-      mutationObserver.disconnect();
-    };
-  }, []);
+  if (!fit) {
+    return table;
+  }
 
   return (
     <div
-      ref={gridTableRef}
-      style={style}
-      className={classNames(
-        prefixCls,
-        props.className,
-        hashId,
-        fit ? 'ant-table-fill' : null,
-      )}
+      ref={fitWrapRef}
+      className={classNames(hashId, prefixCls, `${prefixCls}-fit`)}
+      style={{
+        ...style,
+        width: '100%',
+        height: '100%',
+        minWidth: 0,
+        minHeight: 0,
+        position: 'relative',
+        overflow: 'hidden',
+      }}
     >
-      <>
-        {toolbar}
-        <Table
-          {...props}
-          scroll={
-            fit
-              ? assign(
-                  {},
-                  props.scroll,
-                  scrollY ? { y: true } : {},
-                  scrollX ? { x: true } : {},
-                )
-              : props.scroll
-          }
-        />
-      </>
+      {table}
     </div>
   );
 };

@@ -4,28 +4,28 @@ import React, {FC} from 'react';
 import ExtFormField from '../ext-form-field';
 
 export type ExtInputOPTProps = OTPProps & {
-  readonly?: boolean;
+  readOnly?: boolean;
   valueRender?: ((value?: any) => React.ReactNode) | React.ReactNode;
   defaultRender?: React.ReactNode;
   emptyPlaceholder?: React.ReactNode;
 };
 export const ExtInputOTP: FC<ExtInputOPTProps> = ({
-                                                      readonly,
-                                                      valueRender,
-                                                      defaultRender,
-                                                      emptyPlaceholder,
-                                                      ...rest
-                                                  }) => {
-    return (
-        <ExtFormField
-            readonly={readonly}
-            value={rest.value}
-            defaultValue={rest.defaultValue}
-            valueRender={valueRender}
-            defaultRender={defaultRender}
-            emptyPlaceholder={emptyPlaceholder}
-        >
-            <Input.OTP {...rest} />
-        </ExtFormField>
-    );
+  readOnly,
+  valueRender,
+  defaultRender,
+  emptyPlaceholder,
+  ...rest
+}) => {
+  return (
+    <ExtFormField
+      readOnly={readOnly}
+      value={rest.value}
+      defaultValue={rest.defaultValue}
+      valueRender={valueRender}
+      defaultRender={defaultRender}
+      emptyPlaceholder={emptyPlaceholder}
+    >
+      <Input.OTP {...rest} />
+    </ExtFormField>
+  );
 };

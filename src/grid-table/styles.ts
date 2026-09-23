@@ -28,66 +28,31 @@ export const genGridTableStyle = (
   };
   return {
     [`.${prefixCls}`]: {
-      width: '100%',
-      display: `flex`,
-      flexDirection: 'column',
       boxSizing: 'border-box',
-      '&.ant-table-fill': {
+      minWidth: 0,
+      maxWidth: '100%',
+      [`&-fit`]: {
+        position: 'relative',
+        width: '100%',
         height: '100%',
-        '.ant-table-wrapper': {
-          flex: '1 auto',
-          overflow: 'hidden',
-          '.ant-spin-nested-loading': {
-            height: '100%',
-            '.ant-spin-container': {
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              flex: '1 auto',
-              '.ant-table-header': {
-                flexShrink: 0,
-              },
-              '.ant-table-summary': {
-                flexShrink: 0,
-              },
-            },
-          },
-          '.ant-table': {
-            overflow: 'hidden',
-            scrollbarColor: 'inherit !important',
-            '.ant-table-container': {
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              '& > .ant-table-content': {
-                backgroundColor: token.colorBgContainer,
-                ...Scrollbar,
-              },
-              '& > .ant-table-body': {
-                overflowY: 'auto !important',
-                ...Scrollbar,
-              },
-            },
-          },
-        },
+        minWidth: 0,
+        minHeight: 0,
+        overflow: 'hidden',
       },
-      '.ant-table-wrapper': {
-        '.ant-table': {
-          overflow: 'hidden',
-          scrollbarColor: 'inherit !important',
-          '.ant-table-container': {
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            '& > .ant-table-content': {
-              backgroundColor: token.colorBgContainer,
-              ...Scrollbar,
-            },
-            '& > .ant-table-body': {
-              overflowY: 'auto !important',
-              ...Scrollbar,
-            },
-          },
+      '.ant-table-wrapper, .ant-table, .ant-table-container': {
+        minWidth: 0,
+        maxWidth: '100%',
+      },
+      '.ant-table-thead': {
+        position: 'relative',
+        '.react-resizable-handle': {
+          position: 'absolute',
+          top: 0,
+          right: '-2px',
+          bottom: 0,
+          width: '4px',
+          cursor: 'col-resize',
+          zIndex: 1,
         },
       },
     },
