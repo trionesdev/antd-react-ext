@@ -56,7 +56,11 @@ export { default as FieldsMapping } from './fields-mapping';
 export type { FieldsMappingProps } from './fields-mapping';
 
 export { default as FormCell } from './form-cell';
-export type { FormCellProps } from './form-cell';
+export type {
+  FormCellProps,
+  FormCellStatus,
+  FormCellVariant,
+} from './form-cell';
 
 export { default as GridTable } from './grid-table';
 export type { GridTableProps } from './grid-table';

@@ -1,4 +1,9 @@
-import { FormCell, FormCellProps } from './form-cell';
+import {
+  FormCell,
+  FormCellProps,
+  FormCellStatus,
+  FormCellVariant,
+} from './form-cell';
 
-export type { FormCellProps };
+export type { FormCellProps, FormCellStatus, FormCellVariant };
 export default FormCell;

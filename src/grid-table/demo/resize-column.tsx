@@ -24,7 +24,6 @@ export default () => {
     {
       title: '姓名',
       dataIndex: 'name',
-
     },
     {
       title: '年龄',
@@ -58,11 +57,52 @@ export default () => {
     },
   ];
 
-  const columns3:any[] = [
+  const columns3: any[] = [
     {
       title: '姓名',
       dataIndex: 'name',
       fixed: 'start',
+    },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+      width: 100,
+    },
+    {
+      title: '地址',
+      dataIndex: 'address',
+      width: 200,
+    },
+    {
+      title: '电话',
+      dataIndex: 'phone',
+    },
+    {
+      title: '邮箱',
+      dataIndex: 'email',
+    },
+    {
+      title: '网站',
+      dataIndex: 'website',
+    },
+    {
+      title: 'QQ',
+      dataIndex: 'qq',
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      width: 100,
+      fixed: 'end',
+    },
+  ];
+
+  const columns4: any[] = [
+    {
+      title: '姓名',
+      dataIndex: 'name',
+      fixed: 'start',
+      minWidth: 180,
     },
     {
       title: '年龄',
@@ -114,13 +154,18 @@ export default () => {
         dataSource={dataScore}
         resizable={true}
       />
+      <div>flex布局</div>
       <div style={{ height: 300 }}>
-        <GridTable
-          fit={true}
-          columns={columns3}
-          dataSource={data200}
-          resizable={true}
-        />
+        <div style={{ height: '100%', display: 'flex' }}>
+          <div style={{ flex: 'auto' }}>
+            <GridTable
+              fit={true}
+              columns={columns4}
+              dataSource={data200}
+              resizable={true}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
