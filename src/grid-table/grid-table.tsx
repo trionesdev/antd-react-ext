@@ -124,6 +124,7 @@ const GridTable: FC<GridTableProps> = (
 
   const [scrollY, setScrollY] = useState<any>();
   const [sectionHeight, setSectionHeight] = useState(0);
+  const fitWrapRef = useRef<HTMLDivElement>(null);
   const handleResize =
     (index: number) =>
     (e: any, { size }: any) => {
@@ -195,7 +196,7 @@ const GridTable: FC<GridTableProps> = (
     }
 
     const measure = () => {
-      const totalHeight = getHeight(element);
+      const totalHeight = getHeight(fitWrapRef.current || element);
       const titleHeight = getHeight(measureClassNames.title);
       const headerHeight = getHeight(measureClassNames.header);
       const bodyHeight = getHeight(measureClassNames.body);
@@ -233,11 +234,14 @@ const GridTable: FC<GridTableProps> = (
     const resizeObserver = new ResizeObserver(measure);
 
     resizeObserver.observe(element);
+    if (fitWrapRef.current) {
+      resizeObserver.observe(fitWrapRef.current);
+    }
 
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [fit]);
 
   const handleComponents = () => {
     if (resizable) {
@@ -280,7 +284,13 @@ const GridTable: FC<GridTableProps> = (
         }
     : incomingStyles;
 
-  return (
+  const mergedScroll: TableProps<any>['scroll'] = {
+    ...props.scroll,
+    ...(resizable && props.scroll?.x == null ? { x: 'max-content' } : null),
+    ...(fit ? { y: scrollY } : null),
+  };
+
+  const table = (
     <Table
       {...props}
       ref={rootRef}
@@ -288,11 +298,44 @@ const GridTable: FC<GridTableProps> = (
       components={handleComponents()}
       columns={mergedColumns}
       className={classNames(hashId, prefixCls, props.className)}
-      style={fit ? { ...style, height: '100%' } : style}
+      style={
+        fit
+          ? {
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              minWidth: 0,
+              maxWidth: '100%',
+            }
+          : style
+      }
       classNames={tableClassNames}
-      scroll={fit ? { ...props.scroll, y: scrollY } : props.scroll}
+      scroll={mergedScroll}
       styles={tableStyles}
     />
+  );
+
+  if (!fit) {
+    return table;
+  }
+
+  return (
+    <div
+      ref={fitWrapRef}
+      className={classNames(hashId, prefixCls, `${prefixCls}-fit`)}
+      style={{
+        ...style,
+        width: '100%',
+        height: '100%',
+        minWidth: 0,
+        minHeight: 0,
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {table}
+    </div>
   );
 };
 export default Object.assign(GridTable, {

@@ -156,8 +156,8 @@ export default () => {
       />
       <div>flex布局</div>
       <div style={{ height: 300 }}>
-        <div style={{ height: '100%', display: 'flex' }}>
-          <div style={{ flex: 'auto' }}>
+        <div style={{ height: '100%', display: 'flex', minWidth: 0 }}>
+          <div style={{ flex: 'auto', minWidth: 0, overflow: 'hidden' }}>
             <GridTable
               fit={true}
               columns={columns4}

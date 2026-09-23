@@ -28,6 +28,21 @@ export const genGridTableStyle = (
   };
   return {
     [`.${prefixCls}`]: {
+      boxSizing: 'border-box',
+      minWidth: 0,
+      maxWidth: '100%',
+      [`&-fit`]: {
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        minWidth: 0,
+        minHeight: 0,
+        overflow: 'hidden',
+      },
+      '.ant-table-wrapper, .ant-table, .ant-table-container': {
+        minWidth: 0,
+        maxWidth: '100%',
+      },
       '.ant-table-thead': {
         position: 'relative',
         '.react-resizable-handle': {
