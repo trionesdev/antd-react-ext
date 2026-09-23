@@ -68,7 +68,7 @@ export type FormCellProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix'>
   status?: FormCellStatus;
 };
 
-const isEmptyNode = (node: React.ReactNode) => {
+const isEmptyNode = (node: React.ReactNode):boolean => {
   if (node === undefined || node === null || node === false || node === '') {
     return true;
   }
