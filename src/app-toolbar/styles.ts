@@ -7,7 +7,7 @@ export const genAppToolbarStyle = (
 ): CSSInterpolation => {
   return {
     [`.${prefixCls}`]: {
-      height: '60px',
+      height: 'var(--triones-app-toolbar-height, 60px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -19,6 +19,7 @@ export const genAppToolbarStyle = (
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
+        height: '100%',
         gap: '8px',
 
         [`&-left`]: {
@@ -38,7 +39,9 @@ export const genAppToolbarStyle = (
         [`&-right`]: {},
         [`.ant-menu-horizontal`]: {
           flex: '1 auto',
-          height: '60px',
+          height: '100%',
+          lineHeight: 'var(--triones-app-toolbar-height, 60px)',
+          borderBottom: 'none',
           backgroundColor: 'inherit',
           li: {
             display: 'flex',

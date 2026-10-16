@@ -5,17 +5,35 @@ import {
   Breadcrumb,
   BreadcrumbProps,
   Button,
+  ConfigProvider,
   Space,
 } from 'antd';
+import { SizeType } from 'antd/es/config-provider/SizeContext';
 import classNames from 'classnames';
 import React, { FC } from 'react';
 import { useCssInJs } from '../hooks';
 import { genPageHeaderStyle } from './styles';
 
+/**
+ * 与 antd Card 一致：`large` 不适用，`default` 为默认尺寸。
+ * @see https://ant.design/components/card-cn#card
+ */
+export type PageHeaderSize = Exclude<SizeType, 'large'> | 'default';
+
 export type PageHeaderProps = {
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
+  /**
+   * @description 页头尺寸，同 antd Card：`default` | `small`
+   * @default default
+   */
+  size?: PageHeaderSize;
+  /**
+   * @description 为 true 时取消内边距（padding 为 0）
+   * @default false
+   */
+  noPadding?: boolean;
   /**
    * @description 是否展示返回icon
    * @default true
@@ -58,6 +76,8 @@ const PageHeader: FC<PageHeaderProps> = ({
   className,
   style,
   children,
+  size,
+  noPadding = false,
   backIcon = true,
   avatar,
   title,
@@ -68,6 +88,12 @@ const PageHeader: FC<PageHeaderProps> = ({
   footer,
 }) => {
   const prefixCls = 'triones-ant-page-header';
+  const { componentSize } = ConfigProvider.useConfig();
+
+  const mergedSize: PageHeaderSize =
+    size ??
+    (componentSize === 'small' ? 'small' : 'default');
+  const isSmall = mergedSize === 'small';
 
   const { hashId } = useCssInJs({
     prefix: prefixCls,
@@ -75,7 +101,18 @@ const PageHeader: FC<PageHeaderProps> = ({
   });
 
   return (
-    <div style={style} className={classNames(prefixCls, className, hashId)}>
+    <div
+      style={style}
+      className={classNames(
+        prefixCls,
+        {
+          [`${prefixCls}-small`]: isSmall,
+          [`${prefixCls}-no-padding`]: noPadding,
+        },
+        className,
+        hashId,
+      )}
+    >
       {breadcrumb && (
         <div className={classNames(`${prefixCls}-breadcrumb`, hashId)}>
           <Space>
@@ -84,11 +121,14 @@ const PageHeader: FC<PageHeaderProps> = ({
         </div>
       )}
       <div className={classNames(`${prefixCls}-heading`, hashId)}>
-        <Space>
-          {avatar && <Avatar {...avatar} />}
+        <Space size={isSmall ? 'small' : 'middle'}>
+          {avatar && (
+            <Avatar size={isSmall ? 'small' : 'default'} {...avatar} />
+          )}
           {backIcon && (
             <Button
-              type={`text`}
+              type="text"
+              size={isSmall ? 'small' : 'middle'}
               icon={<ArrowLeftOutlined rev={undefined} />}
               onClick={onBack}
             />
@@ -106,7 +146,7 @@ const PageHeader: FC<PageHeaderProps> = ({
             </span>
           )}
         </Space>
-        <Space>{extra}</Space>
+        <Space size={isSmall ? 'small' : 'middle'}>{extra}</Space>
       </div>
       {children && <div>{children}</div>}
       {footer && <div>{footer}</div>}

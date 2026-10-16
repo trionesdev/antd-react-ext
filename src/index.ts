@@ -75,13 +75,13 @@ export { default as ModalForm } from './modal-form';
 export type { ModalFormProps } from './modal-form';
 
 export { default as PageHeader } from './page-header';
-export type { PageHeaderProps } from './page-header';
+export type { PageHeaderProps, PageHeaderSize } from './page-header';
 
 export { default as PictureUpload } from './picture-upload';
 export type { PictureUploadProps } from './picture-upload';
 
 export { default as SearchToolbar } from './search-toolbar';
-export type { SearchToolbarProps } from './search-toolbar';
+export type { SearchToolbarProps, SearchToolbarSize } from './search-toolbar';
 
 export { default as TableToolbar } from './table-toolbar';
 export type { TableToolbarProps } from './table-toolbar';

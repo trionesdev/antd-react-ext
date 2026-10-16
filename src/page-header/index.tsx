@@ -1,4 +1,4 @@
-import PageHeader, {PageHeaderProps} from "./page-header";
+import PageHeader, { PageHeaderProps, PageHeaderSize } from './page-header';
 
-export type {PageHeaderProps}
-export default PageHeader
+export type { PageHeaderProps, PageHeaderSize };
+export default PageHeader;
