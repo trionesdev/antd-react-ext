@@ -1,22 +1,29 @@
-import {GlobalToken} from 'antd';
-import {CSSInterpolation} from '@ant-design/cssinjs';
+import { CSSInterpolation } from '@ant-design/cssinjs';
+import { GlobalToken } from 'antd';
 
 export const genSearchToolbarStyle = (
-    prefixCls: string,
-    token: GlobalToken
+  prefixCls: string,
+  token: GlobalToken,
 ): CSSInterpolation => {
-    return {
-        [`.${prefixCls}`]: {
-            paddingTop: 16,
-            paddingLeft: 16,
-            paddingRight: 16,
-            boxSizing: 'border-box',
-            [`.ant-form-item`]:{
-                marginBottom:16
-            },
-            [`&-col-hidden`]: {
-                display: 'none',
-            },
+  return {
+    [`.${prefixCls}`]: {
+      padding: token.padding,
+      boxSizing: 'border-box',
+      [`.ant-form-item`]: {
+        marginBottom: token.margin,
+      },
+      [`&-col-hidden`]: {
+        display: 'none',
+      },
+      [`&-small`]: {
+        padding: token.paddingSM,
+        [`.ant-form-item`]: {
+          marginBottom: token.marginSM,
         },
-    };
+      },
+      [`&-mini`]: {
+        padding: 0,
+      },
+    },
+  };
 };

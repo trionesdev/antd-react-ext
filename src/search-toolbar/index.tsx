@@ -1,4 +1,7 @@
-import SearchToolbar, { SearchToolbarProps } from './search-toolbar';
+import SearchToolbar, {
+  SearchToolbarProps,
+  SearchToolbarSize,
+} from './search-toolbar';
 
-export type { SearchToolbarProps };
+export type { SearchToolbarProps, SearchToolbarSize };
 export default SearchToolbar;

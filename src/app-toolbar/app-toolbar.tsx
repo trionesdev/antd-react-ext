@@ -1,14 +1,19 @@
 import { Avatar, AvatarProps, Menu, MenuProps, Space } from 'antd';
 import classNames from 'classnames';
-import React, { FC } from 'react';
+import { isEmpty } from 'lodash-es';
+import React, { CSSProperties, FC } from 'react';
 import { useCssInJs } from '../hooks';
 import { genAppToolbarStyle } from './styles';
-import { isEmpty } from 'lodash-es';
 
 export type AppToolbarProps = {
   className?: string;
   style?: React.CSSProperties;
-  avatar?: AvatarProps;
+  /**
+   * @description 工具栏高度，单位 px；也可传入带单位的字符串
+   * @default 60
+   */
+  height?: number | string;
+  logo?: AvatarProps;
   /**
    * @description 标题
    * @default null
@@ -23,16 +28,20 @@ export type AppToolbarProps = {
    * @description 导航菜单项
    * @default null
    */
-  navItems?: MenuProps['items'];
+  items?: MenuProps['items'];
   selectedKeys?: string[];
 };
+
+const DEFAULT_HEIGHT = 60;
+
 const AppToolbar: FC<AppToolbarProps> = ({
   className,
   style,
-  avatar,
+  height = DEFAULT_HEIGHT,
+  logo,
   title,
   extra,
-  navItems,
+  items,
   selectedKeys,
 }) => {
   const prefixCls = 'triones-ant-app-toolbar';
@@ -41,33 +50,39 @@ const AppToolbar: FC<AppToolbarProps> = ({
     styleFun: genAppToolbarStyle,
   });
 
-  return <div style={style} className={classNames(prefixCls, hashId)}>
-    <div className={classNames(`${prefixCls}-heading`, hashId, className)}>
-      <div className={classNames(`${prefixCls}-heading-left`, hashId)}>
-        <Space>
-          {avatar && (
-            <Avatar
-              {...Object.assign({ size: 40, shape: 'square' }, avatar)}
-            />
-          )}
-          <div
-            className={classNames(`${prefixCls}-heading-left-title`, hashId)}
-          >
-            {title}
-          </div>
-        </Space>
-      </div>
-      {!isEmpty(navItems) && (
-        <Menu
-          mode="horizontal"
-          items={navItems}
-          selectedKeys={selectedKeys}
-        />
-      )}
-      <div className={classNames(`${prefixCls}-heading-right`, hashId)}>
-        <Space>{extra}</Space>
+  const heightValue = typeof height === 'number' ? `${height}px` : height;
+
+  const mergedStyle: CSSProperties = {
+    ...style,
+    height: heightValue,
+    ['--triones-app-toolbar-height' as string]: heightValue,
+  };
+
+  return (
+    <div style={mergedStyle} className={classNames(prefixCls, hashId)}>
+      <div className={classNames(`${prefixCls}-heading`, hashId, className)}>
+        <div className={classNames(`${prefixCls}-heading-left`, hashId)}>
+          <Space>
+            {logo && (
+              <Avatar
+                {...Object.assign({ size: 40, shape: 'square' }, logo)}
+              />
+            )}
+            <div
+              className={classNames(`${prefixCls}-heading-left-title`, hashId)}
+            >
+              {title}
+            </div>
+          </Space>
+        </div>
+        {!isEmpty(items) && (
+          <Menu mode="horizontal" items={items} selectedKeys={selectedKeys} />
+        )}
+        <div className={classNames(`${prefixCls}-heading-right`, hashId)}>
+          <Space>{extra}</Space>
+        </div>
       </div>
     </div>
-  </div>
+  );
 };
 export default AppToolbar;

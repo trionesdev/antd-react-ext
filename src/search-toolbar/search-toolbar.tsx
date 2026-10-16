@@ -2,6 +2,7 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import {
   Button,
   Col,
+  ConfigProvider,
   Form,
   FormInstance,
   FormItemProps,
@@ -9,6 +10,7 @@ import {
   Row,
   Space,
 } from 'antd';
+import { SizeType } from 'antd/es/config-provider/SizeContext';
 import classNames from 'classnames';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useCssInJs } from '../hooks';
@@ -26,6 +28,11 @@ type ResponsiveSpans = {
   xl?: number;
   xxl?: number;
 };
+
+/**
+ * 与 PageHeader / Box 一致：`large` 不适用；`mini` 时 padding 为 0。
+ */
+export type SearchToolbarSize = Exclude<SizeType, 'large'> | 'default' | 'mini';
 
 function getResponsiveColSpan(
   screens: ReturnType<typeof useBreakpoint>,
@@ -62,7 +69,11 @@ export type SearchToolbarProps = {
   layout?: 'horizontal' | 'inline' | 'vertical';
   labelCol?: { span?: number; offset?: number };
   labelAlign?: 'left' | 'right';
-  size?: 'large' | 'middle' | 'small';
+  /**
+   * @description 尺寸：`default` | `small` | `mini`（mini 时 padding 为 0）
+   * @default default
+   */
+  size?: SearchToolbarSize;
   initialValues?: any;
   afterExpandChange?: (expanded: boolean) => void;
   /**
@@ -104,6 +115,14 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   const usedForm = form ?? internalForm;
   const screens = useBreakpoint();
   const [scopeExpand, setScopeExpand] = useState(expand ?? defaultExpand);
+  const { componentSize } = ConfigProvider.useConfig();
+
+  const mergedSize: SearchToolbarSize =
+    size ?? (componentSize === 'small' ? 'small' : 'default');
+  const isSmall = mergedSize === 'small';
+  const isMini = mergedSize === 'mini';
+  const formSize: SizeType = isSmall ? 'small' : 'middle';
+  const gutter: [number, number] = isSmall ? [8, 8] : [16, 16];
 
   const itemSize = items?.length ?? 0;
 
@@ -164,19 +183,30 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   });
 
   return (
-    <div className={classNames(className, prefixCls, hashId)} style={style}>
+    <div
+      className={classNames(
+        className,
+        prefixCls,
+        {
+          [`${prefixCls}-small`]: isSmall,
+          [`${prefixCls}-mini`]: isMini,
+        },
+        hashId,
+      )}
+      style={style}
+    >
       <Form
         form={usedForm}
         layout={layout}
         labelCol={labelCol}
         labelAlign={labelAlign}
-        size={size}
+        size={formSize}
         onValuesChange={(_, allValues) => {
           onSearchParamsChange?.(allValues);
         }}
         initialValues={initialValues}
       >
-        <Row gutter={[8, 8]}>
+        <Row gutter={gutter}>
           {items?.map((item, index) => (
             <Col
               key={`${item.name?.toString() ?? index}-${index}`}
@@ -195,13 +225,19 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
             style={{ textAlign: 'end' }}
           >
             <Form.Item>
-              <Space>
-                <Button onClick={handleReset}>重置</Button>
-                <Button type="primary" onClick={handleSearch}>
+              <Space size={isSmall ? 'small' : 'middle'}>
+                <Button size={formSize} onClick={handleReset}>
+                  重置
+                </Button>
+                <Button size={formSize} type="primary" onClick={handleSearch}>
                   查询
                 </Button>
                 {expandable && (
-                  <Button type="link" onClick={handleToggleExpand}>
+                  <Button
+                    size={formSize}
+                    type="link"
+                    onClick={handleToggleExpand}
+                  >
                     {scopeExpand ? (
                       <>
                         收起

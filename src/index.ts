@@ -4,6 +4,9 @@ export type { AppToolbarProps } from './app-toolbar';
 export { default as AvatarEditor } from './avatar-editor';
 export type { AvatarEditorProps } from './avatar-editor';
 
+export { default as Box } from './box';
+export type { BoxProps, BoxSize } from './box';
+
 export { default as DrawerForm } from './drawer-form';
 export type { DrawerFormProps } from './drawer-form';
 
@@ -75,13 +78,13 @@ export { default as ModalForm } from './modal-form';
 export type { ModalFormProps } from './modal-form';
 
 export { default as PageHeader } from './page-header';
-export type { PageHeaderProps } from './page-header';
+export type { PageHeaderProps, PageHeaderSize } from './page-header';
 
 export { default as PictureUpload } from './picture-upload';
 export type { PictureUploadProps } from './picture-upload';
 
 export { default as SearchToolbar } from './search-toolbar';
-export type { SearchToolbarProps } from './search-toolbar';
+export type { SearchToolbarProps, SearchToolbarSize } from './search-toolbar';
 
 export { default as TableToolbar } from './table-toolbar';
 export type { TableToolbarProps } from './table-toolbar';
