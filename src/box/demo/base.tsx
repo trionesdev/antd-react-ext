@@ -23,6 +23,14 @@ export default () => {
           </Box>
         </div>
       </div>
+      <div>
+        <Typography.Text type="secondary">fit</Typography.Text>
+        <div style={{ height: 120, background: '#f5f5f5', padding: 8 }}>
+          <Box fit size="small">
+            <div>撑满父容器高度</div>
+          </Box>
+        </div>
+      </div>
     </Flex>
   );
 };

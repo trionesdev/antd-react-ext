@@ -27,6 +27,12 @@ export const genBoxStyle = (
       [`&-transparent`]: {
         backgroundColor: 'transparent',
       },
+      [`&-fit`]: {
+        width: '100%',
+        height: '100%',
+        minWidth: 0,
+        minHeight: 0,
+      },
     },
   };
 };

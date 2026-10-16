@@ -33,6 +33,11 @@ export type BoxProps = React.HTMLAttributes<HTMLDivElement> & {
    * @default false
    */
   transparent?: boolean;
+  /**
+   * @description 为 true 时宽高撑满父容器
+   * @default false
+   */
+  fit?: boolean;
 };
 
 const resolveSizeClass = (
@@ -61,6 +66,7 @@ export const Box: FC<BoxProps> = ({
   children,
   size,
   transparent = false,
+  fit = false,
   ...rest
 }) => {
   const prefixCls = 'triones-ant-box';
@@ -89,6 +95,7 @@ export const Box: FC<BoxProps> = ({
         resolveSizeClass(prefixCls, mergedSize),
         {
           [`${prefixCls}-transparent`]: transparent,
+          [`${prefixCls}-fit`]: fit,
         },
         className,
         hashId,
