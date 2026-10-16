@@ -18,6 +18,12 @@
 
 <code src="./demo/breadcrumb.tsx"></code>
 
+## 自定义返回
+
+通过 `back` 自定义返回区域；`showBack={false}` 可隐藏。自定义元素未设置 `onClick` 时会注入 `onBack`。
+
+<code src="./demo/back.tsx"></code>
+
 ## 操作区
 
 `extra` 可放置多个按钮、下拉菜单等；`showBack={false}` 可隐藏返回按钮。

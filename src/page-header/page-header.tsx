@@ -32,6 +32,11 @@ export type PageHeaderProps = {
    */
   showBack?: boolean;
   /**
+   * @description 自定义返回组件，不传则使用默认返回按钮；可与 onBack 配合（未自带 onClick 时会注入）
+   * @default
+   */
+  back?: React.ReactNode;
+  /**
    * @description 标题
    * @default null
    */
@@ -69,6 +74,7 @@ const PageHeader: FC<PageHeaderProps> = ({
   children,
   size,
   showBack = true,
+  back,
   title,
   subTitle,
   breadcrumb,
@@ -88,6 +94,36 @@ const PageHeader: FC<PageHeaderProps> = ({
     prefix: prefixCls,
     styleFun: genPageHeaderStyle,
   });
+
+  const renderBack = () => {
+    if (!showBack) {
+      return null;
+    }
+
+    if (back != null) {
+      if (React.isValidElement(back) && onBack) {
+        const element = back as React.ReactElement<{
+          onClick?: (e: React.MouseEvent) => void;
+        }>;
+        return React.cloneElement(element, {
+          onClick: (e: React.MouseEvent) => {
+            element.props.onClick?.(e);
+            onBack();
+          },
+        });
+      }
+      return back;
+    }
+
+    return (
+      <Button
+        type="text"
+        size={isSmall ? 'small' : 'middle'}
+        icon={<ArrowLeftOutlined rev={undefined} />}
+        onClick={onBack}
+      />
+    );
+  };
 
   return (
     <div
@@ -111,14 +147,7 @@ const PageHeader: FC<PageHeaderProps> = ({
       )}
       <div className={classNames(`${prefixCls}-heading`, hashId)}>
         <Space size={isSmall ? 'small' : 'middle'}>
-          {showBack && (
-            <Button
-              type="text"
-              size={isSmall ? 'small' : 'middle'}
-              icon={<ArrowLeftOutlined rev={undefined} />}
-              onClick={onBack}
-            />
-          )}
+          {renderBack()}
           {title && (
             <span className={classNames(`${prefixCls}-heading-title`, hashId)}>
               {title}
