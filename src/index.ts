@@ -4,6 +4,9 @@ export type { AppToolbarProps } from './app-toolbar';
 export { default as AvatarEditor } from './avatar-editor';
 export type { AvatarEditorProps } from './avatar-editor';
 
+export { default as Box } from './box';
+export type { BoxProps, BoxSize } from './box';
+
 export { default as DrawerForm } from './drawer-form';
 export type { DrawerFormProps } from './drawer-form';
 

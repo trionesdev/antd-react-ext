@@ -62,6 +62,7 @@ export default () => (
 | 组件 | 说明 | 文档 |
 | --- | --- | --- |
 | Layout | 页面布局 | [查看](https://trionesdev.github.io/antd-react-ext/components/layout) |
+| Box | 容器 | [查看](https://trionesdev.github.io/antd-react-ext/components/box) |
 | PageHeader | 页头 | [查看](https://trionesdev.github.io/antd-react-ext/components/page-header) |
 | AppToolbar | 应用工具栏 | [查看](https://trionesdev.github.io/antd-react-ext/components/app-toolbar) |
 

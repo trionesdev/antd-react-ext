@@ -30,9 +30,9 @@ type ResponsiveSpans = {
 };
 
 /**
- * 与 PageHeader / antd Card 一致：`large` 不适用，`default` 为默认尺寸。
+ * 与 PageHeader / Box 一致：`large` 不适用；`mini` 时 padding 为 0。
  */
-export type SearchToolbarSize = Exclude<SizeType, 'large'> | 'default';
+export type SearchToolbarSize = Exclude<SizeType, 'large'> | 'default' | 'mini';
 
 function getResponsiveColSpan(
   screens: ReturnType<typeof useBreakpoint>,
@@ -70,15 +70,10 @@ export type SearchToolbarProps = {
   labelCol?: { span?: number; offset?: number };
   labelAlign?: 'left' | 'right';
   /**
-   * @description 尺寸，同 PageHeader / Card：`default` | `small`
+   * @description 尺寸：`default` | `small` | `mini`（mini 时 padding 为 0）
    * @default default
    */
   size?: SearchToolbarSize;
-  /**
-   * @description 为 true 时取消内边距（padding 为 0）
-   * @default false
-   */
-  noPadding?: boolean;
   initialValues?: any;
   afterExpandChange?: (expanded: boolean) => void;
   /**
@@ -102,7 +97,6 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   labelCol,
   labelAlign,
   size,
-  noPadding = false,
   initialValues,
   afterExpandChange,
   onSearch,
@@ -126,6 +120,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   const mergedSize: SearchToolbarSize =
     size ?? (componentSize === 'small' ? 'small' : 'default');
   const isSmall = mergedSize === 'small';
+  const isMini = mergedSize === 'mini';
   const formSize: SizeType = isSmall ? 'small' : 'middle';
   const gutter: [number, number] = isSmall ? [8, 8] : [16, 16];
 
@@ -194,7 +189,7 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
         prefixCls,
         {
           [`${prefixCls}-small`]: isSmall,
-          [`${prefixCls}-no-padding`]: noPadding,
+          [`${prefixCls}-mini`]: isMini,
         },
         hashId,
       )}

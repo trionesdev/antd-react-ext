@@ -47,7 +47,7 @@ export const genPageHeaderStyle = (
           lineHeight: token.lineHeight,
         },
       },
-      [`&-no-padding`]: {
+      [`&-mini`]: {
         padding: 0,
       },
     },

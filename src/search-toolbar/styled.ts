@@ -21,7 +21,7 @@ export const genSearchToolbarStyle = (
           marginBottom: token.marginSM,
         },
       },
-      [`&-no-padding`]: {
+      [`&-mini`]: {
         padding: 0,
       },
     },

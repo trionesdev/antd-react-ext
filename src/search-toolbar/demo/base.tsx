@@ -52,8 +52,8 @@ export default () => {
         <SearchToolbar {...responsiveProps} size="small" items={items} />
       </div>
       <div>
-        <Typography.Text type="secondary">noPadding</Typography.Text>
-        <SearchToolbar {...responsiveProps} noPadding items={items} />
+        <Typography.Text type="secondary">mini</Typography.Text>
+        <SearchToolbar {...responsiveProps} size="mini" items={items} />
       </div>
     </Flex>
   );

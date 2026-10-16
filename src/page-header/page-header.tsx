@@ -1,7 +1,5 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import {
-  Avatar,
-  AvatarProps,
   Breadcrumb,
   BreadcrumbProps,
   Button,
@@ -15,31 +13,24 @@ import { useCssInJs } from '../hooks';
 import { genPageHeaderStyle } from './styles';
 
 /**
- * 与 antd Card 一致：`large` 不适用，`default` 为默认尺寸。
- * @see https://ant.design/components/card-cn#card
+ * 与 antd Card / Box 一致：`large` 不适用；`mini` 时 padding 为 0。
  */
-export type PageHeaderSize = Exclude<SizeType, 'large'> | 'default';
+export type PageHeaderSize = Exclude<SizeType, 'large'> | 'default' | 'mini';
 
 export type PageHeaderProps = {
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
   /**
-   * @description 页头尺寸，同 antd Card：`default` | `small`
+   * @description 页头尺寸：`default` | `small` | `mini`（mini 时 padding 为 0）
    * @default default
    */
   size?: PageHeaderSize;
   /**
-   * @description 为 true 时取消内边距（padding 为 0）
-   * @default false
-   */
-  noPadding?: boolean;
-  /**
-   * @description 是否展示返回icon
+   * @description 是否展示返回按钮
    * @default true
    */
-  backIcon?: boolean;
-  avatar?: AvatarProps;
+  showBack?: boolean;
   /**
    * @description 标题
    * @default null
@@ -77,9 +68,7 @@ const PageHeader: FC<PageHeaderProps> = ({
   style,
   children,
   size,
-  noPadding = false,
-  backIcon = true,
-  avatar,
+  showBack = true,
   title,
   subTitle,
   breadcrumb,
@@ -91,9 +80,9 @@ const PageHeader: FC<PageHeaderProps> = ({
   const { componentSize } = ConfigProvider.useConfig();
 
   const mergedSize: PageHeaderSize =
-    size ??
-    (componentSize === 'small' ? 'small' : 'default');
+    size ?? (componentSize === 'small' ? 'small' : 'default');
   const isSmall = mergedSize === 'small';
+  const isMini = mergedSize === 'mini';
 
   const { hashId } = useCssInJs({
     prefix: prefixCls,
@@ -107,7 +96,7 @@ const PageHeader: FC<PageHeaderProps> = ({
         prefixCls,
         {
           [`${prefixCls}-small`]: isSmall,
-          [`${prefixCls}-no-padding`]: noPadding,
+          [`${prefixCls}-mini`]: isMini,
         },
         className,
         hashId,
@@ -122,10 +111,7 @@ const PageHeader: FC<PageHeaderProps> = ({
       )}
       <div className={classNames(`${prefixCls}-heading`, hashId)}>
         <Space size={isSmall ? 'small' : 'middle'}>
-          {avatar && (
-            <Avatar size={isSmall ? 'small' : 'default'} {...avatar} />
-          )}
-          {backIcon && (
+          {showBack && (
             <Button
               type="text"
               size={isSmall ? 'small' : 'middle'}
