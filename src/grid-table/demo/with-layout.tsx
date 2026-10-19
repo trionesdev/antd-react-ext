@@ -6,10 +6,22 @@ import {
 } from '@trionesdev/antd-react-ext';
 import { DesktopOutlined, PieChartOutlined } from '@ant-design/icons';
 import { Input, Menu } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { data200 } from './data';
 
 export default () => {
+  const [dataSource, setDataSource] = useState<typeof data200>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = window.setTimeout(() => {
+      setDataSource(data200);
+      setLoading(false);
+    }, 500);
+    return () => window.clearTimeout(timer);
+  }, []);
+
   const menuItems = [
     {
       key: '1',
@@ -100,8 +112,9 @@ export default () => {
                 <GridTable
                   fit
                   resizable
+                  loading={loading}
                   columns={columns}
-                  dataSource={data200}
+                  dataSource={dataSource}
                 />
               </Layout.Item>
             </Layout>
