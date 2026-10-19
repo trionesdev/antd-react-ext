@@ -10,7 +10,8 @@ export const genSearchToolbarStyle = (
       padding: token.padding,
       boxSizing: 'border-box',
       [`.ant-form-item`]: {
-        marginBottom: token.margin,
+        // marginBottom: token.margin,
+        marginBottom: '0!important',
       },
       [`&-col-hidden`]: {
         display: 'none',
