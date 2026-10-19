@@ -289,7 +289,8 @@ const GridTable: FC<GridTableProps> = (
     ...(resizable && props.scroll?.x == null ? { x: 'max-content' } : null),
     ...(fit ? { y: scrollY } : null),
   };
-
+  console.log('mergedScroll', mergedScroll);
+  console.log("scrollY",scrollY)
   const table = (
     <Table
       {...props}

@@ -16,4 +16,10 @@
 
 <code src="./demo/flex-layout.tsx"></code>
 
+### 配合 Layout
+
+与 `Layout` / `PageHeader` / `SearchToolbar` 组合：外层垂直布局，侧边栏 + 内容区，内容区表格使用 `fit` 撑满剩余高度。
+
+<code src="./demo/with-layout.tsx"></code>
+
 <API id="GridTable"></API>
