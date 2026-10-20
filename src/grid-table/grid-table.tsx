@@ -203,7 +203,8 @@ const GridTable: FC<GridTableProps> = (
     }
 
     const measure = () => {
-      const totalHeight = getHeight(wrap || element!);
+      const root = element || wrap!;
+      const totalHeight = getHeight(wrap || root);
       if (!totalHeight) {
         return;
       }
@@ -212,8 +213,7 @@ const GridTable: FC<GridTableProps> = (
       const summaryHeight = getHeight('ant-table-summary');
       const paginationHeight = getHeight(measureClassNames.pagination);
 
-      // fit 模式下始终按容器可用高度约束 body，避免空数据时无占位、有数据后溢出
-      const scrollYValue = Math.max(
+      const availableY = Math.max(
         0,
         Math.floor(
           totalHeight -
@@ -223,7 +223,25 @@ const GridTable: FC<GridTableProps> = (
             paginationHeight,
         ),
       );
-      setScrollY(scrollYValue);
+
+      // 内容未超出可用高度时不启用纵向滚动，避免出现空滚动条
+      const body = root.querySelector<HTMLElement>(
+        `.${measureClassNames.body}`,
+      );
+      const contentEl =
+        body?.querySelector<HTMLElement>('table') ||
+        body?.querySelector<HTMLElement>('.ant-table-placeholder') ||
+        body;
+      const contentHeight = contentEl
+        ? Math.ceil(
+            Math.max(
+              contentEl.scrollHeight,
+              contentEl.getBoundingClientRect().height,
+            ),
+          )
+        : 0;
+
+      setScrollY(contentHeight > availableY ? availableY : undefined);
       setSectionHeight(
         Math.max(0, totalHeight - titleHeight - paginationHeight),
       );

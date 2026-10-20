@@ -10,6 +10,10 @@
 
 <code src="./demo/fit-table.tsx"></code>
 
+> 高度 360px，`fit=true`，仅 2 行数据（空余区域由表格占满）
+
+<code src="./demo/fit-few-rows.tsx"></code>
+
 ### Flex 布局
 
 外层为 flex，侧边固定宽度，表格区域 `flex: auto` 并配合 `fit` / `resizable`。父级需设置 `minWidth: 0`，避免拖拽列宽时撑破容器。

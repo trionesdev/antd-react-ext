@@ -38,6 +38,10 @@ export const genGridTableStyle = (
         minWidth: 0,
         minHeight: 0,
         overflow: 'hidden',
+        // 内容未撑满时不强制显示纵向滚动条
+        ['.ant-table-body, .measure-body']: {
+          overflowY: 'auto',
+        },
         // fit 模式下分页与表格主体用分割线隔开
         ['.measure-pagination']: {
           margin: '0!important',
