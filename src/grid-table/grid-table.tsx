@@ -44,6 +44,7 @@ const ResizableCell: FC<any> = ({
 
 const measureClassNames = {
   title: 'measure-title',
+  content: 'measure-content',
   header: 'measure-header',
   body: 'measure-body',
   pagination: 'measure-pagination',
@@ -51,6 +52,7 @@ const measureClassNames = {
 
 const tableClassNames = {
   title: measureClassNames.title,
+  content: measureClassNames.content,
   header: {
     wrapper: measureClassNames.header,
   },

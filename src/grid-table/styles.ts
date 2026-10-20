@@ -38,6 +38,9 @@ export const genGridTableStyle = (
         minWidth: 0,
         minHeight: 0,
         overflow: 'hidden',
+        [`.ant-table-content, .measure-content`]: {
+          height: '100%',
+        },
         // 内容未撑满时不强制显示纵向滚动条
         ['.ant-table-body, .measure-body']: {
           overflowY: 'auto',
