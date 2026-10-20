@@ -7,7 +7,6 @@ export const genPageHeaderStyle = (
 ): CSSInterpolation => {
   return {
     [`.${prefixCls}`]: {
-      backgroundColor: token.colorBgContainer,
       padding: token.padding,
       display: 'flex',
       flexDirection: 'column',

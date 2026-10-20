@@ -1,6 +1,5 @@
 import { GridTable } from '@trionesdev/antd-react-ext';
 import React from 'react';
-import { data200 } from './data';
 
 export default () => {
   const columns = [
@@ -97,47 +96,6 @@ export default () => {
     },
   ];
 
-  const columns4: any[] = [
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      fixed: 'start',
-      minWidth: 180,
-    },
-    {
-      title: '年龄',
-      dataIndex: 'age',
-      width: 100,
-    },
-    {
-      title: '地址',
-      dataIndex: 'address',
-      width: 200,
-    },
-    {
-      title: '电话',
-      dataIndex: 'phone',
-    },
-    {
-      title: '邮箱',
-      dataIndex: 'email',
-    },
-    {
-      title: '网站',
-      dataIndex: 'website',
-    },
-    {
-      title: 'QQ',
-      dataIndex: 'qq',
-    },
-    {
-      title: '操作',
-      dataIndex: 'action',
-      width: 100,
-      fixed: 'end',
-    },
-  ];
-
   return (
     <div>
       <GridTable columns={columns} dataSource={dataScore} />
@@ -154,19 +112,6 @@ export default () => {
         dataSource={dataScore}
         resizable={true}
       />
-      <div>flex布局</div>
-      <div style={{ height: 300 }}>
-        <div style={{ height: '100%', display: 'flex', minWidth: 0 }}>
-          <div style={{ flex: 'auto', minWidth: 0, overflow: 'hidden' }}>
-            <GridTable
-              fit={true}
-              columns={columns4}
-              dataSource={data200}
-              resizable={true}
-            />
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

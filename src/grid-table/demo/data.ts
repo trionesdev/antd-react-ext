@@ -6,7 +6,7 @@ export const data = Array.from({ length: 200 }).map((_, i) => ({
 }));
 
 
-export const data200 = Array.from({ length: 200 }).map((_, i) => ({
+export const data200 = Array.from({ length: 202 }).map((_, i) => ({
   key: `${i + 1}`,
   name: `User ${i + 1}`,
   age: 20 + (i % 50),

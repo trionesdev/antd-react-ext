@@ -189,29 +189,31 @@ const GridTable: FC<GridTableProps> = (
   };
 
   useEffect(() => {
+    if (!fit) {
+      setScrollY(undefined);
+      setSectionHeight(0);
+      return;
+    }
+
+    const wrap = fitWrapRef.current;
     const element = rootRef.current?.nativeElement;
 
-    if (!element) {
+    if (!wrap && !element) {
       return;
     }
 
     const measure = () => {
-      const totalHeight = getHeight(fitWrapRef.current || element);
+      const root = element || wrap!;
+      const totalHeight = getHeight(wrap || root);
+      if (!totalHeight) {
+        return;
+      }
       const titleHeight = getHeight(measureClassNames.title);
       const headerHeight = getHeight(measureClassNames.header);
-      const bodyHeight = getHeight(measureClassNames.body);
       const summaryHeight = getHeight('ant-table-summary');
       const paginationHeight = getHeight(measureClassNames.pagination);
 
-      // console.log(
-      //   totalHeight,
-      //   titleHeight,
-      //   headerHeight,
-      //   bodyHeight,
-      //   summaryHeight,
-      //   paginationHeight,
-      // );
-      const scrollYValue = Math.max(
+      const availableY = Math.max(
         0,
         Math.floor(
           totalHeight -
@@ -221,27 +223,44 @@ const GridTable: FC<GridTableProps> = (
             paginationHeight,
         ),
       );
-      if (bodyHeight < scrollYValue) {
-        setScrollY(undefined);
-      } else {
-        setScrollY(scrollYValue);
-      }
-      setSectionHeight(totalHeight - titleHeight - paginationHeight);
+
+      // 内容未超出可用高度时不启用纵向滚动，避免出现空滚动条
+      const body = root.querySelector<HTMLElement>(
+        `.${measureClassNames.body}`,
+      );
+      const contentEl =
+        body?.querySelector<HTMLElement>('table') ||
+        body?.querySelector<HTMLElement>('.ant-table-placeholder') ||
+        body;
+      const contentHeight = contentEl
+        ? Math.ceil(
+            Math.max(
+              contentEl.scrollHeight,
+              contentEl.getBoundingClientRect().height,
+            ),
+          )
+        : 0;
+
+      setScrollY(contentHeight > availableY ? availableY : undefined);
+      setSectionHeight(
+        Math.max(0, totalHeight - titleHeight - paginationHeight),
+      );
     };
 
     measure();
 
     const resizeObserver = new ResizeObserver(measure);
-
-    resizeObserver.observe(element);
-    if (fitWrapRef.current) {
-      resizeObserver.observe(fitWrapRef.current);
+    if (wrap) {
+      resizeObserver.observe(wrap);
+    }
+    if (element) {
+      resizeObserver.observe(element);
     }
 
     return () => {
       resizeObserver.disconnect();
     };
-  }, [fit]);
+  }, [fit, props.dataSource, props.loading, props.pagination]);
 
   const handleComponents = () => {
     if (resizable) {
@@ -263,33 +282,27 @@ const GridTable: FC<GridTableProps> = (
 
   const incomingStyles = props.styles;
 
+  const applySectionHeight = (styles?: Record<string, any>) => ({
+    ...styles,
+    section: {
+      ...styles?.section,
+      ...(sectionHeight > 0
+        ? { height: sectionHeight, maxHeight: sectionHeight }
+        : null),
+    },
+  });
+
   const tableStyles: TableProps<any>['styles'] = fit
     ? typeof incomingStyles === 'function'
-      ? (info) => {
-          const resolvedStyles = incomingStyles(info);
-          return {
-            ...resolvedStyles,
-            section: {
-              ...resolvedStyles?.section,
-              maxHeight: sectionHeight,
-            },
-          };
-        }
-      : {
-          ...incomingStyles,
-          section: {
-            ...incomingStyles?.section,
-            maxHeight: sectionHeight,
-          },
-        }
+      ? (info) => applySectionHeight(incomingStyles(info))
+      : applySectionHeight(incomingStyles)
     : incomingStyles;
 
   const mergedScroll: TableProps<any>['scroll'] = {
     ...props.scroll,
     ...(resizable && props.scroll?.x == null ? { x: 'max-content' } : null),
-    ...(fit ? { y: scrollY } : null),
+    ...(fit && scrollY != null ? { y: scrollY } : null),
   };
-
   const table = (
     <Table
       {...props}
