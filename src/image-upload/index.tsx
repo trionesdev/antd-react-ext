@@ -1,4 +1,8 @@
-import { ImageUpload, ImageUploadProps } from './ImageUpload';
+import {
+  ImageUpload,
+  ImageUploadProps,
+  ImageUploadValue,
+} from './ImageUpload';
 
-export type { ImageUploadProps };
+export type { ImageUploadProps, ImageUploadValue };
 export default ImageUpload;

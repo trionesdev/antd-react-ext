@@ -1,6 +1,6 @@
 import { GlobalToken } from 'antd';
 
-export const genPictureUploadStyle = (
+export const genImageUploadStyle = (
   prefixCls: string,
   token: GlobalToken,
 ): any => {

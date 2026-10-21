@@ -7,7 +7,11 @@ export type LayoutProps = {
   children?: React.ReactNode;
   className?: string | undefined;
   style?: React.CSSProperties;
+  /**
+   * @deprecated
+   */
   direction?: 'vertical' | 'horizontal';
+  orientation?: 'vertical' | 'horizontal';
   gap?: number;
 };
 
@@ -15,9 +19,11 @@ export const Layout: FC<LayoutProps> = ({
   children,
   className,
   style,
-  direction = 'horizontal',
+  direction,
+  orientation,
   gap,
 }) => {
+  const layoutOrientation = direction || orientation || 'horizontal';
   const prefixCls = 'triones-ant-layout';
 
   const { hashId } = useCssInJs({
@@ -29,7 +35,7 @@ export const Layout: FC<LayoutProps> = ({
     <div
       className={classNames(
         prefixCls,
-        `${prefixCls}-${direction}`,
+        `${prefixCls}-${layoutOrientation}`,
         className,
         hashId,
       )}

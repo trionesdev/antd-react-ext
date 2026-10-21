@@ -1,31 +1,36 @@
-import { UploadOutlined } from '@ant-design/icons';
-import { useCssInJs } from '@trionesdev/antd-react-ext';
+import {
+  DeleteOutlined,
+  SwapOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
 import {
   Button,
   Divider,
   Empty,
   Image,
+  message,
   Space,
   Spin,
   Upload,
-  message,
 } from 'antd';
+import type { UploadProps } from 'antd';
 import classNames from 'classnames';
-import React, { CSSProperties, FC, useEffect, useState } from 'react';
-import { genPictureUploadStyle } from './styles';
+import React, { CSSProperties, FC, useState } from 'react';
+import { useCssInJs } from '../hooks';
+import { genImageUploadStyle } from './styles';
 
-type ValueType = { uid?: string; url: string;[key: string]: any };
+export type ImageUploadValue = { uid?: string; url: string; [key: string]: any };
 
 export type ImageUploadProps = {
   readOnly?: boolean;
-  value?: ValueType;
-  onChange?: (value: ValueType) => void;
+  value?: ImageUploadValue;
+  onChange?: (value: ImageUploadValue) => void;
   style?: CSSProperties;
   className?: string;
   width?: number;
   height?: number;
   preview?: boolean;
-  chanageText?: string;
+  changeText?: string;
   deleteText?: string;
   uploadText?: string;
   uploadTip?: string;
@@ -43,8 +48,31 @@ export type ImageUploadProps = {
    * @description 上传请求，返回图片地址
    * @default
    */
-  uploadRequest?: (file: File) => Promise<ValueType>;
+  uploadRequest?: (file: File) => Promise<ImageUploadValue>;
 };
+
+const EMPTY_VALUE: ImageUploadValue = { url: '' };
+
+const formatSize = (size: number) => {
+  if (size >= 1024 * 1024) {
+    const mb = size / 1024 / 1024;
+    return `${Number.isInteger(mb) ? mb : mb.toFixed(1)}MB`;
+  }
+  if (size >= 1024) {
+    const kb = size / 1024;
+    return `${Number.isInteger(kb) ? kb : kb.toFixed(1)}KB`;
+  }
+  return `${size}B`;
+};
+
+const fileToBase64 = (file: File) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+
 export const ImageUpload: FC<ImageUploadProps> = ({
   readOnly,
   value,
@@ -54,7 +82,7 @@ export const ImageUpload: FC<ImageUploadProps> = ({
   width = 320,
   height = 180,
   preview = true,
-  chanageText = '更换',
+  changeText = '更换',
   deleteText = '删除',
   uploadText = '上传',
   uploadTip = '请上传图片',
@@ -62,122 +90,114 @@ export const ImageUpload: FC<ImageUploadProps> = ({
   accept = '.jpg,.jpeg,.png,.webp,.svg',
   uploadRequest,
 }) => {
-  const [scopeValue, setScopeValue] = useState<ValueType>(value || { url: '' });
+  const [innerValue, setInnerValue] = useState<ImageUploadValue>(
+    value ?? EMPTY_VALUE,
+  );
   const [loading, setLoading] = useState(false);
+  const current = value !== undefined ? value : innerValue;
+  const hasImage = Boolean(current?.url);
 
-  const getBase64 = (img: any, callback: (url: string) => void) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result as string));
-    reader.readAsDataURL(img);
+  const updateValue = (next: ImageUploadValue) => {
+    setInnerValue(next);
+    onChange?.(next);
   };
 
-  const handleBeforeUpload = (param: any) => {
-    if (limitSize && param.file.size > limitSize) {
-      message.warning('图片大小不能超过' + limitSize / 1024 + 'KB');
-      return false;
+  const handleBeforeUpload: UploadProps['beforeUpload'] = (file) => {
+    if (limitSize && file.size > limitSize) {
+      message.warning(`图片大小不能超过 ${formatSize(limitSize)}`);
+      return Upload.LIST_IGNORE;
     }
     return true;
   };
 
-  const handleUpload = async (param: any) => {
-    if (!param.file) {
+  const handleUpload: UploadProps['customRequest'] = async (options) => {
+    const file = options.file as File;
+    if (!file) {
       return;
     }
 
-    if (uploadRequest) {
-      setLoading(true);
-      uploadRequest?.(param.file)
-        .then((res) => {
-          setScopeValue(res);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } else {
-      getBase64(param.file, (url) => {
-        setScopeValue({ url });
-      });
+    setLoading(true);
+    try {
+      const next = uploadRequest
+        ? await uploadRequest(file)
+        : { url: await fileToBase64(file) };
+      updateValue(next);
+      options.onSuccess?.(next);
+    } catch (error) {
+      message.error('上传失败');
+      options.onError?.(error as Error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleClean = () => {
-    setScopeValue({ url: '' });
+    updateValue(EMPTY_VALUE);
   };
 
-  useEffect(() => {
-    if (value == undefined) {
-      return;
-    }
-    if (value !== scopeValue) {
-      setScopeValue(value);
-    }
-  }, [value]);
-
-  useEffect(() => {
-    onChange?.(scopeValue);
-  }, [scopeValue]);
-
-  const prefixCls = `triones-picture-upload`;
+  const prefixCls = 'triones-image-upload';
   const { hashId } = useCssInJs({
     prefix: prefixCls,
-    styleFun: genPictureUploadStyle,
+    styleFun: genImageUploadStyle,
   });
+
+  const uploadProps: UploadProps = {
+    accept,
+    showUploadList: false,
+    disabled: loading,
+    beforeUpload: handleBeforeUpload,
+    customRequest: handleUpload,
+  };
+
   return (
     <div
       className={classNames(className, prefixCls, hashId)}
-      style={{ width: width, height: height, ...style }}
+      style={{ width, height, ...style }}
     >
       <Spin spinning={loading}>
-        <div style={{ width: width, height: height, display: 'inline-block' }}>
-          {readOnly ? (
-            scopeValue ? (
-              <div className={classNames(`${prefixCls}-image`, hashId)}>
-                <Image
-                  preview={preview}
-                  src={scopeValue?.url}
-                  width={width}
-                  height={height}
-                />
-              </div>
-            ) : (
-              <Empty
-                description={uploadTip}
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-              />
-            )
-          ) : scopeValue ? (
+        <div style={{ width, height, display: 'inline-block' }}>
+          {hasImage ? (
             <div className={classNames(`${prefixCls}-image`, hashId)}>
               <Image
                 preview={preview}
-                src={scopeValue?.url}
+                src={current.url}
                 width={width}
                 height={height}
               />
-              <div className={classNames(`${prefixCls}-image-tooltip`, hashId)}>
-                <Space separator={<Divider orientation="vertical" />}>
-                  <Upload
-                    customRequest={handleUpload}
-                    showUploadList={false}
-                    accept={accept}
-                    beforeUpload={handleBeforeUpload}
-                  >
-                    <Button type="text">{chanageText}</Button>
-                  </Upload>
-                  <Button type="text" onClick={handleClean}>
-                    {deleteText}
-                  </Button>
-                </Space>
-              </div>
+              {!readOnly && (
+                <div
+                  className={classNames(`${prefixCls}-image-tooltip`, hashId)}
+                >
+                  <Space  >
+                    <Upload {...uploadProps}>
+                      <Button
+                        type="text"
+                        disabled={loading}
+                        icon={<SwapOutlined />}
+                      />
+                    </Upload>
+                    <Button
+                      type="text"
+                      disabled={loading}
+                      onClick={handleClean}
+                      icon={<DeleteOutlined />}
+                    />
+                  </Space>
+                </div>
+              )}
             </div>
+          ) : readOnly ? (
+            <Empty
+              description={uploadTip}
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+            />
           ) : (
             <Upload
+              {...uploadProps}
               name="avatar"
               listType="picture-card"
               className="avatar-uploader"
-              style={{ width: width, height: height }}
-              accept={accept}
-              showUploadList={false}
-              customRequest={handleUpload}
+              style={{ width, height }}
             >
               <UploadOutlined />
             </Upload>

@@ -1,4 +1,4 @@
-# ImageUpload 图片上传
+# PictureUpload 图片上传
 
 > 图片上传组件
 

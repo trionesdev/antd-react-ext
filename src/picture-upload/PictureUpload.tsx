@@ -3,12 +3,12 @@ import { useCssInJs } from '@trionesdev/antd-react-ext';
 import {
   Button,
   Divider,
+  Empty,
   Image,
   Space,
   Spin,
   Upload,
   message,
-  Empty,
 } from 'antd';
 import classNames from 'classnames';
 import React, { CSSProperties, FC, useEffect, useState } from 'react';
@@ -116,15 +116,22 @@ export const PictureUpload: FC<PictureUploadProps> = ({
     >
       <Spin spinning={loading}>
         <div style={{ width: width, height: height, display: 'inline-block' }}>
-          {readonly ? (scopeValue ?
-            <div className={classNames(`${prefixCls}-image`, hashId)}>
-              <Image
-                preview={preview}
-                src={scopeValue}
-                width={width}
-                height={height}
+          {readonly ? (
+            scopeValue ? (
+              <div className={classNames(`${prefixCls}-image`, hashId)}>
+                <Image
+                  preview={preview}
+                  src={scopeValue}
+                  width={width}
+                  height={height}
+                />
+              </div>
+            ) : (
+              <Empty
+                description={'请上传图片'}
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
               />
-            </div>:<Empty description={'请上传图片'} image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )
           ) : scopeValue ? (
             <div className={classNames(`${prefixCls}-image`, hashId)}>
               <Image
@@ -141,9 +148,11 @@ export const PictureUpload: FC<PictureUploadProps> = ({
                     accept={accept}
                     beforeUpload={handleBeforeUpload}
                   >
-                    <Button type="text">更换</Button>
+                    <Button type="text" size="small">
+                      更换
+                    </Button>
                   </Upload>
-                  <Button type="text" onClick={handleClean}>
+                  <Button type="text" size="small" onClick={handleClean}>
                     删除
                   </Button>
                 </Space>
