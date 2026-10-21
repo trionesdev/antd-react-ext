@@ -30,9 +30,6 @@ export type ImageUploadProps = {
   width?: number;
   height?: number;
   preview?: boolean;
-  changeText?: string;
-  deleteText?: string;
-  uploadText?: string;
   uploadTip?: string;
   /**
    * @description 可选择的文件类型
@@ -82,9 +79,6 @@ export const ImageUpload: FC<ImageUploadProps> = ({
   width = 320,
   height = 180,
   preview = true,
-  changeText = '更换',
-  deleteText = '删除',
-  uploadText = '上传',
   uploadTip = '请上传图片',
   limitSize,
   accept = '.jpg,.jpeg,.png,.webp,.svg',
