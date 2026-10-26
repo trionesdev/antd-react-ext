@@ -12,7 +12,7 @@ export const genAppToolbarStyle = (
       alignItems: 'center',
       justifyContent: 'center',
       borderBottom: `1px solid ${token.colorBorder}`,
-      padding: '0px 8px',
+      padding: `0px ${token.padding}px`,
       boxSizing: 'border-box',
       [`&-heading`]: {
         display: 'flex',
