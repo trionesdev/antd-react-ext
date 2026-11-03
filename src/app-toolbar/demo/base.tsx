@@ -24,7 +24,7 @@ export default () => {
         <Typography.Text type="secondary">默认高度 60</Typography.Text>
         <AppToolbar
           title="个人中心"
-          items={items}
+          menu={{ items, defaultSelectedKeys: ['user'] }}
           extra={[
             <Button key="settings-btn" type="primary">
               设置
@@ -37,7 +37,7 @@ export default () => {
         <AppToolbar
           height={48}
           title="个人中心"
-          items={items}
+          menu={{ items, defaultSelectedKeys: ['user'] }}
           extra={[
             <Button key="settings-btn" type="primary" size="small">
               设置

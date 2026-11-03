@@ -19,15 +19,23 @@ export const genAppToolbarStyle = (
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
+        minWidth: 0,
         height: '100%',
         gap: '8px',
 
         [`&-left`]: {
+          display: 'flex',
+          alignItems: 'center',
+          gap: token.marginXS,
+          minWidth: 0,
+          flex: '0 1 auto',
           ['.ant-avatar']: {
             display: 'flex',
+            flexShrink: 0,
           },
           [`&-title`]: {
-            color: token.colorTextBase,
+            minWidth: 0,
+            color: token.colorText,
             fontWeight: 600,
             fontSize: '20px',
             lineHeight: '32px',
@@ -36,17 +44,17 @@ export const genAppToolbarStyle = (
             textOverflow: 'ellipsis',
           },
         },
-        [`&-right`]: {},
+        [`&-right`]: {
+          flexShrink: 0,
+          marginInlineStart: 'auto',
+        },
         [`.ant-menu-horizontal`]: {
-          flex: '1 auto',
+          flex: '1 1 0%',
+          minWidth: 0,
           height: '100%',
           lineHeight: 'var(--triones-app-toolbar-height, 60px)',
           borderBottom: 'none',
           backgroundColor: 'inherit',
-          li: {
-            display: 'flex',
-            alignItems: 'center',
-          },
         },
       },
     },

@@ -1,6 +1,5 @@
 import { Avatar, AvatarProps, Menu, MenuProps, Space } from 'antd';
 import classNames from 'classnames';
-import { isEmpty } from 'lodash-es';
 import React, { CSSProperties, FC } from 'react';
 import { useCssInJs } from '../hooks';
 import { genAppToolbarStyle } from './styles';
@@ -25,11 +24,9 @@ export type AppToolbarProps = {
    */
   extra?: React.ReactNode;
   /**
-   * @description 导航菜单项
-   * @default null
+   * @description 水平导航菜单配置；false 或不传时隐藏，true 时使用默认配置
    */
-  items?: MenuProps['items'];
-  selectedKeys?: string[];
+  menu?: boolean | Omit<MenuProps, 'mode'>;
 };
 
 const DEFAULT_HEIGHT = 60;
@@ -41,8 +38,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
   logo,
   title,
   extra,
-  items,
-  selectedKeys,
+  menu,
 }) => {
   const prefixCls = 'triones-ant-app-toolbar';
   const { hashId } = useCssInJs({
@@ -51,6 +47,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
   });
 
   const heightValue = typeof height === 'number' ? `${height}px` : height;
+  const menuProps = typeof menu === 'object' ? menu : undefined;
 
   const mergedStyle: CSSProperties = {
     ...style,
@@ -59,28 +56,26 @@ const AppToolbar: FC<AppToolbarProps> = ({
   };
 
   return (
-    <div style={mergedStyle} className={classNames(prefixCls, hashId)}>
-      <div className={classNames(`${prefixCls}-heading`, hashId, className)}>
+    <div
+      style={mergedStyle}
+      className={classNames(prefixCls, hashId, className)}
+    >
+      <div className={classNames(`${prefixCls}-heading`, hashId)}>
         <div className={classNames(`${prefixCls}-heading-left`, hashId)}>
-          <Space>
-            {logo && (
-              <Avatar
-                {...Object.assign({ size: 40, shape: 'square' }, logo)}
-              />
-            )}
-            <div
-              className={classNames(`${prefixCls}-heading-left-title`, hashId)}
-            >
-              {title}
-            </div>
-          </Space>
+          {logo && <Avatar size={40} shape="square" {...logo} />}
+          <div
+            className={classNames(`${prefixCls}-heading-left-title`, hashId)}
+            title={typeof title === 'string' ? title : undefined}
+          >
+            {title}
+          </div>
         </div>
-        {!isEmpty(items) && (
-          <Menu mode="horizontal" items={items} selectedKeys={selectedKeys} />
+        {menu && <Menu {...menuProps} mode="horizontal" />}
+        {extra != null && (
+          <div className={classNames(`${prefixCls}-heading-right`, hashId)}>
+            <Space>{extra}</Space>
+          </div>
         )}
-        <div className={classNames(`${prefixCls}-heading-right`, hashId)}>
-          <Space>{extra}</Space>
-        </div>
       </div>
     </div>
   );
