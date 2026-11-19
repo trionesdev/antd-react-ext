@@ -1,4 +1,5 @@
 import { GetRef, Table, TableProps } from 'antd';
+import type { AnyObject } from 'antd/es/_util/type';
 import classNames from 'classnames';
 import { isEqual } from 'lodash-es';
 import React, { FC, useEffect, useReducer, useRef, useState } from 'react';
@@ -64,7 +65,7 @@ const tableClassNames = {
   },
 };
 
-export type GridTableProps = TableProps<any> & {
+export type GridTableProps<RecordType = AnyObject> = TableProps<RecordType> & {
   /**
    * @description 是否撑满外部容器
    * @default false
@@ -89,7 +90,7 @@ export type GridTableProps = TableProps<any> & {
 
 const prefixCls = 'triones-ant-grid-table';
 
-const GridTable: FC<GridTableProps> = (
+const GridTable = <RecordType = AnyObject,>(
   {
     fit = false,
     toolbar,
@@ -97,8 +98,7 @@ const GridTable: FC<GridTableProps> = (
     columnMinWidth = 20,
     style,
     ...props
-  },
-  context,
+  }: GridTableProps<RecordType>,
 ) => {
   const [columns, dispatchColumns] = useReducer(
     (preState: any[], action: { type: string; payload: any }) => {
@@ -294,19 +294,19 @@ const GridTable: FC<GridTableProps> = (
     },
   });
 
-  const tableStyles: TableProps<any>['styles'] = fit
+  const tableStyles: TableProps<RecordType>['styles'] = fit
     ? typeof incomingStyles === 'function'
       ? (info) => applySectionHeight(incomingStyles(info))
       : applySectionHeight(incomingStyles)
     : incomingStyles;
 
-  const mergedScroll: TableProps<any>['scroll'] = {
+  const mergedScroll: TableProps<RecordType>['scroll'] = {
     ...props.scroll,
     ...(resizable && props.scroll?.x == null ? { x: 'max-content' } : null),
     ...(fit && scrollY != null ? { y: scrollY } : null),
   };
   const table = (
-    <Table
+    <Table<RecordType>
       {...props}
       ref={rootRef}
       title={toolbar ? () => toolbar : props.title}

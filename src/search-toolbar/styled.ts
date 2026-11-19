@@ -9,18 +9,18 @@ export const genSearchToolbarStyle = (
     [`.${prefixCls}`]: {
       padding: token.padding,
       boxSizing: 'border-box',
+      minWidth: 0,
       [`.ant-form-item`]: {
-        // marginBottom: token.margin,
-        marginBottom: '0!important',
+        marginBottom: 0,
+      },
+      [`.ant-form-inline .ant-form-item`]: {
+        marginInlineEnd: 0,
       },
       [`&-col-hidden`]: {
         display: 'none',
       },
       [`&-small`]: {
         padding: token.paddingSM,
-        [`.ant-form-item`]: {
-          marginBottom: token.marginSM,
-        },
       },
       [`&-mini`]: {
         padding: 0,

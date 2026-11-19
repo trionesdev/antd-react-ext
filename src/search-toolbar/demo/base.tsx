@@ -1,8 +1,8 @@
 import { SearchToolbar } from '@trionesdev/antd-react-ext';
-import { Flex, Input, Typography } from 'antd';
+import { Flex, FormItemProps, Input, Select, Typography } from 'antd';
 import React from 'react';
 
-const items: any[] = [
+const items: FormItemProps[] = [
   {
     label: '年龄',
     name: 'age',
@@ -27,7 +27,7 @@ const items: any[] = [
     label: '邮箱',
     name: 'email',
     children: <Input placeholder="请输入" />,
-  },
+  }
 ];
 
 const responsiveProps = {

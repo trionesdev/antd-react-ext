@@ -3,6 +3,7 @@ import {
   Button,
   Col,
   ConfigProvider,
+  Flex,
   Form,
   FormInstance,
   FormItemProps,
@@ -12,7 +13,7 @@ import {
 } from 'antd';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
 import classNames from 'classnames';
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useCssInJs } from '../hooks';
 import { genSearchToolbarStyle } from './styled';
 
@@ -39,25 +40,15 @@ function getResponsiveColSpan(
   span: number,
   responsiveSpans: ResponsiveSpans,
 ): number {
-  if (screens.xxl) return responsiveSpans.xxl ?? span;
-  if (screens.xl) return responsiveSpans.xl ?? span;
-  if (screens.lg) return responsiveSpans.lg ?? span;
-  if (screens.md) return responsiveSpans.md ?? span;
-  if (screens.sm) return responsiveSpans.sm ?? span;
-  if (screens.xs) return responsiveSpans.xs ?? span;
-  return span;
-}
-
-function getCompensateColCount(
-  rowColSize: number,
-  itemSize: number,
-  expanded: boolean,
-): number {
-  if (expanded) {
-    const remainder = (itemSize + 1) % rowColSize;
-    return remainder === 0 ? 0 : rowColSize - remainder;
-  }
-  return itemSize > rowColSize - 1 ? 0 : rowColSize - itemSize - 1;
+  const breakpoints = ['xxl', 'xl', 'lg', 'md', 'sm', 'xs'] as const;
+  const breakpoint = breakpoints.find(
+    (key) =>
+      (key === 'xs' || screens[key]) && responsiveSpans[key] !== undefined,
+  );
+  const value = breakpoint ? responsiveSpans[breakpoint]! : span;
+  return Number.isFinite(value)
+    ? Math.min(24, Math.max(1, Math.floor(value)))
+    : 6;
 }
 
 export type SearchToolbarProps = {
@@ -74,6 +65,38 @@ export type SearchToolbarProps = {
    * @default default
    */
   size?: SearchToolbarSize;
+  /**
+   * @description 是否内联模式
+   */
+  inline?: boolean;
+  /**
+   * @description 是否显示重置按钮
+   */
+  showReset?: boolean;
+  /**
+   * @description 重置按钮文本
+   */
+  resetText?: string;
+  /**
+   * @description 是否显示查询按钮
+   */
+  showSearch?: boolean;
+  /**
+   * @description 查询按钮文本
+   */
+  searchText?: string;
+  /**
+   * @description 收起按钮文本
+   */
+  closeText?: string;
+  /**
+   * @description 展开按钮文本
+   */
+  expandText?: string;
+  /**
+   * @description 是否在 values 变化时触发搜索
+   */
+  triggerSearchOnValuesChange?: boolean;
   initialValues?: any;
   afterExpandChange?: (expanded: boolean) => void;
   /**
@@ -97,6 +120,14 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   labelCol,
   labelAlign,
   size,
+  inline = false,
+  showReset = true,
+  resetText = '重置',
+  showSearch = true,
+  searchText = '查询',
+  closeText = '收起',
+  expandText = '展开',
+  triggerSearchOnValuesChange = false,
   initialValues,
   afterExpandChange,
   onSearch,
@@ -114,7 +145,8 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
   const [internalForm] = Form.useForm();
   const usedForm = form ?? internalForm;
   const screens = useBreakpoint();
-  const [scopeExpand, setScopeExpand] = useState(expand ?? defaultExpand);
+  const [internalExpand, setInternalExpand] = useState(defaultExpand);
+  const scopeExpand = expand ?? internalExpand;
   const { componentSize } = ConfigProvider.useConfig();
 
   const mergedSize: SearchToolbarSize =
@@ -131,51 +163,70 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
     [screens, span, xs, sm, md, lg, xl, xxl],
   );
 
-  const { rowColSize, offsetSpan, expandable } = useMemo(() => {
-    const rowColSize = 24 / colSpan;
-    const compensateColCount = getCompensateColCount(
-      rowColSize,
-      itemSize,
-      scopeExpand,
-    );
-
+  const { collapsedCount, offsetSpan, expandable } = useMemo(() => {
+    const rowColSize = Math.max(1, Math.floor(24 / colSpan));
+    const collapsedCount = Math.max(1, rowColSize - 1);
+    const visibleCount = scopeExpand
+      ? itemSize
+      : Math.min(itemSize, collapsedCount);
+    const usedColumns = visibleCount % rowColSize;
     return {
-      rowColSize,
-      offsetSpan: colSpan * compensateColCount,
-      expandable: itemSize > rowColSize - 1,
+      collapsedCount,
+      offsetSpan: Math.max(0, 24 - (usedColumns + 1) * colSpan),
+      expandable: itemSize > collapsedCount,
     };
   }, [colSpan, itemSize, scopeExpand]);
 
-  const colSpanProps = useMemo(
-    () => ({ span, xs, sm, md, lg, xl, xxl }),
-    [span, xs, sm, md, lg, xl, xxl],
-  );
-
-  const handleSearch = useCallback(() => {
-    usedForm.validateFields().then((values: any) => {
-      onSearch?.(values);
-    });
-  }, [usedForm, onSearch]);
-
   const handleReset = useCallback(() => {
     usedForm.resetFields();
-    onSearchParamsChange?.({});
+    const values = usedForm.getFieldsValue(true);
+    onSearchParamsChange?.(values);
     onReset?.();
-  }, [usedForm, onSearchParamsChange, onReset]);
+    if (triggerSearchOnValuesChange) {
+      onSearch?.(values);
+    }
+  }, [
+    usedForm,
+    onSearchParamsChange,
+    onReset,
+    triggerSearchOnValuesChange,
+    onSearch,
+  ]);
 
   const handleToggleExpand = useCallback(() => {
-    setScopeExpand((prev) => !prev);
-  }, []);
-
-  useEffect(() => {
-    afterExpandChange?.(scopeExpand);
-  }, [scopeExpand, afterExpandChange]);
-
-  useEffect(() => {
-    if (expand !== undefined && expand !== scopeExpand) {
-      setScopeExpand(expand);
+    const nextExpand = !scopeExpand;
+    if (expand === undefined) {
+      setInternalExpand(nextExpand);
     }
-  }, [expand, scopeExpand]);
+    afterExpandChange?.(nextExpand);
+  }, [expand, scopeExpand, afterExpandChange]);
+
+  const actions = (
+    <Space wrap size={isSmall ? 'small' : 'middle'}>
+      {showReset && (
+        <Button size={formSize} onClick={handleReset}>
+          {resetText}
+        </Button>
+      )}
+      {showSearch && (
+        <Button size={formSize} type="primary" htmlType="submit">
+          {searchText}
+        </Button>
+      )}
+      {!inline && expandable && (
+        <Button
+          size={formSize}
+          type="link"
+          aria-expanded={scopeExpand}
+          onClick={handleToggleExpand}
+          icon={scopeExpand ? <UpOutlined /> : <DownOutlined />}
+          iconPlacement="end"
+        >
+          {scopeExpand ? closeText : expandText}
+        </Button>
+      )}
+    </Space>
+  );
 
   const { hashId } = useCssInJs({
     prefix: prefixCls,
@@ -197,64 +248,54 @@ const SearchToolbar: FC<SearchToolbarProps> = ({
     >
       <Form
         form={usedForm}
-        layout={layout}
+        layout={layout ?? (inline ? 'inline' : 'horizontal')}
         labelCol={labelCol}
         labelAlign={labelAlign}
         size={formSize}
         onValuesChange={(_, allValues) => {
           onSearchParamsChange?.(allValues);
+          if (triggerSearchOnValuesChange) {
+            onSearch?.(allValues);
+          }
         }}
+        onFinish={onSearch}
         initialValues={initialValues}
       >
-        <Row gutter={gutter}>
-          {items?.map((item, index) => (
-            <Col
-              key={`${item.name?.toString() ?? index}-${index}`}
-              {...colSpanProps}
-              className={classNames({
-                [`${prefixCls}-col-hidden`]:
-                  index > rowColSize - 2 && !scopeExpand,
-              })}
-            >
-              <Form.Item {...item} />
-            </Col>
-          ))}
-          <Col
-            {...colSpanProps}
-            offset={offsetSpan}
-            style={{ textAlign: 'end' }}
-          >
-            <Form.Item>
-              <Space size={isSmall ? 'small' : 'middle'}>
-                <Button size={formSize} onClick={handleReset}>
-                  重置
-                </Button>
-                <Button size={formSize} type="primary" onClick={handleSearch}>
-                  查询
-                </Button>
-                {expandable && (
-                  <Button
-                    size={formSize}
-                    type="link"
-                    onClick={handleToggleExpand}
-                  >
-                    {scopeExpand ? (
-                      <>
-                        收起
-                        <UpOutlined rev={undefined} />
-                      </>
-                    ) : (
-                      <>
-                        展开
-                        <DownOutlined rev={undefined} />
-                      </>
-                    )}
-                  </Button>
-                )}
-              </Space>
-            </Form.Item>
-          </Col>
-        </Row>
+        {inline ? (
+          <Flex wrap gap={isSmall ? 8 : 16} align="start">
+            {items?.map((item, index) => (
+              <Form.Item
+                key={`${item.name?.toString() ?? index}-${index}`}
+                {...item}
+              />
+            ))}
+            {(showReset || showSearch) && actions}
+          </Flex>
+        ) : (
+          <Row gutter={gutter}>
+            {items?.map((item, index) => (
+              <Col
+                key={`${item.name?.toString() ?? index}-${index}`}
+                span={colSpan}
+                className={classNames({
+                  [`${prefixCls}-col-hidden`]:
+                    index >= collapsedCount && !scopeExpand,
+                })}
+              >
+                <Form.Item {...item} />
+              </Col>
+            ))}
+            {(showReset || showSearch || expandable) && (
+              <Col
+                span={colSpan}
+                offset={offsetSpan}
+                style={{ textAlign: 'end' }}
+              >
+                <Form.Item>{actions}</Form.Item>
+              </Col>
+            )}
+          </Row>
+        )}
       </Form>
     </div>
   );

@@ -1,8 +1,17 @@
 import { defineConfig } from 'dumi';
+import { createRequire } from 'node:module';
+import path from 'node:path';
 import process from 'node:process';
+const requireFromAntd = createRequire(require.resolve('antd/package.json'));
 const apiParserEnable =
   process.env.NODE_ENV === 'production' || process.env.API_PARSER == 'true';
 export default defineConfig({
+  alias: {
+    // 文档预打包需统一 util，旧版本未导出 useLayoutEffect 等命名 hook。
+    '@rc-component/util': path.dirname(
+      requireFromAntd.resolve('@rc-component/util/package.json'),
+    ),
+  },
   base: '/antd-react-ext/',
   publicPath: '/antd-react-ext/',
   outputPath: 'docs-dist',
