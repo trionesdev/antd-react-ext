@@ -1,3 +1,4 @@
+import { CloseCircleFilled } from '@ant-design/icons';
 import { useCssInJs } from '@trionesdev/antd-react-ext';
 import { ConfigProvider } from 'antd';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
@@ -14,7 +15,7 @@ export type FormCellVariant =
 
 export type FormCellStatus = 'error' | 'warning';
 
-export type FormCellProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix'> & {
+export type FormCellProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix' | 'onChange'> & {
   /**
    * @description 类名
    * @default
@@ -31,6 +32,12 @@ export type FormCellProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix'>
    * @default
    */
   value?: React.ReactNode;
+  /** @description 是否显示清除按钮，也可指定清除图标 */
+  allowClear?: boolean | { clearIcon?: React.ReactNode };
+  /** @description 清除时以 undefined 更新受控值 */
+  onChange?: (value: undefined) => void;
+  /** @description 点击清除按钮时的回调 */
+  onClear?: () => void;
   /**
    * @description 空内容时的占位符
    * @default
@@ -83,6 +90,9 @@ export const FormCell: FC<FormCellProps> = ({
   style,
   size,
   value,
+  allowClear,
+  onChange,
+  onClear,
   placeholder,
   prefix,
   suffix,
@@ -125,6 +135,8 @@ export const FormCell: FC<FormCellProps> = ({
 
   const content = children ?? value;
   const empty = isEmptyNode(content);
+  const showClear = !!allowClear && !mergedDisabled && !empty;
+  const clearIcon = typeof allowClear === 'object' ? allowClear.clearIcon : undefined;
 
   return (
     <div
@@ -138,7 +150,7 @@ export const FormCell: FC<FormCellProps> = ({
         {
           [`${prefixCls}-disabled`]: mergedDisabled,
           [`${prefixCls}-status-${mergedStatus}`]: mergedStatus,
-          [`${prefixCls}-affix`]: prefix || suffix,
+          [`${prefixCls}-affix`]: prefix || suffix || showClear,
           [`${prefixCls}-clickable`]: !!rest.onClick,
         },
         className,
@@ -159,8 +171,23 @@ export const FormCell: FC<FormCellProps> = ({
           content
         )}
       </span>
-      {suffix && (
+      {(suffix || showClear) && (
         <span className={classNames(`${prefixCls}-suffix`, hashId)}>
+          {showClear && (
+            <button
+              type="button"
+              aria-label="clear"
+              className={classNames(`${prefixCls}-clear`, hashId)}
+              onMouseDown={(event) => event.stopPropagation()}
+              onClick={(event) => {
+                event.stopPropagation();
+                onChange?.(undefined);
+                onClear?.();
+              }}
+            >
+              <span aria-hidden="true">{clearIcon ?? <CloseCircleFilled />}</span>
+            </button>
+          )}
           {suffix}
         </span>
       )}

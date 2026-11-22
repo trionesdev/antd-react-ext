@@ -12,6 +12,12 @@
 
 <code src="./demo/prefix-suffix.tsx"></code>
 
+## 清除内容
+
+使用 `allowClear` 显示清除按钮，也可通过 `allowClear={{ clearIcon }}` 自定义图标。有内容且控件可用时，按钮才会显示。清除时会调用 `onChange(undefined)` 和 `onClear()`。通过 `children` 展示内容时，请在回调中同步更新其数据源。
+
+<code src="./demo/allow-clear.tsx"></code>
+
 ## 尺寸
 
 支持 `small` / `middle` / `large`，高度与 antd 控件对齐。未指定时继承 `ConfigProvider` 的 `componentSize`。

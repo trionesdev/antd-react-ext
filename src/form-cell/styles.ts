@@ -60,6 +60,21 @@ export const genFormCellStyle = (
       },
       [`&-suffix`]: {
         marginInlineStart: token.paddingXXS,
+        gap: token.paddingXXS,
+      },
+      [`&-clear`]: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        padding: 0,
+        border: 0,
+        background: 'transparent',
+        color: token.colorTextQuaternary,
+        fontSize: token.fontSizeSM,
+        lineHeight: 1,
+        cursor: 'pointer',
+        '&:hover, &:focus-visible': {
+          color: token.colorTextTertiary,
+        },
       },
       [`&-lg &-prefix > .anticon, &-lg &-suffix > .anticon`]: {
         fontSize: token.fontSizeLG,
